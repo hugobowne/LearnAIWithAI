@@ -19,7 +19,7 @@ logs_db_storage = modal.Volume.from_name("rag-app-logs", create_if_missing=True)
 # Modal function to launch the Gradio app
 @app.function(
     max_containers=1, # Limit concurrency as SQLite isn't designed for concurrent writes
-    concurrent_limit=1000, # Allow many inputs to the single container
+    allow_concurrent_inputs=1000, # Allow many inputs to the single container
     secrets=[modal.Secret.from_name("openai-secret")],
     volumes={"/logs_db": logs_db_storage} # Mount volume
 )
