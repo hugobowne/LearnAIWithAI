@@ -5,6 +5,7 @@ from pathlib import Path # Add pathlib import
 image = (
     modal.Image.debian_slim()
     .pip_install("gradio", "fastapi", "openai>=1.1.0", "chromadb>=0.4.18", "tiktoken>=0.5.0", "numpy>=1.24.0", "python-dotenv>=1.0.0", "pysqlite3-binary")
+    .add_local_python_source("app-modal.py", "simple_rag.py", "utils.py")
     # Update data directory path
     .add_local_dir("data", remote_path="/data", copy=True)
 )
@@ -18,7 +19,7 @@ logs_db_storage = modal.Volume.from_name("rag-app-logs", create_if_missing=True)
 # Modal function to launch the Gradio app
 @app.function(
     max_containers=1, # Limit concurrency as SQLite isn't designed for concurrent writes
-    allow_concurrent_inputs=1000, # Allow many inputs to the single container
+    concurrent_limit=1000, # Allow many inputs to the single container
     secrets=[modal.Secret.from_name("openai-secret")],
     volumes={"/logs_db": logs_db_storage} # Mount volume
 )
