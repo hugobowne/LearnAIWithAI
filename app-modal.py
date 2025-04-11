@@ -5,7 +5,7 @@ from pathlib import Path # Add pathlib import
 image = (
     modal.Image.debian_slim()
     .pip_install("gradio", "fastapi", "openai>=1.1.0", "chromadb>=0.4.18", "tiktoken>=0.5.0", "numpy>=1.24.0", "python-dotenv>=1.0.0", "pysqlite3-binary")
-    .add_local_python_source("app-modal.py", "simple_rag.py", "utils.py")
+    .add_local_python_source("simple_rag.py", "utils.py")
     # Update data directory path
     .add_local_dir("data", remote_path="/data", copy=True)
 )
