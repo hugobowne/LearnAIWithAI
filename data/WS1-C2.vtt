@@ -1,0 +1,2402 @@
+WEBVTT
+
+1
+00:00:14.050 --> 00:00:32.499
+hugo bowne-anderson: All right. Welcome everyone. Hugo Bowen Anderson, here so excited to be kicking off workshop. One of building Llm. Powered applications for data, scientists, software engineers, and whoever else wants to get on this rocket ship together, love that. I can see a bunch of friendly faces already. We'll get to this. But
+
+2
+00:00:32.790 --> 00:00:50.249
+hugo bowne-anderson: if you're able to turn your camera on, I, personally would really appreciate it, and I can tell you it makes me a better teacher as well to see a bunch of faces, and to see all the, all the engagement as well, and only if you're able to, of course, and generally microphones off when not speaking as well.
+
+3
+00:00:50.813 --> 00:01:09.010
+hugo bowne-anderson: I'm I'm so excited to have you all here already, seeing what you all are up to in the discord in the forms you filled in really appreciate you filling in the onboarding form as well. We've got a bunch of really serious builders who seem a lot of fun also so really excited to get to know you all
+
+4
+00:01:09.040 --> 00:01:28.195
+hugo bowne-anderson: as well. So my name is Hugo Band Anderson. I've worked in data, science and machine learning, and what now we call AI for far out 15 years now. So I feel a bit old to to be honest. I've worked in building, in education, in consulting and and devrel. Also a lot of work in devrel for open, open source stuff.
+
+5
+00:01:28.740 --> 00:01:31.369
+hugo bowne-anderson: so like my, I think my, my.
+
+6
+00:01:31.920 --> 00:01:47.109
+hugo bowne-anderson: my background really has been in doing scientific research using the Pi data stack that then turned into software stuff. So that's really where I come from. In the past couple of years I've been building a lot with generative AI and helping a lot of other people to build also.
+
+7
+00:01:47.340 --> 00:02:07.690
+hugo bowne-anderson: But that really brings up my my background is in scientific research, in doing stuff, in notebooks, in doing my best to productionize stuff without throwing it over the wall to software engineers, which is one of the reasons I teamed up with with Stefan, who is my co-instructor and colleague and friend here, so I'll just hand it over to Stefan to say a few words.
+
+8
+00:02:08.100 --> 00:02:18.390
+Stefan Krawczyk: Cool. Hi, everyone welcome so name Stefan Craftyk. I'm based in San Francisco. But by my judging by my accent, if you can tell, I'm from New Zealand, not Australia. So
+
+9
+00:02:18.460 --> 00:02:47.709
+Stefan Krawczyk: in terms of yeah, like my background effectively for the last 10 years has been around Mlops. So if you heard the term machine learning operations. That's kind of where I kind of cut a lot of my teeth in terms of helping data scientists and machine learning. Engineers in particular go from prototype to productionization. More recently, in the last few years I've been the CEO of a company called Dagworks, where we've been driving to open source projects called Hamilton and Burr, and the thesis around there is that the same
+
+10
+00:02:47.710 --> 00:03:00.279
+Stefan Krawczyk: problems that you had with Mlops are the same ones you have with Gen. AI, specifically, you need to understand and observe a lot around your data. And once you know more about your data, you can actually improve your whatever apps you're kind of building
+
+11
+00:03:02.230 --> 00:03:10.919
+Stefan Krawczyk: news news for you guys. So like, I didn't introduce myself to the CEO, because, actually, the company's actually been absorbed by a large public company, so
+
+12
+00:03:11.230 --> 00:03:33.409
+Stefan Krawczyk: can't talk about it. But all I can say is, I'm helping them with their kind of agent efforts. And so in particular, yeah, how to get to production. So I will have I'll be on discord mostly, but otherwise I'll have a few sessions throughout this course that will talk a little bit more about some of the production stuff. And so just to let you know this is, you know, this firsthand stuff.
+
+13
+00:03:34.523 --> 00:03:39.339
+Stefan Krawczyk: anything relevant I left out of my intro Hugo, or.
+
+14
+00:03:39.340 --> 00:04:02.240
+hugo bowne-anderson: No, I'll just say on under friend Da. Stefan has told me where he's where he's he's working, and I hope we get to announce it throughout the course. Because he's a really incredible place as far as I'm I'm concerned, supporting cutting edge at agentic work. So it's really very, very exciting. I will add that
+
+15
+00:04:02.270 --> 00:04:12.749
+hugo bowne-anderson: Stephan will be. He'll be giving a full workshop next week, and it's 1 of my favorite workshops in in this course, actually, because I get to learn so much from it about
+
+16
+00:04:13.130 --> 00:04:21.480
+hugo bowne-anderson: testing and running tests, both in Dev and and production for Llm. Powered apps and all the things he's just mentioned, but plus plus essentially.
+
+17
+00:04:22.660 --> 00:04:23.180
+Stefan Krawczyk: Cool.
+
+18
+00:04:23.790 --> 00:04:39.879
+Stefan Krawczyk: Yeah, so hopefully, I'll be able to reveal more in the course. But I have a few things with kind of, you know, legal, social and a few other things that need to clear before I officially change my Linkedin status. So I appreciate you guys keeping that under apps until I can do that myself. Thanks.
+
+19
+00:04:40.200 --> 00:04:57.489
+hugo bowne-anderson: And, as we all know, Linkedin is the only reality. So we'll wait for that to happen. Thanks so much, Stefan. I also am super excited to introduce you to Jeff Pidcock, Nathan Danielson, and William Horton, who
+
+20
+00:04:57.490 --> 00:05:21.020
+hugo bowne-anderson: joined for cohort, one as participants students in the course, and they're very serious builders in industry, and I was so blown away I was blown away by the caliber of participants generally, but we invited them back to to kick off our builders in residence program one of the requests from people in cohort. One was just more time building more office hours more, being able to
+
+21
+00:05:21.100 --> 00:05:45.010
+hugo bowne-anderson: answer questions and help people build. So I chatted with Jeff, William and and Nathan about this, and they were so excited to to come back and work with you all on everything you're you're trying to build. So I'd love for them each to say a thing or 2, and we've got them geographically distributed. So for context, this course is really timed for the Us. And Apac. Selfishly, because I'm in Sydney.
+
+22
+00:05:45.479 --> 00:06:02.790
+hugo bowne-anderson: and so Jeff is in Sydney, or just south of Sydney, plus Williams on the East coast in DC. And and Nathan's in Los Angeles. So we've got them geographically distributed so they can organize pods to to work with you all on on things. So, Jeff, maybe you could say a few words about yourself.
+
+23
+00:06:03.810 --> 00:06:31.519
+gp: So Hugo and Hello, everybody. So, as Hugo mentioned, I'm in Sydney Plus. So Sydney's a big place, and I'm in Wollongong, which is south of Sydney, and I'm pretty excited to come on back my background is more as a data scientist than a software engineer. So I really appreciated the opportunity to learn particularly from Stefan in in the 1st round and skill up with Tessie. And I think what I bring to this course is just a bit of bandwidth and capacity to get people helping each other.
+
+24
+00:06:32.035 --> 00:06:54.540
+gp: So you're gonna see for yourself. It's gonna be a lot of material that's thrown at you very quickly. So I think the best thing I can do to help you is to give you some space to explore that, and also some accountability to explore that as well. So I'm looking forward to work with Hugo to propose some sessions maybe some in person stuff in Sydney, which is a beautiful city. And yeah, I'll pass this over to William next to introduce himself.
+
+25
+00:06:55.900 --> 00:07:15.359
+William Horton: Alright, thank you. So I'm William. As as Hugo said, I live in Washington, DC, and I come more from the software engineering side. For the past 4 years I've been working as a machine learning engineer at a company called included Health and for the past 2 have really been focused on building out our Gen. AI platform.
+
+26
+00:07:15.778 --> 00:07:33.371
+William Horton: So if you're particularly interested in Gen. AI for healthcare applications like understanding, explaining health benefits automated scribing for doctors. These are some of the things that I've been working on or supporting. So those are topics that I got excited about.
+
+27
+00:07:35.540 --> 00:07:40.300
+William Horton: I think that's all I can say for now, and I'll pass it on to Nathan.
+
+28
+00:07:42.470 --> 00:07:47.439
+Nathan Danielsen: Everybody, Nathan Danielson, here in Los Angeles, California, Les.
+
+29
+00:07:47.490 --> 00:08:16.780
+Nathan Danielsen: which I mean technically in Pasadena, which is the plus part not really la. But the 1st time I've heard that. So I'm going to adopt that bring it over to to la, so yeah, I've been in the kind of data building space for a while. I started as a software engineer. And then about 5, 6 years ago, kind of moved over into the data science. Ml, range. I've kind of been all over the place. But I'm currently at Carvana right now. Just started a new role.
+
+30
+00:08:17.136 --> 00:08:46.749
+Nathan Danielsen: Focusing on Gen. AI for content generation building building out various domain data pipelines for automotive data, which is very fun. Before that at carbon I was kind of managing a data platform team with some Lml in the mix, too. So really fun. And the reason I came back is really it was just such fantastic content. I'm kind of like engaging and working in the space already. But the quality of the the lectures, some amazing desk guest speakers, and
+
+31
+00:08:46.760 --> 00:08:53.479
+Nathan Danielsen: really great, just like community and dialogue in in discord, and things like that. So just
+
+32
+00:08:53.500 --> 00:08:57.449
+Nathan Danielsen: really fantastic. And Hugo asked me I was super excited. I'm like this is great
+
+33
+00:08:57.766 --> 00:09:01.210
+Nathan Danielsen: and just jumped at it. So thanks for inviting me back, Hugo.
+
+34
+00:09:01.210 --> 00:09:18.360
+hugo bowne-anderson: Such a pleasure and in full transparency. When I invited Nathan back he was like, Oh, thank you so much. I was actually trying to figure out how to sneak into cohort 2, anyway. So it's wonderful to have you back. Something Jeff mentioned is organizing in-person meetups, Jeff and myself and another bloke, as we call ourselves in Australia.
+
+35
+00:09:18.480 --> 00:09:43.529
+hugo bowne-anderson: met up in January for for drinks. And so, if you're in the same city, I saw 2 people are in Chennai, for example, I honestly have no idea how big Chennai is. So I don't want to, you know, embarrass myself too much, but you know, if you see people in discord who are interested in similar things and want to chat definitely, reach out and we'll be organizing pods, perhaps geographically distributed and or interesting distributed. But we'll figure that out
+
+36
+00:09:44.110 --> 00:10:05.810
+hugo bowne-anderson: as we as we move along. Now, one bit of housekeeping, as I said, cameras on. Great to see you all got 40 people in in the room, which is, which is really incredible. All of these are recorded, and we'll share them as soon as they're available from Zoom afterwards. But something we're trying this time. Last time in the course
+
+37
+00:10:06.490 --> 00:10:34.239
+hugo bowne-anderson: there was lots of exciting conversations during the workshops, and that all happened on zoom, and it wasn't very clear how to port them over to discord and have have them accessible after the fact. So what we've done is we've turned off the chat. Here. You can. DM me. Please don't do that right now, because I can't reply to Dms while I'm talking, but you can. DM. Stefan, you can. DM. Jeff, Nathan, and William. In order to get into discord. They'll share the link and then add you to the
+
+38
+00:10:34.240 --> 00:10:50.530
+hugo bowne-anderson: channels for this cohort, and there's a channel called Workshop one where I've just dropped the slides that we're about to jump in and get started with. Now, the way we're using discord is a bit of an experiment. We did it all in cohort one. But now what we're doing is we're locking off
+
+39
+00:10:50.833 --> 00:11:05.696
+hugo bowne-anderson: a series of channels solely for this cohort, but giving you access to everything else in in the discord so feel free to explore. If you have any ideas for how we can leverage discord better as a growing community. Please do let us let us know this isn't
+
+40
+00:11:06.000 --> 00:11:18.389
+hugo bowne-anderson: this isn't static, as we know, software is nowhere near static anymore. And we want this to be a very dynamic place that you bring all of what you are to as well. So we'd love that.
+
+41
+00:11:18.880 --> 00:11:25.279
+hugo bowne-anderson: I think now, without further ado, I'm gonna jump. I'm gonna share some slides and
+
+42
+00:11:28.830 --> 00:11:40.800
+hugo bowne-anderson: talk through 1st what we're up to at at the moment. What we're here for just some housekeeping and then we will jump in and
+
+43
+00:11:41.000 --> 00:11:49.764
+hugo bowne-anderson: start building some apps together immediately. Today we're actually going to get into a proof of concept purgatory together and then try to get out of it later later in the week. So
+
+44
+00:11:51.400 --> 00:11:55.720
+hugo bowne-anderson: Can you see my screen, Jeff? Someone just give me a thumb up. Yep, great.
+
+45
+00:11:55.960 --> 00:12:00.729
+hugo bowne-anderson: So I'm super excited to be talking to you and working
+
+46
+00:12:01.810 --> 00:12:28.639
+hugo bowne-anderson: how we oh, yeah, I'm sorry. Microphones off, please. The foundations of Llm software and evaluation driven development. And what's changed now from traditional software software development. And how we really need to think about building software that's powered by machine learning and Llms which share a lot of similarities, as Stefan pointed out. But instead of you know, writing some specs.
+
+47
+00:12:28.830 --> 00:12:49.260
+hugo bowne-anderson: building, then deploying, and then maybe working on v. 1.2 in a month, or something like that. What we really need to do, due to the non-deterministic nature, the flip-floppy nature and the nature of Llm. Powered software that it brings in a lot of data from the real world. And we don't know how it will behave.
+
+48
+00:12:49.260 --> 00:13:15.010
+hugo bowne-anderson: We need to build quickly and then deploy and then monitor and evaluate and iterate rapidly on this cycle. So that's what this course is all about, and we'll see on the building side. Prompt engineering will be important. Embeddings will be important. Fine tuning business logic. When deploying. We want to think through unit tests and versioning and continuous integration. And those things are some of the very exciting things that Stefan will be talking about in his workshop next week.
+
+49
+00:13:15.130 --> 00:13:28.900
+hugo bowne-anderson: Want to think about tracing and general observability when monitoring and when evaluating. We want to think about not only monitoring how good individual Llm. Calls are, but how they relate to the business metrics that you're you're trying to meet as well.
+
+50
+00:13:29.410 --> 00:13:55.050
+hugo bowne-anderson: So what this course is. It's a practical 1st principles. Approach to building Llm. Powered apps focusing on workflows, iteration and hands-on development. Okay, it's also a space to build production grade systems that scale beyond proof of concepts and demos. It's a deep dive into the non-deterministic nature of these systems, observability, testing, and evaluation, which are the backbones of AI systems. There is a world out there
+
+51
+00:13:55.130 --> 00:14:14.420
+hugo bowne-anderson: called Linkedin, among other things which wants you to believe that the backbone of robust AI systems is the latest and hottest models, multi-agentic frameworks, infinite rag systems conversations about is rag dead because of 10 trillion token, context windows. And this type of stuff
+
+52
+00:14:14.540 --> 00:14:37.460
+hugo bowne-anderson: all of that stuff aside. I mean, there are places for that. That is not what this course is about. Of course we're going to introduce you to a lot of those tools. But this is about the workflow and the non-determinism, the observability, testing and evaluation. It's also an opportunity to learn from practitioners not only the ones who are here and will be here the entire time, but we have a lot of guest guest lectures from people.
+
+53
+00:14:37.960 --> 00:15:01.950
+hugo bowne-anderson: from people I admire deeply. I mean, we invited them because we think they're they're at the top top of the game. People like Hamil Hussein from parlance labs, Eric, Ma. From Moderna, Ravin Kumar from Google Deepmind, who I ravin's talk last time on because he he was on the team that built notebook. Lm. And mariner at Google and Deepmind. Just getting insight into that Ines Montani from from Spacey, who's an old friend, and
+
+54
+00:15:01.950 --> 00:15:10.930
+hugo bowne-anderson: her work's just just so so wonderful. And that's kind of a short list of of a lot of the wonderful guest lectures and talks that we have. So
+
+55
+00:15:10.930 --> 00:15:34.720
+hugo bowne-anderson: I hinted at this. But what this course isn't, it is not a deep dive into every Llm. Tool or trend. Of course we'll be doing. We'll be doing a bunch on agents actually, in the second half of the course, and rag and embeddings and more. But the focus is on workflows, not tools, I honestly think, and I'm happy to chat about those and message about those to be honest. But you will have enough resources on that. What we're teaching is what we've really noticed is a huge gap
+
+56
+00:15:34.720 --> 00:16:01.359
+hugo bowne-anderson: in education around this stuff. This is not a plug and play AI recipe book. They don't even exist. If someone tries to tell you that or sell you that I'd love to hear it. What you'll learn is how to iterate, debug and adapt not just follow step by step. Templates. Okay, once again, this is not some, you know. Hyper, scaled, load balance, multi agent, guide. This course is about getting you moving, not solving every scaling challenge, but really approaching the workflow
+
+57
+00:16:01.360 --> 00:16:05.950
+hugo bowne-anderson: of how to get things in production and then keep iterating on them.
+
+58
+00:16:06.360 --> 00:16:32.989
+hugo bowne-anderson: So I'm gonna put this. This is incredibly important. This is an onboarding form that actually 25 of you have completed already. And I'm so happy with with that number so far. Usually, I try to say I try to give a form of 5 to 10 min, but I honestly think if you all take 10 to 15 min to complete this form. It will make this workshop and community really, really special. Okay.
+
+59
+00:16:33.210 --> 00:16:40.318
+hugo bowne-anderson: so and so I just saw Jeff's note. That's in discord. That's that is brilliant.
+
+60
+00:16:41.170 --> 00:16:54.150
+hugo bowne-anderson: And so I do think the the more we know about you and your interests, just because there are 5 of us now as as well. Right and geographically distributed, so the more we can we can be of help.
+
+61
+00:16:55.720 --> 00:17:02.559
+hugo bowne-anderson: Jeff. Nathan has shared the course Wiki page, which we'll get to in a second, and part of that is
+
+62
+00:17:04.170 --> 00:17:07.649
+hugo bowne-anderson: the compute credit access form. Now I'm
+
+63
+00:17:07.770 --> 00:17:13.020
+hugo bowne-anderson: I'm incredibly humbled to have had such wonderful sponsors and partners
+
+64
+00:17:13.240 --> 00:17:38.290
+hugo bowne-anderson: for this and I approach people whose so, just to be clear, none of these places have ever paid me or anyone working on this course. As far as as far as I know. The only way they've I suppose they've paid me is by sponsoring like giving credits to students in workshops and courses I've taught. And there's a reason I've chosen all of these, and you'll see why, throughout the the course, I don't think.
+
+65
+00:17:38.470 --> 00:17:48.259
+hugo bowne-anderson: Okay. Modal. For, for example, just the ability to let me just show you and Charles fry devrel at Modal
+
+66
+00:17:48.490 --> 00:17:53.909
+hugo bowne-anderson: is coming to give a talk about how to leverage it the best
+
+67
+00:17:53.960 --> 00:18:02.879
+hugo bowne-anderson: on in in our second workshop this week. But just look at the type of things you can do pretty much out of the box, with with modals from voice chat with
+
+68
+00:18:02.880 --> 00:18:29.600
+hugo bowne-anderson: Llms to protein folding to deploy an Oai compatible Llm. Server, serve diffusion models. All of this type of stuff. So that's 1. And it's and it's relatively straight, straightforward. And they're a wonderful community. Base 10 who's giving a talk later that all the stuff they provide for inference is absolutely incredible. You may have seen all the stuff they're doing with Llama 4 since Saturday. They hustle hard to get all of all of that stuff working
+
+69
+00:18:30.278 --> 00:18:34.360
+hugo bowne-anderson: Gemini, we'll get to this. But I I honestly think
+
+70
+00:18:36.170 --> 00:18:44.340
+hugo bowne-anderson: I think Gemini and Google's models out of the box are my favorite once again. I've never taken any money from Google. I happily would
+
+71
+00:18:44.350 --> 00:19:08.419
+hugo bowne-anderson: take a lot of money from Google, but I wouldn't do it to work for them. But they've got wonderful products. They've got a wonderful open source ecosystem, and they have some of the best people working on it as well, Mistral Super. Cool stuff. They're smaller. Models are incredibly performant. Mistral Ocr is really exciting, and they've been great to sponsor replicate. I don't know if you all know.
+
+72
+00:19:08.690 --> 00:19:16.400
+hugo bowne-anderson: replicate. But this is actually one of my favorite platforms. It has oop.
+
+73
+00:19:16.640 --> 00:19:19.949
+hugo bowne-anderson: Let me just do this.
+
+74
+00:19:20.530 --> 00:19:22.429
+hugo bowne-anderson: Let's go to explore.
+
+75
+00:19:24.100 --> 00:19:51.934
+hugo bowne-anderson: You'll see they've got. Well, they've clearly just got all the llama models up now, but they've got all types of fun stuff that they Update all the time, and so you can make videos, generate images. It's a lot of multimodal stuff, so we won't necessarily use it for the Llm stuff. Upscale images. Use a face to make images, generate speech, use handy tools, and with my morning coffee, sometimes I come and just look at, look at, replicate, and and see what's up, what new models they have.
+
+76
+00:19:52.680 --> 00:19:53.850
+hugo bowne-anderson: and I.
+
+77
+00:19:54.940 --> 00:20:18.479
+hugo bowne-anderson: If I need to introduce hugging face, there may be an issue. You may be in the wrong course. No, I'm joking, but hugging face is giving everyone 6 months subscription to hugging face pro, which will allow us to use gpus and scale a bit more. As well learn prompting. They published the prompt report which was really the 1st comprehensive
+
+78
+00:20:18.480 --> 00:20:45.779
+hugo bowne-anderson: report on prompting techniques. They did it with Openai, with a bunch of with 20 different organizations, and they'll be coming to give a talk about prompt engineering in the software development lifecycle and prompt injection attacks. But they're giving. They've got a wonderful educational platform. They'll be giving 3 months of plus access and then prodigy. I don't know if you know prodigy, but it's human in the loop annotation, fine-tuning and Nlp. Workflow building from Innis, Montani and Matthew Honnibal, who built Spacey
+
+79
+00:20:45.970 --> 00:21:07.320
+hugo bowne-anderson: and and maintain it. So that's all to say we have instructions for getting most of them, I think, replicate. For example. Yes, I need. There are a couple which I still need to just follow up on several things, but we'll sort all of those out in the near future, but most of them have instructions on how to do. Get them. So, please.
+
+80
+00:21:08.003 --> 00:21:10.320
+hugo bowne-anderson: Pretty, please do that.
+
+81
+00:21:16.800 --> 00:21:20.210
+hugo bowne-anderson: and I just encourage you all to
+
+82
+00:21:20.780 --> 00:21:41.460
+hugo bowne-anderson: use. I mean, use these tools as much as you can while building during the course, because we're here to support and talk about them and and build with you. I do want to say I do appreciate. Everyone likely has more than full time, jobs and families, and all of these things or subsets of these. So I do understand, particularly in our line of work. Time is an incredibly precious
+
+83
+00:21:41.570 --> 00:21:44.130
+hugo bowne-anderson: resource. So
+
+84
+00:21:44.190 --> 00:22:12.939
+hugo bowne-anderson: all that's to say is, if you don't have much time to build outside, that's totally cool. If you, if all you do is attend these workshops and nothing else. You'll get a huge amount out of the course if you keep building also, and keep in the discords, and then join the office. Hours and pods will set up, you'll get even even more so. I like to think the world's your oyster in proverbial oyster in a lot of ways. So just getting started in terms of
+
+85
+00:22:13.040 --> 00:22:14.120
+hugo bowne-anderson: set up.
+
+86
+00:22:16.270 --> 00:22:23.149
+hugo bowne-anderson: We use several tools, and my goal is to use as few tools as possible. I will rarely adopt a new tool
+
+87
+00:22:23.210 --> 00:22:47.070
+hugo bowne-anderson: if I don't have to. So in the past we used in the first.st So in the 1st cohort, we use Google drive. This is for slides supporting material. This type of stuff we use github and codespaces for code and also codespaces, feel free to clone the repository and do what you want with it, but we want to make sure that you can get set up and up and running as quickly as possible, and I'll introduce you to code spaces later. It's kind of
+
+88
+00:22:47.190 --> 00:22:56.760
+hugo bowne-anderson: Google colab on steroids or Vs code superpowered in the browser. We use discord for the Async Chat announcements, and the Q. And a
+
+89
+00:22:57.200 --> 00:23:11.420
+hugo bowne-anderson: we use zoom for these workshops, and that's what we did in cohort one. Those were the 4 tools we used now. I didn't even quite need to put notion here to. To be honest, because you don't get to. You don't need to see the notion at all.
+
+90
+00:23:11.420 --> 00:23:24.369
+hugo bowne-anderson: But what I decided to build this time was a course, Wiki, which I would very much love you all to keep private. That's really for this course, as with everything in this course I do think.
+
+91
+00:23:24.648 --> 00:23:47.460
+hugo bowne-anderson: You all are paying like a handsome sum of money to to learn and get access to all of this. So please respect that everyone else in the room is is doing the same as well, and and so don't share share too much with with friends, and we'll put out a lot of free content as as well. Having said that this is the course wiki which we'll keep updated. So I will actually spend a couple of minutes
+
+92
+00:23:47.790 --> 00:24:03.570
+hugo bowne-anderson: going through this. So we have. Yep stuff about us when the sessions are little welcome here. This was the setup before week one and anything you haven't done there feel free to do afterwards. There's the course schedule
+
+93
+00:24:04.137 --> 00:24:24.709
+hugo bowne-anderson: and so you click on that, and it goes to another page, and you'll see. Week one workshop one. We're in that right now. Okay, and you'll see there's something called a workshop. One page coming soon. And so that's empty. But what I'm going to do is put the slides there, put the recording there. Maybe put some transcripts there or some takeaways, and I'd actually
+
+94
+00:24:25.200 --> 00:24:47.700
+hugo bowne-anderson: welcome all of you. If you want to do something with the Transcript in Chat Gpt, or whatever it is, please do feel free to contribute, and I'm I'm not linking to the notion page for people to contribute, just because collaborative editing on notion is not my favorite thing to do. But if you have suggestions or want to send stuff to me just just ping me and I'd love to to add things or figure it out.
+
+95
+00:24:48.475 --> 00:24:50.699
+hugo bowne-anderson: We've got our compute credits.
+
+96
+00:24:51.560 --> 00:24:53.670
+hugo bowne-anderson: I I wonder if I put
+
+97
+00:24:54.120 --> 00:25:20.510
+hugo bowne-anderson: yes, I did put the shared commitments there, so we'll go through that in a second, and we'll keep keep adding adding things here. And actually, one thing which I, some of you have asked about are the guest lectures from cohort one, and I've created a little guest lecture, Archive and there's there's actually one or 2 missing here, including William Horton, who gave a wonderful talk on, on thinking through when to launch, and how how to think about
+
+98
+00:25:20.510 --> 00:25:30.250
+hugo bowne-anderson: what metrics you want to measure before launch, and how sometimes that can be challenging, and how you really need to iterate on that. But these are all talks from the previous ones. And if you click on
+
+99
+00:25:30.310 --> 00:25:32.169
+hugo bowne-anderson: the page, let's click on Nathan's.
+
+100
+00:25:32.580 --> 00:25:57.619
+hugo bowne-anderson: Yeah, we have an AI generated summary. We have a Youtube video. I'll put the slides in soon. Takeaways AI generated, and and so on. So in all honesty, this is the 1st time we've created something like this. So feedback, incredibly incredibly welcome. And by this I mean this type of document that links to different resources and Youtube videos and and that type of stuff. I'm really excited to have it grow with with all of you as well.
+
+101
+00:25:57.840 --> 00:25:58.425
+hugo bowne-anderson: I
+
+102
+00:26:01.420 --> 00:26:08.369
+hugo bowne-anderson: I think that is pretty much it. Just before getting to
+
+103
+00:26:08.630 --> 00:26:12.866
+hugo bowne-anderson: content. Now, Williams, talk isn't like Williams. Talk is actually
+
+104
+00:26:13.870 --> 00:26:25.439
+hugo bowne-anderson: You remember? That was, that was a 2 h session that turned into a 4 h session and zoom. That also happens. By the way, and I will apologize for that. Y'all are not in like required to stick around, but sometimes we
+
+105
+00:26:25.726 --> 00:26:52.659
+hugo bowne-anderson: really get and get into it. But zoom cut. Cut up that video so so many times that I'm needing to stitch certain things back together. So a little bit about what I call shared commitments. I don't want to get to like consultancy or whatever, but I do. I do just want to make clear you all. Do you? Right? For sure. We we want you here to bring everything that you are. But I do want to say this course does work best when everyone's engaged and present, so, if possible.
+
+106
+00:26:52.660 --> 00:27:00.019
+hugo bowne-anderson: keep your camera on. Helps us teach better when we can see who we're working with. Keep your mic off unless you're speaking.
+
+107
+00:27:00.030 --> 00:27:05.639
+hugo bowne-anderson: Ask questions early and often. We love participation. On top of that.
+
+108
+00:27:08.200 --> 00:27:30.119
+hugo bowne-anderson: It's very rare that questions in a course like this are uncorrelated. What I mean by that is, if you have a question almost guaranteed. Several other people have the same, if not a related question. So you're doing everyone a favor and help each other out on discord as well. You're building with awesome peers. I just do want to give a shout out to
+
+109
+00:27:33.400 --> 00:27:40.110
+hugo bowne-anderson: to Greg Gandenberger, did I pronounce that correctly, Greg, close enough.
+
+110
+00:27:40.110 --> 00:27:41.070
+greg: You got it? Yep.
+
+111
+00:27:41.310 --> 00:28:09.319
+hugo bowne-anderson: Awesome who's already been helping out and getting people fixed up with with bugs in my end example, which are invisible bugs. In fact, among other things, Greg has already issued 2 pull requests to the repository we'll get to, and that is so cool, so please do as much as time permits, but engage with each other and and help each other out. So
+
+112
+00:28:09.520 --> 00:28:12.769
+hugo bowne-anderson: really, really fantastic to have you all here. And
+
+113
+00:28:14.590 --> 00:28:20.570
+hugo bowne-anderson: wow! This slide still scares me, but it's it's real, it's it's real pain. And for some reason my
+
+114
+00:28:21.247 --> 00:28:29.330
+hugo bowne-anderson: screen isn't quite rendering everything it's slightly bigger than it it should be. But what I want to say is that
+
+115
+00:28:30.270 --> 00:28:32.409
+hugo bowne-anderson: if you think about as you see here.
+
+116
+00:28:33.070 --> 00:28:35.619
+hugo bowne-anderson: how we build software and think about
+
+117
+00:28:36.180 --> 00:28:42.360
+hugo bowne-anderson: vibes and excitement as a function of time with traditional software building.
+
+118
+00:28:43.030 --> 00:28:44.110
+hugo bowne-anderson: It's
+
+119
+00:28:44.300 --> 00:29:06.159
+hugo bowne-anderson: it's pretty boring. You're going through the motions you're doing your hello world, basic features. Then you start adding unit tests. You're like, Oh, this is then you're like, okay. Now, I'm going to scale and optimize, load balance. And as you, as you go on, it gets more and more exciting, and this has been inverted with generative AI. Generally you can get a flashy demo
+
+120
+00:29:06.580 --> 00:29:08.910
+hugo bowne-anderson: immediately, and we'll we'll do that today.
+
+121
+00:29:10.430 --> 00:29:32.319
+hugo bowne-anderson: And then suddenly, you're like, Okay, that didn't like when I type that in that that's cool. But when I type anything else in it gives me a garbled response. So you're like, Wait. It looks right when I do the demo. But I try to do anything else, and it literally lacked basic functionality. And then it's like, Oh, wait all these hallucinations.
+
+122
+00:29:33.240 --> 00:29:51.260
+hugo bowne-anderson: and then you're in, and you've got thousands of conversations already happening, and you don't even know how to monitor them properly or look at them. And then you want to integrate it into your classic business software stacks. And suddenly what started off as a flashy demo just just went down and down, and and down, and what.
+
+123
+00:29:51.260 --> 00:29:51.860
+Sanket Firodiya: Thank you.
+
+124
+00:29:52.640 --> 00:29:55.640
+hugo bowne-anderson: Okay, was that something? Someone?
+
+125
+00:30:00.010 --> 00:30:01.440
+hugo bowne-anderson: What we want to do?
+
+126
+00:30:01.660 --> 00:30:07.389
+hugo bowne-anderson: The only thing we want to shift here is this part of the Gen. AI curve.
+
+127
+00:30:07.760 --> 00:30:22.199
+hugo bowne-anderson: Oh, we don't want to touch software engineering. We don't even want to bring excitement down at the start. We just want to make sure that you stay as excited as possible as a function of time. And the reason in all honesty that flashy Demos still here
+
+128
+00:30:22.610 --> 00:30:25.720
+hugo bowne-anderson: is because people who build them lack the ability
+
+129
+00:30:25.950 --> 00:30:31.943
+hugo bowne-anderson: to evaluate properly and develop a robust evaluation system.
+
+130
+00:30:33.330 --> 00:30:47.739
+hugo bowne-anderson: not because the system is bad and at all right. So that's what we're here to really talk about. I do want to frame most things in terms of evaluation, driven development, although we'll we'll dovetail out of a lot of different different topics. Okay.
+
+131
+00:30:48.110 --> 00:30:49.010
+hugo bowne-anderson: so
+
+132
+00:30:49.380 --> 00:30:58.919
+hugo bowne-anderson: our way out is Edd, evaluation, driven development. Where you have a iterative loop right where you build, you monitor, you evaluate, you improve now.
+
+133
+00:30:59.310 --> 00:31:23.130
+hugo bowne-anderson: even before launching a product. And this is something we'll talk about as the course goes on. You can, you can build a synthetic data set and evaluation harnesses to help you even before real users exist. And if you don't know what an evaluation harness is, don't worry about it. It's essentially a script, something reproducible that you use to evaluate your system. So one example I like to give is.
+
+134
+00:31:23.130 --> 00:31:39.539
+hugo bowne-anderson: I was working on something recently where we were using Gpt. 4.0 Mini, and then Google released Gemini 2.5. And we wanted to play around with it. And it was like, Okay, I'm going to switch this out. But how do I even know beyond vibes that it's going to be
+
+135
+00:31:39.540 --> 00:31:59.240
+hugo bowne-anderson: good or not? So if you have a basic harness with a few tests, measuring latency and cost and things of business interest as well. This can get you a long way. So at the start, I actually encourage people to build what I call an Mve. So for any Mvp minimum viable product, you have an Mve a minimum viable evaluation as well. Right?
+
+136
+00:31:59.260 --> 00:32:06.140
+hugo bowne-anderson: So just thinking through kind of how this happens. You have an Mvp, you have synthetic user queries.
+
+137
+00:32:06.250 --> 00:32:30.290
+hugo bowne-anderson: You get the Mvp to give you responses, label them by hand, use the label data to build a basic evaluation harness, for example. And we'll get to all of this a test set and Llm. As a judge. And then we use the Mve to evaluate and improve your Mvp. I do want to. Just briefly, we'll get into this a lot later in the course, disambiguate Llm. As a judge. It's a term that people like. Oh, that must be, you know, really sophisticated. Whatever
+
+138
+00:32:30.370 --> 00:32:48.209
+hugo bowne-anderson: the truth is, they can be, and should be as you go on. But essentially what you're doing is you've got a bunch of traces you want to evaluate in some way. You've done a bunch hand labeling as a human that doesn't scale. So you give an Llm. A prompt
+
+139
+00:32:48.230 --> 00:33:09.360
+hugo bowne-anderson: and a bunch of perhaps positive and negative examples and some heuristics for evaluating, and you get it to perform the evaluation for you, and of course something we'll get to is then how to align. One of the most important things is aligning the Lm. As a judge with your own evaluation. But that's kind of just a brief detour on that. I do want to say.
+
+140
+00:33:10.300 --> 00:33:35.790
+hugo bowne-anderson: Evaluation driven development isn't. New people have been building Ml. Software. Well, I've been doing it for years. If you tell me that the original Google search didn't use evaluation driven development. I'd say what? What the heck you're talking about? Because clearly they were using in like highly sophisticated monitoring and evaluation in in order to rapidly iterate on on that product. So
+
+141
+00:33:36.340 --> 00:33:59.849
+hugo bowne-anderson: essentially in machine learning, we've had Mvps and collected data. Then we've labeled responses by hand. Then we use the labeled data to build a basic evaluation system. But in this case it's a test set right. And then we use this Mve to evaluate and improve your Mvp. So just to compare Eval and building with Llms versus traditional. Ml.
+
+142
+00:34:00.330 --> 00:34:12.149
+hugo bowne-anderson: in Ml, you collect real world examples, label by hand, train model on labor data, evaluate on held outset iterate based on performance. Okay, now, there are lots of challenges with Llms. But
+
+143
+00:34:12.500 --> 00:34:28.080
+hugo bowne-anderson: at the start you get labeled data. It isn't real world data. But you get labeled data for free. You can build your like data flywheel really, really, quickly. So you synthesize realistic queries from personas. You can do that pre-launch label some outputs by hand.
+
+144
+00:34:28.080 --> 00:34:43.510
+hugo bowne-anderson: you prompt the model tune prompts, and the system set up. Whether you're changing your embeddings or whatever it is you evaluate using your Mve, which is your test set and your automated Eval. Then you iterate, based on performance and use your evaluation to guide improvement. So
+
+145
+00:34:43.670 --> 00:35:00.759
+hugo bowne-anderson: modulo differences. Both workflows are eerily similar. They're grounded in test sets, iteration and failure analysis. And those are the types of things. It's not sexy, right? But you'll get way more. You'll build far better apps if you get comfortable looking at spreadsheets and doing pivot tables of failure modes and building
+
+146
+00:35:01.020 --> 00:35:16.649
+hugo bowne-anderson: multi agentic systems with crew. AI, we're going to do both in this course right? But to be very clear, those are the skills that we're very interested in teaching. So before we jump into Github. I just want to tell you a basic story
+
+147
+00:35:16.800 --> 00:35:44.760
+hugo bowne-anderson: about how Poc purgatory starts. It starts, for example, with llama indexes what they what they call their famous 5 line, quick start, or whatever right where this is. This is incredible, that I can have some data in a document. I do my import. I set up my data directory. I do it. I created essentially a local vector store, a query engine. I then query, get out my response and print it in.
+
+148
+00:35:44.980 --> 00:35:45.860
+hugo bowne-anderson: you know.
+
+149
+00:35:46.500 --> 00:36:10.700
+hugo bowne-anderson: one line import and 5 lines of code. And and I can query documents that's incredibly powerful and don't get me wrong. I want us to keep doing that right. But the fallout from being able to do this is sorry. Okay. The response of this one was, Hugo is a dedicated, visionary, hardworking, and intelligent in. You see, it's already hallucinating. Okay, So
+
+150
+00:36:10.730 --> 00:36:40.610
+hugo bowne-anderson: even in order to think about those things, what we can then do to go into demo hell a bit more. And this is what we'll do soon. Today. We can add a ui in 7 more lines of code, using gradio from hugging face, which I, which is one of my favorite tools for shipping product to friends, and even like William and Jeff and I have been spinning up like gradio interfaces with modal and rag and all of these types of things that the past week right? So we can do that relatively, straightforwardly. And then we end up with this.
+
+151
+00:36:40.660 --> 00:36:42.730
+hugo bowne-anderson: So this is 5 lines of code
+
+152
+00:36:43.340 --> 00:36:47.039
+hugo bowne-anderson: plus 7. So that's 12 lines of code that gives me this interface. Right?
+
+153
+00:36:47.170 --> 00:36:58.700
+hugo bowne-anderson: And once again. We're going to build this in 10 min, or something like that. I can drag and drop a Pdf of my Linkedin profile on it, and I think. Let's see what I ask it. Who is Hugo?
+
+154
+00:37:05.470 --> 00:37:11.539
+hugo bowne-anderson: Hugo Bowne is a blah blah. Okay, that looks right to me. And and then I ask, who is Stefan?
+
+155
+00:37:12.850 --> 00:37:14.419
+hugo bowne-anderson: I didn't know I did this. Then
+
+156
+00:37:14.690 --> 00:37:21.660
+hugo bowne-anderson: there is no information provided about Stefan in the context. So that is super cool. Right?
+
+157
+00:37:22.700 --> 00:37:39.159
+hugo bowne-anderson: So just for clarity. I don't keep querying about myself because I'm solipsistic or narcissistic. I do it because I can tell whether the answer is correct or not. Right? So so I just showed you what happened with, who is Hugo? And who is Stefan worked? Now I just want to show you
+
+158
+00:37:39.330 --> 00:37:41.530
+hugo bowne-anderson: another look at this
+
+159
+00:37:42.070 --> 00:37:52.210
+hugo bowne-anderson: I wrote, Who is John? And that's someone who wasn't mentioned in my profile. Right? And it, said Hugo, bound hide the 1st company's content developer, Yashis Roy, who later
+
+160
+00:37:52.380 --> 00:38:19.849
+hugo bowne-anderson: led the content. I don't. What the hell is this even talking about? Right? So yeah. Yashu is an old friend and colleague who I did hire at Data Camp. But so it clearly got that from my Linkedin profile. But it's clearly hallucinating, not even quite hallucinating. It's it's giving an irrelevant answer with like a partial hallucination. So the question now is, I've built this cool app in 12 lines of code. But but what's even
+
+161
+00:38:20.100 --> 00:38:29.149
+hugo bowne-anderson: happening right like, for example, what prompt is being sent to the system? Hamel. Hussein has a wonderful post called, and I quote
+
+162
+00:38:30.480 --> 00:38:35.680
+hugo bowne-anderson: And this is a quote, and so I apologize. But the the post is called fuck. You show me the prompt
+
+163
+00:38:35.997 --> 00:38:49.380
+hugo bowne-anderson: and the the premise of the post is you use these great these great tools, but you can't even like figure out what it's sending to the Llm. Everything's shrouded in in mystery, and I think Hamel ended up. Had, like he ended up public
+
+164
+00:38:49.400 --> 00:39:07.219
+hugo bowne-anderson: creating some open source stuff which intercepted tool calls to extract your prompt in the end which people use used a lot right. But it's actually not clear yet what the prompt is. So even introspecting into this system, now that I've demoed really nicely is tough.
+
+165
+00:39:08.235 --> 00:39:09.110
+hugo bowne-anderson: So
+
+166
+00:39:09.790 --> 00:39:17.950
+hugo bowne-anderson: even thinking about what just happened. Right? We use llama index. And essentially, it's doing an amount of abstraction which is wonderful.
+
+167
+00:39:18.150 --> 00:39:39.720
+hugo bowne-anderson: But I don't know what's happening. It's doing some chunking. It's doing some embeddings. It's doing retrieval. And it's doing the response generation as well right. And this is a huge amount to abstract over. It ends up in a cool, cool demo, but it's totally unclear. What's happening in there now? I do want to just take a quick
+
+168
+00:39:42.210 --> 00:39:44.259
+hugo bowne-anderson: detour when we're talking about.
+
+169
+00:39:44.430 --> 00:39:45.260
+hugo bowne-anderson: You know
+
+170
+00:39:45.880 --> 00:40:14.630
+hugo bowne-anderson: what we get use out of all of these things, for the conversational aspect of Llms is fantastic. I use it all the time. But in my humble estimation most roi will involve automation, not conversations. So, for example, an app that consumes Linkedin profiles finds relevant candidates for a position automates emails to them. That's 1 example that the demo I just showed you perhaps could could be used for. And this brings me to my point of and our point of
+
+171
+00:40:14.960 --> 00:40:42.770
+hugo bowne-anderson: really thinking about what we want to evaluate. Okay, so what's cool, you can ask, is the information extracts from Linkedin? Correct? That's a cool question to ask and important, that needs to be satisfied. But remember, we're trying to scale human behavior so, and we want it to result in the same outcomes. But better right? So the next question you might ask, do the emails generated resemble the emails domain experts sent previously.
+
+172
+00:40:43.000 --> 00:40:50.809
+hugo bowne-anderson: also a good question to ask, and who would have thought trying to get a domain expert involved would be so so useful. But it turns out it is now
+
+173
+00:40:51.030 --> 00:40:53.409
+hugo bowne-anderson: at a very macro level, though
+
+174
+00:40:53.510 --> 00:41:12.050
+hugo bowne-anderson: you really want to know? Do the emails result in hiring good candidates? And is it more efficient and more cost effective than our previous system right? And it's actually not even clear how long these cycles are. So making sure that we in the end tie these macro level
+
+175
+00:41:12.290 --> 00:41:16.450
+hugo bowne-anderson: business evaluations to the micro level Llm calls is super important.
+
+176
+00:41:17.410 --> 00:41:35.259
+hugo bowne-anderson: So that brings us back to this. How do we? How do we evaluate a system like this? I don't know what the actual prompt sent to the Llm. Was. How do I give feedback on on system performance? How can I see data and traces and conversations? How can we iterate quickly on this? Mvp.
+
+177
+00:41:35.400 --> 00:41:36.250
+hugo bowne-anderson: And
+
+178
+00:41:36.580 --> 00:41:47.480
+hugo bowne-anderson: the answer, the answers come in the in the process that we're here to teach you about in this entire course. And one thing to understand is kind of the flow of the system. So
+
+179
+00:41:47.680 --> 00:41:57.520
+hugo bowne-anderson: we have our upstream prompt and context being sent to an Llm. Then we have the Llm output, and this being consumed downstream in a variety of ways.
+
+180
+00:41:57.700 --> 00:42:11.639
+hugo bowne-anderson: So what type of principles do we need to really think about then. And another way to frame what we're doing here is, of course, we're using tools the entire time. But we're not tool focused. We're, we're principle focused. And
+
+181
+00:42:11.750 --> 00:42:14.060
+hugo bowne-anderson: one of the reasons that's the case is
+
+182
+00:42:14.340 --> 00:42:20.860
+hugo bowne-anderson: we wanna help you develop skills and adopt tools that we'll be around in
+
+183
+00:42:21.160 --> 00:42:42.799
+hugo bowne-anderson: several years. And I honestly can't guarantee you whether Langchain or Llama Index or crew, AI or any of these things will be around to be honest. But what Stefan and myself and a lot of our community are taking a bet on is that the principles that we learned building machine learning software for years and have started to use building Llm powered software, they will stick around. And so
+
+184
+00:42:43.100 --> 00:43:00.310
+hugo bowne-anderson: the 1st principle to recognize is upstream. You have these Api calls you have input and output. And you have knobs. You can tweak there. Right? You have system and user prompts. You have context, right? You have structured outputs, and you have a variety of knobs, such as temperature and top P, which we'll get to later this week.
+
+185
+00:43:00.560 --> 00:43:07.230
+hugo bowne-anderson: Another principle and this is a foundational principle. All of these are is that Llms are non-deterministic. Same inputs
+
+186
+00:43:07.680 --> 00:43:33.880
+hugo bowne-anderson: can result in different outputs. This is an issue for software. Not only that, of course, is rarely. Do you even have the same inputs when you deploy to to users. The types of things you'll see are absolutely wild. You could, I talked about generating synthetic data to mimic users hands down. If you've ever built a conversational software product, you know the types of wild, wild stuff. That people will say that you could never, never even think of
+
+187
+00:43:34.567 --> 00:43:40.640
+hugo bowne-anderson: I do love. I haven't done this, but I do know people who who essentially found
+
+188
+00:43:40.770 --> 00:43:46.490
+hugo bowne-anderson: what they call free Gpt. Maybe you all have done this as well. But you can, you know.
+
+189
+00:43:46.620 --> 00:44:01.090
+hugo bowne-anderson: find a product that has a chat bot, or something that actually allows you to just chat with Chat Gbt within it. Essentially, because I haven't put up proper guardrails right? But people will put input in to do all types of things. Now.
+
+190
+00:44:01.920 --> 00:44:04.040
+hugo bowne-anderson: one of the most important principles is.
+
+191
+00:44:04.640 --> 00:44:26.390
+hugo bowne-anderson: and I almost feel silly having to say this, but you'd be amazed how few people think about this robustly and do it. You need to log and monitor and trace. You need to capture your data in a human readable form as well. And then you need to evaluate, evaluate early evaluate. Often you need to look at your data
+
+192
+00:44:26.390 --> 00:44:51.659
+hugo bowne-anderson: and results in quantify performance. This will be a combination of domain expertise, binary classification and then classifying failure modes. And then you want to iterate. So iterate quickly, using prompt engineering, perhaps fine tuning, changing business logic. The reason, I say, perhaps fine tuning is. I think it probably isn't necessary in most cases anymore. But there are some in which it is so. As I mentioned at the start.
+
+193
+00:44:51.920 --> 00:45:09.249
+hugo bowne-anderson: We have our traditional software development lifecycle, which is, I say, straightforward. It's relatively straightforward compared to Llm. Powered software. That's the real statement I want to make don't get traditional software can be horribly challenging to build. But you do start with specs. You build, you test, you deploy.
+
+194
+00:45:09.250 --> 00:45:23.510
+hugo bowne-anderson: and then perhaps you monitor for a while, figure out what's up, make some small changes, whatever it is. And then you start working on the next version, and there will be version releases. Then, right? So you will start working again and iterating.
+
+195
+00:45:23.600 --> 00:45:33.550
+hugo bowne-anderson: based on what you how you see your software is performing. But the point is that you're iterating on the next version of it as opposed to having something continuously changing and continuously iterating.
+
+196
+00:45:33.920 --> 00:45:36.410
+hugo bowne-anderson: So we have software specs
+
+197
+00:45:36.660 --> 00:45:54.849
+hugo bowne-anderson: for Llm. Powered applications right? And this is an iterative process that spans development and production. You have software specs, you build, you deploy your value, you monitor and evaluate, including all of these things that I really I mentioned at the start of this workshop which we'll get into in this course.
+
+198
+00:45:55.070 --> 00:45:55.980
+hugo bowne-anderson: So
+
+199
+00:45:56.530 --> 00:46:19.029
+hugo bowne-anderson: the question I said at the start, how do we get out of aic a a Oc AI poc, I actually should change that because someone said someone actually said to me, they didn't know what a proof of concept was, and they thought I was using the term person of color purgatory. And I I definitely have never intended that so I probably should should change that
+
+200
+00:46:20.510 --> 00:46:29.849
+hugo bowne-anderson: So the 1st challenge non-determinism. How do we deal with that? We log inputs and outputs. We evaluate logs. We iterate on prompts and context, we use Api knobs to reduce variance.
+
+201
+00:46:30.010 --> 00:46:32.119
+hugo bowne-anderson: How about the challenge of hallucinations?
+
+202
+00:46:32.310 --> 00:46:49.530
+hugo bowne-anderson: Well, similarly, we log inputs and outputs in dev and prod, we use domain specific expertise to evaluate output. In both, we build systems and processes to automate assessments such as unit tests and data sets. So testing sets product feedback hooks. Similarly, for for evaluation.
+
+203
+00:46:49.600 --> 00:47:05.289
+hugo bowne-anderson: for iteration, we build a software development lifecycle that enables you to quickly build, deploy, monitor and evaluate. And in terms of business value. We really need to align outputs with business metric and optimize workflows to achieve measurable return on investment.
+
+204
+00:47:05.550 --> 00:47:06.480
+hugo bowne-anderson: So
+
+205
+00:47:06.650 --> 00:47:23.959
+hugo bowne-anderson: without further ado, I would love to jump into Github. I would I have spoken for a while, so I would love if there's been any, any comments in discord that could be relevant. Jeff, William, Nathan Stefan, or anything else anyone would like to add, I really I welcome it.
+
+206
+00:47:33.971 --> 00:47:56.510
+Stefan Krawczyk: Nothing needs to be, I guess, raised in terms of, I guess, just to reiterate what Hugo has been saying so or at least one of the themes you come to understand this course is really, you gotta look at your data right? And so and so this will be one of the key things that hopefully we'll we'll drill into you as the course goes. But.
+
+207
+00:47:56.510 --> 00:47:57.964
+hugo bowne-anderson: Yeah. But Jeff.
+
+208
+00:47:58.450 --> 00:47:59.870
+Stefan Krawczyk: William, or Nathan, or anything.
+
+209
+00:48:00.030 --> 00:48:17.760
+hugo bowne-anderson: I just did want to add, though you do want to look at your data. But something I've learned from you, Stefan, is how much once you've done that, how you can start automating pieces of that right? And so speaking to your workshop next week, but doing the scientific approach, then robustifying it, so to speak.
+
+210
+00:48:18.740 --> 00:48:19.649
+hugo bowne-anderson: But yeah, Hugo.
+
+211
+00:48:19.650 --> 00:48:33.839
+Nathan Danielsen: So 1 1 quick question you that was raised in discord. What did you mean by fine tuning isn't really useful use these days? William gave a good initial answer. But what's your can you? And upon that, just a little bit more.
+
+212
+00:48:34.030 --> 00:48:45.319
+hugo bowne-anderson: So did I say? Fine tuning isn't really useful these days, cause if I I would, that sounds like something I I would say. What I mean is that most of the time
+
+213
+00:48:46.280 --> 00:48:53.280
+hugo bowne-anderson: you need? You think you need to fine tune. You can do other things such as prompt your way out of it.
+
+214
+00:48:54.980 --> 00:48:57.879
+hugo bowne-anderson: There are cases, for example.
+
+215
+00:49:02.260 --> 00:49:23.370
+hugo bowne-anderson: well, most of the cases I see are actually for vision models and these types of things. But there are cases where you want it to be really good on domain, specific expertise or previous conversations, and then fine tuning would be useful. The other use case that I like, for fine tuning is migrating to smaller models.
+
+216
+00:49:23.470 --> 00:49:50.299
+hugo bowne-anderson: So if you build something and you're using like a state of the art, relatively expensive vendor based model, and you want to migrate to a smaller open weight. Model yourself, taking some of the conversations with Gpt. Whatever, and fine tuning on those can be incredibly useful. I also love that. It seems like that's in violation of Openai's terms and services, and I love that they would have
+
+217
+00:49:50.990 --> 00:50:06.949
+hugo bowne-anderson: the attitude to to be like this is our copyright, or something like that. I find it fascinating. But yeah, I just actually haven't haven't seen a lot of uses of fine tuning that haven't been achievable without others. I would. I would welcome
+
+218
+00:50:07.530 --> 00:50:14.129
+hugo bowne-anderson: William to add anything, he said, and he's he's linked to Emmanuel's wonderful talk. Why, fine tuning is dead!
+
+219
+00:50:14.920 --> 00:50:35.099
+William Horton: Yeah, I think that I think the main thing is that you can get pretty far without having to fine tune your model. And and so a lot of both people and and companies doing this work will start by using the strongest model that's available via Api. Before they go down that road. I I also would add to the list of things, Hugo said, where people still get some
+
+220
+00:50:35.220 --> 00:51:01.680
+William Horton: value out of fine tuning. I have also seen people fine tuning their own embeddings and re rankers for retrieval specifically, is a place where I think people still find a benefit, especially because those models tend to be smaller as well. So the inference cost is is not as high, and the training is not as extensive. That's another place where I think people still do it and get maybe more value than if you were trying to do fine tuning like for the whole Llm.
+
+221
+00:51:02.680 --> 00:51:16.890
+hugo bowne-anderson: Absolutely love it. And I also just noticed in the chat Vishut went. This is probably when I spoke about proof of concept purgatory. Vishrud has faced issues when he used Mvp. Without context. In North America it's used for most valuable player totally agree, and it shows how much
+
+222
+00:51:17.390 --> 00:51:24.224
+hugo bowne-anderson: how most people I speak with at least professionally work in tech and know what know that it means. That right?
+
+223
+00:51:25.440 --> 00:51:32.517
+hugo bowne-anderson: awesome. Well, I'm just. I can't see everything in discord at the moment, but so much fantastic conversation and
+
+224
+00:51:34.330 --> 00:51:42.490
+hugo bowne-anderson: questions as as well. So if anyone.
+
+225
+00:51:42.760 --> 00:51:51.970
+hugo bowne-anderson: I'm gonna open a window right now. But if anyone doesn't have access to github, could you
+
+226
+00:51:52.910 --> 00:52:01.219
+hugo bowne-anderson: just put your handle in the workshop? One channel and I will add you almost in real time.
+
+227
+00:52:04.900 --> 00:52:13.189
+hugo bowne-anderson: And the reason for that is with Github has changed certain things so that I actually can't assign anyone else to be admin currently as it's under my personal.
+
+228
+00:52:13.570 --> 00:52:20.680
+hugo bowne-anderson: Okay, we have Vinysh. Oh, oh, I love this and I do hope that
+
+229
+00:52:20.970 --> 00:52:23.750
+hugo bowne-anderson: you're all okay with us. Just taking 2 min to
+
+230
+00:52:24.471 --> 00:52:27.539
+hugo bowne-anderson: add a few more people. Oh, this is great.
+
+231
+00:52:32.280 --> 00:52:33.270
+hugo bowne-anderson: amazing.
+
+232
+00:52:38.550 --> 00:52:59.559
+Nathan Danielsen: Well, while people are doing that, yeah. Want to comment on the the rich conversations that's happening in discord right now. And from the 1st kind of like run of this course. This is what that the conversations are. One of the highlights as well. So just calling that out. That's a lot of good stuff. A lot of smart people sharing resources there. So check out the discord for the session.
+
+233
+00:53:00.630 --> 00:53:11.030
+hugo bowne-anderson: I really appreciate that. And in fact, I know it. I mean, we we started building this right to do a court. We actually started as a workshop in Austin last year, Stefan and myself, and you never know how
+
+234
+00:53:11.070 --> 00:53:33.340
+hugo bowne-anderson: things are going to turn out. But I we were just leveraging discord in order to help with the the course, and people have stuck around and had super interesting conversations as you're seeing in this this channel. But I do encourage you all to explore the rest of the discord, because I I do want to make it a space where you know we can have conversations like this.
+
+235
+00:53:33.759 --> 00:53:41.909
+hugo bowne-anderson: And to be clear. You know, I think you all know that we all create a bunch of content and educational material.
+
+236
+00:53:42.497 --> 00:54:01.740
+hugo bowne-anderson: We put out for for free. And that's that's really what we we love doing. But we need to support it in some way. And that's another reason we appreciate you spending your hard earned money on this course, because this allows us to not only teach here, but you know, do do what we do in public, and have have this discord also. So that's all to say, you know.
+
+237
+00:54:02.210 --> 00:54:10.416
+hugo bowne-anderson: hashtag gratitude. As the kids I know the kids probably don't even use hashtags in anymore. I'm 42. It's it's over.
+
+238
+00:54:11.210 --> 00:54:13.970
+hugo bowne-anderson: So we're in Github
+
+239
+00:54:14.400 --> 00:54:31.849
+hugo bowne-anderson: clearly, and the readme is relatively straightforward. And, as I said, feel free to raise issues, pull requests, whatever it may be. What we're doing is using code spaces, and I've got one that I've already set up.
+
+240
+00:54:31.980 --> 00:54:44.020
+hugo bowne-anderson: But if you go to code spaces there'll be a button there saying, create codespace or something like that. And it's as I said before, and I said this in my starter video. It's
+
+241
+00:54:44.760 --> 00:54:52.709
+hugo bowne-anderson: you may know Google Colab where people can set up environments. And you have access to whatever and you don't have to do local setup and stuff like that.
+
+242
+00:54:53.570 --> 00:54:55.279
+hugo bowne-anderson: It's like that. But
+
+243
+00:54:55.420 --> 00:55:03.664
+hugo bowne-anderson: it you get a terminal and you get a local file system, and you get your all your scripts and all of that type of stuff. Right?
+
+244
+00:55:04.010 --> 00:55:31.649
+hugo bowne-anderson: another way to view it is. It's Vs code. But in your browser, with everything provided, and I find it fantastic, because what it allows me to do is it abstracts over all the environment issues? Well, most of the environment issues. We have, of course not, you know invisible carriage returns, and that type of stuff, but it allows me to set things up so you can run them as easily as possible. Now, before. Whoa! I didn't even how did I get a co-pilot in there?
+
+245
+00:55:33.560 --> 00:55:52.921
+hugo bowne-anderson: What I am gonna say is due to the nature of these workshops. We're not gonna use workshop time to debug all of you. Like getting environment set up. And that type of stuff I put a video out beforehand, which I encourage you to to watch. And I'll put one out again before Thursdays, because that's the 1st time we'll be using notebooks.
+
+246
+00:55:53.210 --> 00:56:17.039
+hugo bowne-anderson: but I think getting the code space set up. If you're able to do it before the workshop. That's great, if not feel free to, after just in terms of time management. It's especially because most of the issues have to do with environment variables and stuff like that. It just doesn't make sense for us to spend half an hour to 45 min of a 2 h session doing that here. Okay, so all that having been said, I want to just check
+
+247
+00:56:18.240 --> 00:56:20.330
+hugo bowne-anderson: what I have in my environment here.
+
+248
+00:56:20.810 --> 00:56:26.930
+hugo bowne-anderson: Okay, so I wanna so I don't have all the cool packages I want. So I want to activate
+
+249
+00:56:29.020 --> 00:56:37.590
+hugo bowne-anderson: and let me make this a bit bigger, super cool. And then, okay, that's great.
+
+250
+00:56:37.810 --> 00:56:39.409
+hugo bowne-anderson: Got all the things I want.
+
+251
+00:56:39.890 --> 00:56:40.660
+hugo bowne-anderson: Okay.
+
+252
+00:56:40.900 --> 00:56:50.799
+hugo bowne-anderson: So now, what I'm going to do is go into, actually, where am I?
+
+253
+00:56:51.690 --> 00:56:56.780
+hugo bowne-anderson: Yep, going to workshop one and the apps directory?
+
+254
+00:56:57.510 --> 00:57:06.480
+hugo bowne-anderson: And let's just see what's whatsapp here. Just kidding I've never made that joke before. I'm quite proud of that, and we'll see what we have in here.
+
+255
+00:57:06.750 --> 00:57:11.580
+hugo bowne-anderson: We have 3 apps, one a 1 b, one C, and then a few more. But
+
+256
+00:57:12.070 --> 00:57:14.185
+hugo bowne-anderson: this is the app that I showed you.
+
+257
+00:57:14.630 --> 00:57:20.409
+hugo bowne-anderson: Well, a variation of it that I showed you before. Okay, so it's the 5 line. Quick start for
+
+258
+00:57:20.840 --> 00:57:24.940
+hugo bowne-anderson: Lama Index, and I have a data directory where I put
+
+259
+00:57:25.080 --> 00:57:35.250
+hugo bowne-anderson: Andrew Ng's Linkedin profile. Okay, but I. This is before I knew you could download Pdfs from Linkedin, and Stefan showed me how to do that. It was really embarrassing.
+
+260
+00:57:36.141 --> 00:57:49.479
+hugo bowne-anderson: but also cool. So I copy and pasted this, and we'll actually see, maybe that that plays out in a really weird way. Okay, but essentially, what I'm doing is we can have a look at the app.
+
+261
+00:57:51.740 --> 00:58:00.771
+hugo bowne-anderson: Let's go back to it. We can see this is a link. The query is, this is a Linkedin profile. Give me the name, position, job, history and location of the individual as Json. Okay,
+
+262
+00:58:02.080 --> 00:58:07.200
+hugo bowne-anderson: and you'll see I haven't even specified an Llm. Which is kind of cool, but also kinda
+
+263
+00:58:07.420 --> 00:58:15.859
+hugo bowne-anderson: not right. I can just see Jb. Has added their github as well. So I mean, this is.
+
+264
+00:58:16.180 --> 00:58:18.289
+hugo bowne-anderson: this is real time, isn't it?
+
+265
+00:58:19.400 --> 00:58:21.289
+hugo bowne-anderson: I'll add you. Now.
+
+266
+00:58:24.670 --> 00:58:28.729
+hugo bowne-anderson: that's what jb, wrote. So that's what jb, shall get.
+
+267
+00:58:30.357 --> 00:58:59.659
+hugo bowne-anderson: Oh, yeah, I'm so sorry. Jb, just reminded me. Just look at your name. I should have put this in the notes if you could put your full name as your handle on discord. That will really help me cause I get pinged by a lot of people on on discord, and if I know they're they're in this course, I will prioritize that with my life. Right? So if you could. And so just for messaging, and that that type of stuff, if you could put your your full name that would be super super useful.
+
+268
+00:59:00.043 --> 00:59:07.870
+hugo bowne-anderson: And if for some reason you don't want to, don't, or for privacy reasons, or whatever don't, but it would actually make our lives as
+
+269
+00:59:08.180 --> 00:59:11.440
+hugo bowne-anderson: administrators and course course instructors a lot easier.
+
+270
+00:59:12.067 --> 00:59:24.360
+hugo bowne-anderson: So yeah, this this is, it's also abstracted over what? What? Api I'm even using. It's it's incredible. Actually, you know, it looks amazing, but it's it's actually quite brutal. So let me run this and see what's up.
+
+271
+00:59:29.120 --> 00:59:36.579
+hugo bowne-anderson: Oh, great! This is cool. So what that means, as Greg and several, and Vishraud and several other people will know is that I did not
+
+272
+00:59:38.740 --> 00:59:54.150
+hugo bowne-anderson: get my environment variables in. And so I'm going to source dot env. And so we can see. Haha! These are my environment variables. But what I did was I did a dot env dot example which, Greg, can you remind me what the issue is here? Would you mind turning on your microphone.
+
+273
+00:59:55.400 --> 01:00:02.100
+greg: Yeah, at the end of each line there's a carriage return character that you have to get rid of, or it gives you an error.
+
+274
+01:00:02.100 --> 01:00:05.549
+hugo bowne-anderson: Incredible, incredible and in fact,
+
+275
+01:00:08.300 --> 01:00:21.189
+hugo bowne-anderson: let me. I'm going to add one more person to Github, and then I won't be able to add any more. But we'll we can do that. Priya, it looks like you have a pending invitation to the repository. So please check your email.
+
+276
+01:00:21.860 --> 01:00:49.679
+hugo bowne-anderson: And so Greg, very kindly issued a pull request this morning which I could have merged before this workshop. But I decided not to, because it will have redeployed the code spaces, and I didn't want to deal with the potential needing to then figure something out if that didn't didn't quite work so, but I'll do that afterwards, because we'll have a couple of days then. So all that. I'm sorry I've just been. Please, Greg.
+
+277
+01:00:50.310 --> 01:00:55.159
+greg: For the moment, if you're going through this, I'd suggest, create your dot N file from scratch
+
+278
+01:00:55.700 --> 01:00:59.119
+greg: rather than copying the dot. Inv dot example.
+
+279
+01:00:59.120 --> 01:00:59.530
+hugo bowne-anderson: Exactly.
+
+280
+01:00:59.530 --> 01:01:01.640
+greg: Phone while you're pasting. Yep.
+
+281
+01:01:01.640 --> 01:01:13.840
+hugo bowne-anderson: Just just write that. So all these details aside and this I didn't intentionally, you know. Create suspense around what this app will return. But let's just run it and see what's up.
+
+282
+01:01:21.880 --> 01:01:23.520
+hugo bowne-anderson: Oh, yeah, I love this.
+
+283
+01:01:23.920 --> 01:01:25.149
+hugo bowne-anderson: I love this.
+
+284
+01:01:25.320 --> 01:01:51.159
+hugo bowne-anderson: This, says the Linkedin profile. The name is Hugo band. Anderson. The position is adjunct, Professor, the job history is director of the Stanford AI. Lab, tenured professor in Stanford's Computer Science Department, co-founder at Hidden Door. This is insane, Stanford, California. So this is mixed. And because I copied and pasted it from my profile, I think perhaps it has my name in there somewhere I could grep it. I honestly don't don't get. I did get a promotion.
+
+285
+01:01:51.160 --> 01:02:00.559
+hugo bowne-anderson: William. The other thing is the only person I know who's a co-founder at Hidden Door is Hilary Mason. It's not Andrew Ng, and maybe I did a podcast. With her recently. So maybe I'd like
+
+286
+01:02:00.600 --> 01:02:07.520
+hugo bowne-anderson: done a pot like that was like one of my posts or something. Who who the hell knows? Anyway, this app is horrible.
+
+287
+01:02:07.590 --> 01:02:16.359
+hugo bowne-anderson: This app is really really crappy. So I want to then see what happens if I use Gemini. So what? What I did was I?
+
+288
+01:02:17.150 --> 01:02:22.873
+hugo bowne-anderson: I? Clearly, yeah, I had the wrong name. Then I used the same name. You can't get a 5 line
+
+289
+01:02:24.670 --> 01:02:31.429
+hugo bowne-anderson: app with Gemini. Sadly, but essentially, we do the same thing. We load the documents, create the store
+
+290
+01:02:33.110 --> 01:02:40.279
+hugo bowne-anderson: define Gemini 1.5 as the model we're using. Pass it to the engine, get out the response, print it. And so it's actually
+
+291
+01:02:40.730 --> 01:02:44.560
+hugo bowne-anderson: it's exactly the same app. But using Gemini
+
+292
+01:02:46.000 --> 01:02:49.710
+hugo bowne-anderson: 1.5 pro. So let's see what that does.
+
+293
+01:02:52.800 --> 01:03:01.040
+hugo bowne-anderson: And literally, I've done this before. But I honestly, you know, this is cool.
+
+294
+01:03:01.630 --> 01:03:06.969
+hugo bowne-anderson: Okay. The information's looking pretty good, can anyone? Although it doesn't.
+
+295
+01:03:07.510 --> 01:03:12.470
+hugo bowne-anderson: it, it should say, is in California or something. Probably. Can anyone see an issue with this.
+
+296
+01:03:21.120 --> 01:03:23.112
+hugo bowne-anderson: This is nonsense, right?
+
+297
+01:03:24.330 --> 01:03:27.349
+hugo bowne-anderson: I've asked for Json, and it gives me Markdown.
+
+298
+01:03:27.810 --> 01:03:34.719
+hugo bowne-anderson: It actually gives it. So it doesn't quite give me proper proper json right? With these these back ticks at the start.
+
+299
+01:03:36.720 --> 01:04:02.690
+hugo bowne-anderson: which is, which is concerning, of course, we can do structured output and that type of stuff. And that's how we would do it. But so we get the right output. But we don't quite get the structure that that we want, which is pretty pretty interesting. And I know it's early next week we're we're doing a lot on structured outputs as well. Okay, so let me just clear this in the 3rd app. I thought to try it
+
+300
+01:04:03.150 --> 01:04:07.920
+hugo bowne-anderson: with Claude. Now, the other thing that's cheeky, you can see I've
+
+301
+01:04:08.680 --> 01:04:20.699
+hugo bowne-anderson: chosen the generative responses. But llama index is still using Openai embeddings under the hood. I think I don't even know right. No, I actually do know. But you wouldn't right unless you tried to figure it out. So
+
+302
+01:04:20.910 --> 01:04:26.220
+hugo bowne-anderson: let's now see what Claude says.
+
+303
+01:04:26.980 --> 01:04:28.849
+hugo bowne-anderson: Now, I just want to state
+
+304
+01:04:29.650 --> 01:04:35.290
+hugo bowne-anderson: what an amazing world we live in that. As I said, you know you get in demo hell here.
+
+305
+01:04:35.610 --> 01:04:43.839
+hugo bowne-anderson: But the ability to like rapidly test 3 different state of the art models in a little system that are built in 15 min.
+
+306
+01:04:44.430 --> 01:04:50.779
+hugo bowne-anderson: Absolutely incredible. Right? And so here we have the same Json
+
+307
+01:04:50.950 --> 01:05:05.390
+hugo bowne-anderson: issue. Okay. Name is Andrew. Not great. I mean great name, love the name, but should be Andrew Ng. Here, it's got some good information. There. It's got his education location null again. So
+
+308
+01:05:06.610 --> 01:05:08.319
+hugo bowne-anderson: what do I want to say about that.
+
+309
+01:05:10.290 --> 01:05:15.889
+hugo bowne-anderson: What I really want to say is that the 1st app
+
+310
+01:05:17.760 --> 01:05:36.030
+hugo bowne-anderson: got the person wrong and said it was me. The second one didn't get a few things, got the name right? Got the person right? Didn't return the structured output that I wanted. The 3rd app had similar similar issues to the second. So we've already seen a difference in behavior here. Right? And this is.
+
+311
+01:05:36.750 --> 01:05:46.420
+hugo bowne-anderson: as you all may be aware, this is the process I'm engaging in right now is kind of vibe checking my my models like just getting a sense for what I feel works and and what doesn't. And
+
+312
+01:05:46.650 --> 01:05:54.237
+hugo bowne-anderson: I apologize for not including this slide. But I do want to show you one more slide
+
+313
+01:05:54.990 --> 01:06:00.689
+hugo bowne-anderson: on where we're moving which direction we're moving in for evaluation, driven development.
+
+314
+01:06:06.620 --> 01:06:24.130
+hugo bowne-anderson: So this is why structure matters. I just did check by vibes, and I was like subjective feeling seems better. And but what I just did is inconsistent. It's non-reproducible. I haven't really got a historical baseline or anything quantifiable. It's hard to communicate results. Clearly, I mean, I just kind of it's
+
+315
+01:06:24.430 --> 01:06:26.249
+hugo bowne-anderson: you know, it's like
+
+316
+01:06:26.890 --> 01:06:41.921
+hugo bowne-anderson: I feel like a snowboarder talking like that. No, no beef on. I love snowboarders, but you know they're the surf. They're the surfers of the snow. It's like point break in the snow, but not robbing banks with President Masks on. I'm sorry if you don't know the movie point break, but it's
+
+317
+01:06:42.370 --> 01:07:00.760
+hugo bowne-anderson: eerily a precursor to fast, and the furious. And it's impossible to maintain consistency across team members, including yourself, on Monday, after doing this stuff on Friday. So why, we want to build even a basic harness, you get objective, measurable metrics. It's repeatable, structured evaluation process. You can track improvements and regressions over time.
+
+318
+01:07:00.760 --> 01:07:26.399
+hugo bowne-anderson: It's documentable easy to share and analyze, and you can standardize and reproduce it across team members. So thanks for sticking with me on that. Oh, yeah, sorry I love. In Zip's response, when starting out with Llms. I put some sort of do not enclose in Markdown with example. This is before structured outputs. Right? It's it's absolutely wild. The stuff we all did. And it's relatively okay now. But yeah, the type of
+
+319
+01:07:28.050 --> 01:07:38.400
+hugo bowne-anderson: I mean my friend Alan. We published an essay about it that I'll share, refer to it as the prompt and pray technique. And it is really, it does really feel like that a lot of the time.
+
+320
+01:07:38.640 --> 01:07:41.660
+hugo bowne-anderson: So I do now.
+
+321
+01:07:43.420 --> 01:07:44.330
+hugo bowne-anderson: A sick
+
+322
+01:07:47.560 --> 01:07:49.559
+hugo bowne-anderson: Oh, what do I want to say?
+
+323
+01:07:50.850 --> 01:07:53.519
+hugo bowne-anderson: I want to take this out in 2 directions.
+
+324
+01:07:54.020 --> 01:08:05.140
+hugo bowne-anderson: Okay, now, I know this may be getting us a bit further into Demo hell, but not really, or the productivity plateau, as as others call it. But the thing is.
+
+325
+01:08:06.290 --> 01:08:09.229
+hugo bowne-anderson: you do want to be able to add front ends, and then
+
+326
+01:08:09.983 --> 01:08:17.649
+hugo bowne-anderson: logging to nearly all your apps. Right? So I built something. That essentially, it takes the app we've built.
+
+327
+01:08:17.710 --> 01:08:41.820
+hugo bowne-anderson: It puts a gradio front end in it. So this is what I showed you before, and so look how cool gradio is, though, like you get a Pdf upload button query, input output, submit button boom, and we'll actually see how this works in code. It has a really nice. It works really well in code spaces on on average. And then we've got some Pdf parsing code and that type of stuff. But what I'm going to do is, run this python.
+
+328
+01:08:42.950 --> 01:08:44.100
+hugo bowne-anderson: 2 app.
+
+329
+01:08:47.399 --> 01:08:55.359
+hugo bowne-anderson: I like several things about this. First, st it'll run on a local URL. Okay, now, I'm going to open that in the browser you can. I advise you to click that.
+
+330
+01:08:55.490 --> 01:08:58.229
+hugo bowne-anderson: or when you click on this, if you like.
+
+331
+01:09:00.229 --> 01:09:01.829
+hugo bowne-anderson: Whoa! Is this something?
+
+332
+01:09:03.729 --> 01:09:04.900
+hugo bowne-anderson: Just a sec.
+
+333
+01:09:09.550 --> 01:09:11.069
+hugo bowne-anderson: Let me just try this again.
+
+334
+01:09:15.720 --> 01:09:19.279
+hugo bowne-anderson: Is this something you mentioned having an issue with Greg, or am I? Am I off.
+
+335
+01:09:22.330 --> 01:09:23.739
+greg: No, I didn't get this far.
+
+336
+01:09:23.740 --> 01:09:29.579
+Stefan Krawczyk: That that just looks like you. You're pressing something on your terminal. But yeah.
+
+337
+01:09:29.580 --> 01:09:40.160
+hugo bowne-anderson: I am wondering whether my oh, no! I'm gonna turn bluetooth off. No, I can't actually I'm just wondering whether I have a Bluetooth keyboard attached here somewhere as well.
+
+338
+01:09:41.740 --> 01:09:53.239
+hugo bowne-anderson: Oh, William has the best comment. I thought you were saying Python 2 app. That's that's too good. I remember at Pycon in 2018 there was a. This was in Portland. There was a dude, and it was when it was like.
+
+339
+01:09:53.529 --> 01:10:03.709
+hugo bowne-anderson: you know, Python, 2.5 versus 3.7 or something like that. He was walking around in a T-shirt. That all it said was 2.4, and people were going absolutely insane.
+
+340
+01:10:04.930 --> 01:10:12.740
+hugo bowne-anderson: So let me see if this works. What I'm going to do is I'll see if I
+
+341
+01:10:13.430 --> 01:10:19.860
+hugo bowne-anderson: okay. I have some Linkedin profile. I don't even know who's this is actually I'll say, who is this?
+
+342
+01:10:21.500 --> 01:10:26.899
+hugo bowne-anderson: And I literally don't. I just got it from my down. I've been downloading lots of Linkedin. Pro. Oh, Andrew, ng, that's cool.
+
+343
+01:10:28.820 --> 01:10:30.480
+hugo bowne-anderson: Tell me about
+
+344
+01:10:34.000 --> 01:10:35.100
+hugo bowne-anderson: this person
+
+345
+01:10:39.990 --> 01:10:47.290
+hugo bowne-anderson: that's really nice. I like all of that. Now tell me about this person's parents.
+
+346
+01:10:49.780 --> 01:10:57.900
+hugo bowne-anderson: There is no information provided about this person. But that's cool. I like that response, right? Who is
+
+347
+01:10:58.630 --> 01:10:59.550
+hugo bowne-anderson: John?
+
+348
+01:11:02.400 --> 01:11:07.629
+hugo bowne-anderson: Great? There's so this actually isn't isn't too bad at the moment based on vibes. Right?
+
+349
+01:11:11.710 --> 01:11:15.909
+hugo bowne-anderson: Okay, good keyboard interruption in.
+
+350
+01:11:16.150 --> 01:11:17.350
+hugo bowne-anderson: I'm just gonna
+
+351
+01:11:20.370 --> 01:11:23.600
+hugo bowne-anderson: open another terminal in the interest of time.
+
+352
+01:11:28.880 --> 01:11:30.230
+hugo bowne-anderson: Okay, we're good.
+
+353
+01:11:31.540 --> 01:11:39.520
+hugo bowne-anderson: Now, one thing I want you to notice is that I just did that on vibes I was like, oh, these are pretty good responses, right? And they were to be honest.
+
+354
+01:11:39.670 --> 01:11:42.399
+hugo bowne-anderson: but what I just did there's nothing like
+
+355
+01:11:43.200 --> 01:11:47.599
+hugo bowne-anderson: reproducible in there. I I have a nice front end. I'm just gonna delete.
+
+356
+01:11:49.380 --> 01:11:51.788
+hugo bowne-anderson: Okay, I'll do it from the command line.
+
+357
+01:11:55.940 --> 01:12:03.250
+hugo bowne-anderson: right? So I felt that went well. But I've got no observability or log ability or traceability like I. Now that we've closed this app.
+
+358
+01:12:03.540 --> 01:12:30.870
+hugo bowne-anderson: Now that we've closed this app, I don't know what happened there. I've got no visibility into it, and I can't share it with you. So after giving something something a front end, I do very much encourage everyone to add some basic logging to your system, and it once again, in doing an Mvp. This can be incredibly simple, right? And in this python 3 app log. We do so by
+
+359
+01:12:31.010 --> 01:12:43.209
+hugo bowne-anderson: just creating a local sqlite database. You can even do it just to Json, if you want, I decided to go a bit more. I'm a huge fan of sqlite to be honest. But where? So that means in 82 lines of code, we've got our.
+
+360
+01:12:43.850 --> 01:12:47.270
+hugo bowne-anderson: you know, rag system. We've got our front end
+
+361
+01:12:47.520 --> 01:12:58.409
+hugo bowne-anderson: and we have some logging, basic logging as well. So let's now just have a look at how that works, and then I'll show you ways to think about the logging, or how how to introspect into it.
+
+362
+01:12:59.773 --> 01:13:24.690
+hugo bowne-anderson: So the other thing I didn't mention before is that if you use share is equal to true in launch for gradio, you can create a public link. So when William actually created a gradio app for us to play around with. Recently, that was hosted on modal when preparing some of this course. He just shared. He put share is equal to true, and that meant I could access from Australia. The app he'd just built, which I do. I don't want to like
+
+363
+01:13:24.810 --> 01:13:37.079
+hugo bowne-anderson: get too too serious. But I the fact that William in DC. Can spin this up, and I can access it. And immediately in Sydney, Australia is absolutely absolutely wild. So I'm gonna ask.
+
+364
+01:13:37.670 --> 01:13:44.209
+hugo bowne-anderson: who is this person? And what do they
+
+365
+01:13:44.780 --> 01:14:02.165
+hugo bowne-anderson: do? Our pasta has a great question. What? What model am I using? And I'm actually using Openai. Gpt. 4. 0, I think it's actually once again, though, whatever the default in llama index is, I don't know. Like, maybe that changed then, right? And I don't know.
+
+366
+01:14:03.310 --> 01:14:05.130
+hugo bowne-anderson: Oh, yeah, oh, this is great.
+
+367
+01:14:05.300 --> 01:14:09.590
+hugo bowne-anderson: And I actually mean that because I love when the demo gods
+
+368
+01:14:09.730 --> 01:14:13.080
+hugo bowne-anderson: don't shine on one, but it's it's helpful for
+
+369
+01:14:15.410 --> 01:14:19.498
+hugo bowne-anderson: everyone, I mean. That's what do they call it? A teachable moment or something.
+
+370
+01:14:20.000 --> 01:14:22.220
+hugo bowne-anderson: so let's do this again.
+
+371
+01:14:27.420 --> 01:14:28.300
+hugo bowne-anderson: Okay.
+
+372
+01:14:32.840 --> 01:14:33.720
+hugo bowne-anderson: what?
+
+373
+01:14:34.880 --> 01:14:44.069
+hugo bowne-anderson: What is happening here? I mean, legit. This is the type of question. People go into rag systems and say, What is what is this right? How are embedding? Is going to deal with that?
+
+374
+01:14:44.672 --> 01:14:46.000
+hugo bowne-anderson: What is happening here?
+
+375
+01:14:51.010 --> 01:14:54.749
+hugo bowne-anderson: The individual has been involved in various. They've been a key figure.
+
+376
+01:14:54.960 --> 01:14:58.479
+hugo bowne-anderson: That's not too bad to a kind of a silly question.
+
+377
+01:14:59.070 --> 01:15:08.540
+hugo bowne-anderson: then, who is this? I'm just. I'm gonna do 2 queries so that we can then just look at them. How how we can, Andrew in. Okay, good. So I'm gonna kill this app
+
+378
+01:15:08.760 --> 01:15:10.709
+hugo bowne-anderson: and what I want to show you is
+
+379
+01:15:10.940 --> 01:15:15.699
+hugo bowne-anderson: because we've logged into a local sqlite database, and that's what I deleted before we've got our
+
+380
+01:15:16.650 --> 01:15:40.179
+hugo bowne-anderson: database here. Now we can't display it right? But what I want to do to look into it is a really cool tool that Simon Willison has built, which I encourage you all to to check out called data set with a ETTE at the end. And I'm just gonna say, data set that database and it spins up a server that allows me to
+
+381
+01:15:40.650 --> 01:15:46.390
+hugo bowne-anderson: quickly look at everything that just occurred. So yeah, I'm going to look at interactions. 2 rows in one table.
+
+382
+01:15:46.580 --> 01:15:51.150
+hugo bowne-anderson: Pdf, name uploaded? Pdf, probably need to change that. Then we have the query.
+
+383
+01:15:51.640 --> 01:15:54.110
+hugo bowne-anderson: this query, what is happening here? The response.
+
+384
+01:15:54.370 --> 01:16:04.520
+hugo bowne-anderson: my query, who is this Andrew in. Okay, now, this is really cool. The fact that we were able to just have a quick conversation with a Pdf log. Things look at them in data set.
+
+385
+01:16:04.650 --> 01:16:11.740
+hugo bowne-anderson: we can export a Csv, and this is actually part of my workflow sometimes. Not as much. Now I've actually
+
+386
+01:16:13.460 --> 01:16:28.060
+hugo bowne-anderson: I'll I'll tell you that the workflow where you export a Csv. Put in a spreadsheet, then do some labeling, so a column for pass or fail a column for reason for pass or fail, then failure, mode right, and what this helps is.
+
+387
+01:16:29.380 --> 01:16:53.150
+hugo bowne-anderson: Once you have failure modes. For example, if you have like 5 different failure modes, you then do a pivot table rank, order them in terms of how often they occur, and that will tell you what to focus on in your app. Right. So the reason I said, I don't do that as much at the moment. I've actually been using some pretty wild vibe coding, and maybe I'll do a demo of it some sometime to spin up, you know, literally in
+
+388
+01:16:53.680 --> 01:17:14.919
+hugo bowne-anderson: cursor agent mode with Gemini. 2.5. Max, at the moment is, you know, work on an app, then create some interactions with it and spin up a local Json viewer or something like like literally Vibe code, a custom viewer for the data set that I've just created, which is, which is super fun. And I encourage everyone time permitting to play around with. But
+
+389
+01:17:15.540 --> 01:17:20.100
+hugo bowne-anderson: the short version of the story is that we were able to
+
+390
+01:17:20.190 --> 01:17:50.150
+hugo bowne-anderson: get in demo hell in a variety of ways, but able to test out a variety of models, then put a basic front end on, then log, in order to start thinking about visibility into our app. And this is incredibly powerful. In a lot of ways. Now the next steps. This is kind of demo hell, though, because we're not sure what our app is doing, we're not sure which model to use. So using evaluation, driven development will allow us to kind of get out of the situation we've we've just gotten ourselves into. So
+
+391
+01:17:53.730 --> 01:17:55.729
+hugo bowne-anderson: what we've just built. Okay.
+
+392
+01:17:55.760 --> 01:18:02.179
+hugo bowne-anderson: we've built a user interacts with a front end. Ui, okay? And then there's some form of context
+
+393
+01:18:02.180 --> 01:18:25.549
+hugo bowne-anderson: enrichment. And perhaps that arrow should be going here. Now, I'm really thinking about it. But anyway, we've got llama index doing the context enrichment. Well, no, we are feeding everything to Llama Index ourselves, I suppose. And then it's interacting with an element Api, to give us a result. Then we're logging locally to sqlite. And then we're looking at our data in data set
+
+394
+01:18:25.900 --> 01:18:38.530
+hugo bowne-anderson: we can also do it in excel. We can do it in Csv. Or wherever we want, or we can spin up. Our own custom bespoke Json viewer now, as I said, and I'll put this
+
+395
+01:18:39.080 --> 01:18:42.720
+hugo bowne-anderson: in notion. And in the discord channel
+
+396
+01:18:43.870 --> 01:19:01.200
+hugo bowne-anderson: Homework isn't mandatory. Nothing's mandatory. Here we're here to, you know, help you learn and build as much as much as you want. I would encourage anyone who's serious about this stuff, though, to do something along the lines following, and maybe several of you are way ahead of this. So if that's the case, no worries at all. But I would encourage you
+
+397
+01:19:01.200 --> 01:19:24.239
+hugo bowne-anderson: to rip out llama index from this process. Okay, because it's doing too much abstraction, too much heavy lifting. So rip it out and then take the data, the Pdf. Or whatever it is, and put it, send it straight to an Llm. With a prompt of your own choosing. Okay, you may even want to look up llama indexes documentation and see what prompt it's sending
+
+398
+01:19:24.445 --> 01:19:27.109
+hugo bowne-anderson: to the user. I think last time I tried to look it up.
+
+399
+01:19:28.880 --> 01:19:39.120
+hugo bowne-anderson: I just couldn't find it. I think Stefan found it at some point, though maybe you want to use Hamel's tool to intercept the prompt, and I don't know but I would encourage you, because, in fact.
+
+400
+01:19:40.510 --> 01:19:58.879
+hugo bowne-anderson: when we're looking at our data, I don't even know what the bloody prompt is and part of my language. But in Australia. That's barely a swear word, a cuss word, by the way, but I actually don't know what the prompt is. So how do I even know how to evaluate this this system. Right? So I very much encourage you all to
+
+401
+01:19:59.150 --> 01:20:14.730
+hugo bowne-anderson: rip out llama index and rebuild the app where you don't like. You don't even need a front end. Ui, it's fun to use something in gradio. But pull it out and look at your data and see what type of responses you get and and how it compares as well.
+
+402
+01:20:15.480 --> 01:20:16.430
+hugo bowne-anderson: So
+
+403
+01:20:18.430 --> 01:20:34.000
+hugo bowne-anderson: in the next session, just foreshadowing slightly which is Workshop 2, we'll be doing a lot on prompt engineering in the Llm software development lifecycle and thinking through how we
+
+404
+01:20:35.830 --> 01:21:04.930
+hugo bowne-anderson: essentially how we start to think about evaluation when changing prompts and versioning. And and these types of things. We have a wonderful guest, speaker, Charles Fry, from from Modal about building AI powered apps on on modal. I actually also encourage you all very much to his guest. Talk last time really blew me away. So much. So I mean, I had him on a podcast to chat about it as well. This is the one page where the embed just didn't work, for
+
+405
+01:21:05.050 --> 01:21:06.220
+hugo bowne-anderson: whatever reason.
+
+406
+01:21:06.360 --> 01:21:21.429
+hugo bowne-anderson: And also, by the way, oh, yeah, I used sorry I used the new Gpt to create funny covers for everyone. So this is unlisted. So I would appreciate it. If you don't share these videos. These are really, for course, attendees also.
+
+407
+01:21:21.430 --> 01:21:37.529
+hugo bowne-anderson: and as part of the value. But he gave a wonderful talk about what we all, as Llm. Developers need to know about gpus and hardware, so I do encourage you all time permitting to check that out, so he'll be giving a guest talk, and then
+
+408
+01:21:37.530 --> 01:22:02.250
+hugo bowne-anderson: in next week it'll all be about iteration, evaluation, and observability. So we'll be jumping right into systematic evaluation of Llm outputs qualitative and quantitative outputs how to define metrics for success such as relevance, coherence, user satisfaction setting up feedback loops, observability basics, debugging common Llm issues and then scaling observability and tools for production. Monitoring
+
+409
+01:22:02.280 --> 01:22:16.490
+hugo bowne-anderson: Stefan. I don't know if you want to add any flavor with respect to what you will talk about next week. Something I really did appreciate, do appreciate about your work is really thinking about the testing loops in Devon prod. So maybe you want to say a word about that.
+
+410
+01:22:16.770 --> 01:22:26.690
+Stefan Krawczyk: I mean, yeah, I mean the so testing and evaluation. So one of the things I guess we'll dig into over the I guess the the coming workshop is to you know what's the difference?
+
+411
+01:22:27.322 --> 01:22:34.249
+Stefan Krawczyk: in terms of mechanics. There really isn't any just kind of what what you do and what you want to do with it. And so
+
+412
+01:22:34.823 --> 01:22:47.279
+Stefan Krawczyk: in terms of the 1st principles, right? We're really trying to gonna be teaching you, you know, not trying to teach you a particular tool so, and how to do it with that tool, but really the principle behind it. So you can kind of
+
+413
+01:22:47.280 --> 01:23:16.298
+Stefan Krawczyk: take it, and project it to where, however, your place of work kind of does things right? So so that's probably I want to say at a high level, the things to kind of think about is that, yeah, we we're not necessarily going to be very tool specific. We're going to be 1st principle based. And that way it should hopefully be easier for you to then project and like, bring in to wherever you're working, since everybody does software development, something differently. And so which case the emphasis, I think on 1st principles also. Helps here. But
+
+414
+01:23:18.200 --> 01:23:20.580
+Stefan Krawczyk: yeah, any any more. There was that.
+
+415
+01:23:21.040 --> 01:23:22.200
+Stefan Krawczyk: That's I mean, Hugo, cool.
+
+416
+01:23:22.200 --> 01:23:26.119
+hugo bowne-anderson: I love that workshop last time so much. I'm just excited excited for it.
+
+417
+01:23:27.490 --> 01:23:33.709
+hugo bowne-anderson: awesome. I appreciate that. So Philip. I wonder, Philip, are you on the call yet? By any chance?
+
+418
+01:23:35.660 --> 01:24:00.649
+hugo bowne-anderson: Okay, you should be here in a few minutes. But Philip Philip Keeley, who's devrel at base 10 really, really fascinating dude does a lot of technical documentation and technical writing as well as published around that. He'll be giving a talk in a few minutes on moving Llm. Apps from prototype to production with with base 10. Please do not forget to claim your $1,000 free free credit, which I'm so grateful for that I've been able to provide. And you just have a look at all the types of things they have
+
+419
+01:24:00.650 --> 01:24:11.460
+hugo bowne-anderson: on their platform that you can deploy with a couple of clicks. To be honest, I really would love, and I,
+
+420
+01:24:11.480 --> 01:24:14.306
+hugo bowne-anderson: because we have a few minutes now.
+
+421
+01:24:15.070 --> 01:24:19.180
+hugo bowne-anderson: I would actually really love. I have a feedback form
+
+422
+01:24:19.682 --> 01:24:22.940
+hugo bowne-anderson: for each workshop. And so what you'll see here.
+
+423
+01:24:23.010 --> 01:24:47.509
+hugo bowne-anderson: you know you put your email in. How did you rate the pace? What did you like most? What could we improve? Was there anything unclear or confusing? If so, what any other feedback or suggestions? I'm going to put that in the discord right now, and if you wouldn't mind just taking a few minutes now to complete it, there's far more chance of you actually completing it now than there is afterwards. I just statistically. So yeah, let's just take. Don't take more than 3 min
+
+424
+01:24:47.510 --> 01:25:03.439
+hugo bowne-anderson: to jot down a few things there when you rate the pace of the session also. Do note, this is the 1st one. So for some people it may totally have been too slow, and I get that, but it was the 1st session. So why don't everyone can take a couple of minutes to do that? And then when Philip joins we'll jump into his talk.
+
+425
+01:25:09.790 --> 01:25:13.930
+hugo bowne-anderson: Stefan, William, Nathan, while people are doing that I'm wondering.
+
+426
+01:25:15.210 --> 01:25:19.090
+hugo bowne-anderson: Well, I was gonna talk about some things, but maybe we'll we'll wait because I don't. Wanna don't wanna distract people.
+
+427
+01:25:31.820 --> 01:25:34.109
+hugo bowne-anderson: hey, Philip? Great to see you, man.
+
+428
+01:25:35.330 --> 01:25:36.480
+Philip Kiely: Hey, everyone.
+
+429
+01:25:38.330 --> 01:25:47.580
+hugo bowne-anderson: We'll get started in a couple of minutes. I've just got everyone I'm taking a couple of minutes to complete a a survey about how? The 1st
+
+430
+01:25:47.790 --> 01:25:53.329
+hugo bowne-anderson: part of this workshop workshop when. But thank you so much for for joining. So we'll yeah just start in a minute.
+
+431
+01:25:54.220 --> 01:25:55.280
+Philip Kiely: Sounds good.
+
+432
+01:25:55.920 --> 01:25:58.409
+hugo bowne-anderson: Where? Where are you, darling? Are you in the Bay Area.
+
+433
+01:25:58.990 --> 01:26:02.540
+Philip Kiely: Yeah, I'm right on embalcadero right now.
+
+434
+01:26:03.910 --> 01:26:07.200
+hugo bowne-anderson: Must have been a wild, wild few days since Llama 4 dropped.
+
+435
+01:26:09.240 --> 01:26:26.690
+Philip Kiely: I I got back from jujitsu at about noon on on Saturday, you know, nice and tired and sweaty, and ready for a nice relaxing afternoon, and then I check my phone and boom, mama. 4 waits. And there went the weekend. But a lot of fun.
+
+436
+01:26:26.840 --> 01:26:37.230
+hugo bowne-anderson: I'm sure. And yeah, congrats to you and the entire team for getting up, getting it up and running so quickly and getting your great Demos out. It's really, really impressive, inspiring stuff, man.
+
+437
+01:26:37.570 --> 01:26:39.000
+Philip Kiely: Thank you. It's what we do.
+
+438
+01:26:39.600 --> 01:26:40.449
+hugo bowne-anderson: It is
+
+439
+01:26:41.055 --> 01:26:52.799
+hugo bowne-anderson: so we'll just take 30 more seconds to give everyone a a chance to complete this. Would you mind actually giving my comment in discord a thumb up when you when you've completed it.
+
+440
+01:26:57.670 --> 01:27:00.999
+hugo bowne-anderson: Nathan just wrote in discord, llama for Saturday. Exactly. That's
+
+441
+01:27:01.220 --> 01:27:04.361
+hugo bowne-anderson: it. Beats deep. Seek Monday I'll tell you that.
+
+442
+01:27:06.270 --> 01:27:20.990
+Philip Kiely: I spent the day after Christmas. Implementing deep seek stuff and making deep seek content at my cousin's childhood bedroom at my aunt's house. Because that's where everyone else was having Boxing Day.
+
+443
+01:27:20.990 --> 01:27:24.290
+hugo bowne-anderson: Wild, absolutely wild. And it is. I mean.
+
+444
+01:27:24.530 --> 01:27:31.139
+hugo bowne-anderson: it's so exciting to be in this space at the moment. But it sometimes you. You do need a break, and it's tough when
+
+445
+01:27:31.410 --> 01:27:35.580
+hugo bowne-anderson: you know the shiny, amazing things are being released constantly.
+
+446
+01:27:36.290 --> 01:27:36.960
+Philip Kiely: Yeah.
+
+447
+01:27:37.432 --> 01:27:38.989
+hugo bowne-anderson: Where? Where are you from? Originally Philip?
+
+448
+01:27:39.530 --> 01:27:40.660
+Philip Kiely: I'm from Iowa.
+
+449
+01:27:40.660 --> 01:27:43.680
+hugo bowne-anderson: Oh, cool I am!
+
+450
+01:27:44.850 --> 01:27:46.909
+hugo bowne-anderson: Do you use the term Boxing Day? There.
+
+451
+01:27:47.560 --> 01:27:48.390
+Philip Kiely: Yeah.
+
+452
+01:27:48.390 --> 01:27:51.710
+hugo bowne-anderson: Oh, interesting! I didn't realize it was an American thing as well.
+
+453
+01:27:53.130 --> 01:27:54.849
+Philip Kiely: I I guess guess so. I don't know.
+
+454
+01:27:55.910 --> 01:28:01.660
+William Horton: I think only some parts of America but my dad's Canadian. So I grew up with it, but.
+
+455
+01:28:01.660 --> 01:28:02.299
+hugo bowne-anderson: Oh, yeah.
+
+456
+01:28:02.300 --> 01:28:05.479
+William Horton: Some people I some people I talk to are not familiar with it.
+
+457
+01:28:05.480 --> 01:28:10.769
+hugo bowne-anderson: Yeah, cause. I remember I lived in the Us for the best part of a decade, and I remember there were some people who were like, oh, what's Boxing Day? And I was like.
+
+458
+01:28:11.060 --> 01:28:15.782
+hugo bowne-anderson: it's the day after Christmas, and it's so important in in Australia as well.
+
+459
+01:28:16.400 --> 01:28:19.150
+William Horton: People drink so much. It's.
+
+460
+01:28:19.740 --> 01:28:34.290
+hugo bowne-anderson: I wish I was joking. Look! It is. It is time. It is with great pleasure that that I get to introduce Philip Keeley. Philip works on documentation, technical content and developer relations and developer experience at Base 10,
+
+461
+01:28:34.290 --> 01:29:00.650
+hugo bowne-anderson: which is in machine learning inference and AI inference platform. But a lot more than that. And Philip's going to tell us today a lot about how base 10 can be leveraged to go from prototype to production. Philip's, also a writer who's written writing for software developers which I'll link to in discord. He published that in 2020, and he says he'll publish another book before the next game of thrones comes out, so I can't wait
+
+462
+01:29:01.000 --> 01:29:17.269
+hugo bowne-anderson: for that. He's also a martial artist, as he just mentioned, and an avid reader. But without further ado, Philip, why don't I give you screen sharing privileges? And you can. You can take it away.
+
+463
+01:29:18.330 --> 01:29:19.859
+Philip Kiely: All right. Sounds good.
+
+464
+01:29:20.830 --> 01:29:33.149
+Philip Kiely: Let me just get everything pulled up. We just switched over to figma slides, which are very fancy. But have taken me a little bit of time to get used to. Oh, wait not share. I think I need to present, which is.
+
+465
+01:29:33.150 --> 01:29:41.450
+hugo bowne-anderson: Is it the same type of thing where, like like, it wants you to use its AI features which don't like really work that well, but sometimes do.
+
+466
+01:29:41.990 --> 01:29:50.605
+Philip Kiely: No, it's just actually you're making slides with, you know, professional design tools. So you can make nice looking stuff. But it takes a little bit of effort.
+
+467
+01:29:51.270 --> 01:30:11.759
+Philip Kiely: yeah, anyway. Hey, everyone. I'm Philip, and I'm going to be talking about AI influence in production. And yes, I am going to talk about base 10. But I try and keep a decent, you know, Alpha, to shell ratio. So hopefully, you know this. This has a little bit more stuff in it than a standard vendor pitch.
+
+468
+01:30:12.410 --> 01:30:36.639
+Philip Kiely: little bit of introduction. Hugo already did an amazing job there. But I lead developer relations here at Base 10 I'm based in the San Francisco Bay Area. I actually just moved here a few months ago. And I'm getting to know. I I know a lot of people in this course are probably in Sf, I'm getting to know all of your local sports teams. It's my policy because I grew up in Iowa, where there are no professional sports teams.
+
+469
+01:30:36.640 --> 01:30:49.660
+Philip Kiely: So now it's my policy. Whatever city I moved to, I cheer for that city's sports teams. So I've been having a a great time with the with the basketball and and football teams this season. They're doing pretty well sorry basketball and baseball.
+
+470
+01:30:50.101 --> 01:30:56.960
+Philip Kiely: And yeah, big open source model guy, so what are we going to talk about today?
+
+471
+01:30:57.300 --> 01:31:16.710
+Philip Kiely: We're gonna talk about what it takes to run influence in production. We're gonna talk about the journey of going from some of the things that you may be learning about and prototyping in this course to how you can maybe apply this stuff either in your day job, or if you start a startup as you scale or if you start a side project
+
+472
+01:31:16.870 --> 01:31:26.489
+Philip Kiely: and it goes super viral. Actually, one of our biggest customers kind of started that way. Then, yeah, this also becomes, very, very relevant.
+
+473
+01:31:27.990 --> 01:31:45.130
+Philip Kiely: I had a little sneak peek at the at the lesson plan for today that that Hugo put together, and it sounds like a lot of the last hour hour and a half was about how to build AI products going from objective to data to model development model evaluation
+
+474
+01:31:45.320 --> 01:31:51.730
+Philip Kiely: and talking about how that sort of workflow has changed. Going from an Ml. World to an AI world
+
+475
+01:31:51.990 --> 01:32:02.089
+Philip Kiely: so base. 10 kind of comes in at the end of that. At the end of that cycle to take the thing that you've built and scale it to the entire world.
+
+476
+01:32:03.900 --> 01:32:09.970
+Philip Kiely: Sorry I should not have eaten very dry popcorn right before giving a a public talk.
+
+477
+01:32:10.060 --> 01:32:37.889
+Philip Kiely: So as we think about, you know how AI tools are being consumed in these applications today they're kind of 2 extremes. One extreme is you just outsource everything you go with a closed source shared endpoint like Openai or anthropic. You don't think about the model. You don't think about the infrastructure. You don't think about anything other than how many tokens you're consuming and how much every single one of those tokens costs
+
+478
+01:32:38.160 --> 01:33:00.949
+Philip Kiely: on the complete other end of the spectrum. You can do everything yourself. You can get your own Gpus, set up your own model influence servers load your own model weights and wire up your own infrastructure. Do everything yourself. What we're gonna talk about today is kind of a middle path where you get most of the control of the Diy with most of the ease of the, you know, low overhead, close source stuff.
+
+479
+01:33:04.260 --> 01:33:23.640
+Philip Kiely: And the reason why this is so relevant today is because models are getting better, especially open source models. You can look at whatever you know, Pareto frontiers or price to performance frontiers. You you want? I think. Actually, everything's moving so fast that some of these are a little bit out of date by a month or 2.
+
+480
+01:33:23.640 --> 01:33:48.620
+Philip Kiely: But what we're seeing is consistently that open source models are, top 2 top, 3 on your choice of Elo bench, like Elo Arenas, benchmarks which you know, maybe can be gamed. Maybe not. Whatever sort of evaluation criteria is is your preferred way of looking at a model open source, is there. It's a really viable option in production today in a way that what it wasn't even a year ago
+
+481
+01:33:48.620 --> 01:33:50.770
+Philip Kiely: and definitely wasn't 2 years ago.
+
+482
+01:33:51.660 --> 01:33:52.980
+Philip Kiely: But what does that mean?
+
+483
+01:33:53.340 --> 01:34:14.860
+Philip Kiely: That means that, you know, in the future a lot of companies are gonna have many models running at massive scale everywhere. And I wanted to take a minute to kind of pause on on this slide. This is. This is one of my one of my favorite slides that I have in my arsenal? Because it talks about the process of of going into production.
+
+484
+01:34:15.030 --> 01:34:42.879
+Philip Kiely: So when when I think about you know shipping a project like a side project weekend project. I'm at a hackathon or something like I am not doing anything related to what base 10 does. To be completely honest, you know I am taking a off the shelf model. I'm taking an endpoint, and I'm integrating into into the application. And you know, maybe in a weekend I can burn through a million tokens if I try really hard. But honestly, probably not. So it's only gonna cost me a couple of dollars.
+
+485
+01:34:43.590 --> 01:34:58.569
+Philip Kiely: The interesting stuff happens when you start to go along the journey from that Alpha stage where you're just making a proof of concept into a full Mvp into building, you know, multiple node multiple region, multiple cloud infrastructure.
+
+486
+01:34:58.800 --> 01:35:05.510
+Philip Kiely: And I think that you know, a lot of people have a question of like when I should actually do this.
+
+487
+01:35:06.199 --> 01:35:15.909
+Philip Kiely: The the answer. You know it. It does kind of depend, but generally it comes down to like what pain points you're experiencing with that shared endpoint.
+
+488
+01:35:15.910 --> 01:35:38.970
+Philip Kiely: and whether or not, you know, it's it's worth it to to make the jump, and it being worth it, can actually come a lot later than than you might expect. You know, we generally see people when they're spending. I don't know $10,000 a month on inference. Start to think about. You know, here's how I start to progress into the self hosted world, into the dedicated deployment world.
+
+489
+01:35:39.278 --> 01:36:08.709
+Philip Kiely: So there's like a lot of space in the shared Endpoint world to explore before you get there. And I do wanna make sure that you know we're I'm not. I'm not trying to. I'm not trying to like sell anyone on dedicated deployments here. It's more that I want you to understand where they come in, where it makes sense to switch over and where you can get away with not using them, because, you know, at small scale there is a lot of advantage to just being able to pay Per Token and not really think about anything else.
+
+490
+01:36:11.230 --> 01:36:36.050
+Philip Kiely: So, diving into the actual breakdown here, shared endpoints versus dedicated deployments. And and just to make sure that we have a shared definition here. So a shared influence endpoint is like the chat Gpt. Api, where you hit Gpt flow, you hit, you know, sonnet 3.5 on anthropic and you just send an Api call. You get back a response. You hitting the same Api endpoint as everyone else.
+
+491
+01:36:36.422 --> 01:36:59.040
+Philip Kiely: Versus a dedicated deployment is when you spin up a Gpu. This can be a Gpu in your, you know basement. This can be a Gpu in your data center that you own on premise. This can be a Gpu in your Aws. Vpc, your Google Cloud, Vpc, or you know, if I do my job today, it can be a Gpu running on base 10
+
+492
+01:36:59.358 --> 01:37:13.870
+Philip Kiely: or a inference provider that sit on top of these public clouds to provide these gpus. And then you're taking that, Gpu, you're putting a model server on it, and only your traffic is going to that model server. So you're not sharing it with other developers.
+
+493
+01:37:14.870 --> 01:37:21.929
+Philip Kiely: The advantage of the shared influence endpoints is like I've been saying, it's really easy to get started. You just make an Api key.
+
+494
+01:37:22.080 --> 01:37:28.250
+Philip Kiely: I could go, you know, make a new open AI account and get my 1st influence. Call in like 5 min flat.
+
+495
+01:37:28.350 --> 01:37:34.370
+Philip Kiely: and you only pay for the tokens you use. You don't have to think about cold start times. You don't have to think about paying per minute of hardware.
+
+496
+01:37:34.900 --> 01:37:58.129
+Philip Kiely: but there's a bunch of downsides that start to emerge as you get to scale one big one is just like no visibility or control over the model. So if you know, tomorrow they make a new model, and they want to deprecate the one you've been using. You're out of luck. If the models getting really expensive to serve and they decide to quantize it, and your use case happens to be the one that used those
+
+497
+01:37:58.130 --> 01:38:05.910
+Philip Kiely: you know, outlier weights that just got smushed in. And now the model sucks too bad. There's not really anything you can do about it.
+
+498
+01:38:06.417 --> 01:38:33.280
+Philip Kiely: You also have limited privacy and compliance options. Honestly, they're getting a lot better with that all the shared Endpoint providers are now, you know, signing Baas, and you know, doing that kind of stuff. But you know you'd still get structurally less privacy and compliance options than you do with dedicated. Also, if you have, like regional compliance options, those can be a little bit more difficult to to comply with on a on a shared endpoint basis.
+
+499
+01:38:33.820 --> 01:38:57.930
+Philip Kiely: And the big issue is that, like everyone else, is using these things too. So if you know. I just have my app, and it's chugging along, and Hugo makes a better app, and it's, you know, going viral on Twitter and sending a ton of traffic to the shared endpoint. Then my app goes. You know my app gets slow or weight limited, or even the endpoint that I'm relying on goes down because of his traffic, not because of mine.
+
+500
+01:38:59.320 --> 01:39:18.729
+Philip Kiely: So yeah, those are. There's just like a a large number of of challenges with these shared inference endpoints, dedicated deployments. It's kind of the opposite. Like all of the bet. All of the downsides of shared inference endpoints are the benefits of dedicated deployments. They're private. They're secure. They're cost efficient at scale. They're highly reliable. But
+
+501
+01:39:18.730 --> 01:39:32.140
+Philip Kiely: on the flip side the challenge of dedicated deployments is the same as the benefit of shared inference. It's a lot harder to get started, and if you're only running at small scale, it's a terrible price for each token.
+
+502
+01:39:33.100 --> 01:39:37.179
+Philip Kiely: But we're gonna talk about how to, you know, deal with some of these challenges.
+
+503
+01:39:38.180 --> 01:39:50.439
+Philip Kiely: I want to. You know. Pause here, maybe for a second, and just check in make sure. See if there's any questions around. You know the shared versus dedicated breakdown. And when each one is more appropriate.
+
+504
+01:39:53.940 --> 01:39:55.860
+Philip Kiely: if not, it's all good, we will.
+
+505
+01:39:55.860 --> 01:40:03.609
+hugo bowne-anderson: I think we're good. We're. I'm monitoring questions in the in the discord, and we haven't had any questions about that. So.
+
+506
+01:40:04.110 --> 01:40:05.450
+Philip Kiely: Cool sounds good.
+
+507
+01:40:05.640 --> 01:40:33.650
+Philip Kiely: So when I talk about being able to make your own trade offs with dedicated deployments, like, what are you actually able to choose between. So it's kind of that, like old saying, like good, cheap, fast pick 2 while there's some optimizations that can get you advancements in all 3. Generally you are choosing one or 2 things that you care a lot about, and trading off the other one. A great example, very topical example of this is with Llama 4.
+
+508
+01:40:33.650 --> 01:40:58.360
+Philip Kiely: So if you want to serve Llama 4 scout, which has a 10 million token context window, and you want to actually be able to use the whole context window. You need to allocate way more hardware to this model than you would otherwise a 100 billion parameter model like this. Usually you can run it on like 4 h. 100 s. And get pretty great performance. But if you do that, you're only going to get a few 100,000 tokens of context.
+
+509
+01:40:58.638 --> 01:41:05.879
+Philip Kiely: If you bump it up to 8 XH. 100, you're paying for a full node then you can get, you know, maybe like
+
+510
+01:41:06.190 --> 01:41:22.240
+Philip Kiely: 3.6 million tokens. Bump it up to h 200 s. Then you get you know about 8 million. All of this is on Vllm. Based on the the benchmarks we ran over the weekend. So this is like a pretty big price jump. You know you can. You can be spending
+
+511
+01:41:22.270 --> 01:41:43.399
+Philip Kiely: 4 x as much on hardware, basically, for the you know, for the same model. Just to get extra context window. And there's also a performance hit, you know, even if you do, all of the optimizations around like Kv cache, reuse and other sort of pre-fill reuse optimizations. There's still a performance hit to processing. You know, those really long inputs.
+
+512
+01:41:43.550 --> 01:42:04.939
+Philip Kiely: So those are the sort of those are the sort of trade offs that you can make when you are doing it yourself on dedicated deployments. You can decide like, Hey, do I want to support this really long context because it makes sense for what I'm working on and I'm willing to pay that extra money for it. Or do I want to, you know, shut it down and and just do the short context.
+
+513
+01:42:07.830 --> 01:42:23.330
+Philip Kiely: But you know, actually doing this in production is is pretty tough. You have these kind of 4 related problems around model management model infrastructure, model performance. And then the AI engineering that glues it all together.
+
+514
+01:42:24.050 --> 01:42:37.080
+Philip Kiely: And then, even if you get that right, you have to kind of like replicate it across a bunch of clouds. We use 7 different public cloud providers at Base 10. Everyone has their own set of.
+
+515
+01:42:37.080 --> 01:42:56.369
+Philip Kiely: you know, abstractions their own, you know little little differences like, for example. Oh, if you want to do multi node inference where you take more than 8 gpus connect them together and want to influence on that. Okay, great is your cloud provider using infiniband, or they're using some other spec where the node to node communication throughput is not as high.
+
+516
+01:42:56.530 --> 01:42:58.929
+Philip Kiely: which which actually a lot do.
+
+517
+01:42:59.080 --> 01:43:15.659
+Philip Kiely: So those are the sort of challenges that you have to work around as you're going from cloud to cloud. And that makes you know this whole diagram. Then you take this, multiply it by 7 or however many public clouds you're using to be able to, you know, host, this stuff worldwide.
+
+518
+01:43:16.610 --> 01:43:31.259
+Philip Kiely: So that's kind of where baseline comes in. We are a production grade inference, infrastructure company providing model performance, tooling, model management platform cloud, native infrastructure sort of off the shelf as well as
+
+519
+01:43:31.470 --> 01:43:47.030
+Philip Kiely: a support function through embedded AI engineers or forward deployed engineering team to kind of help. Companies scale from a single node to multiple nodes, multiple regions, multiple clouds all while serving both standard and compound. AI workloads.
+
+520
+01:43:48.417 --> 01:43:55.900
+Philip Kiely: People choose base 10 for generally like mission critical workloads. We are, you know, a.
+
+521
+01:43:56.080 --> 01:44:13.439
+Philip Kiely: we're really focused on like running the largest models. Stuff like deep. Seek r 1 as well as running in regulated industries like finance and healthcare. And again, it's those 4 pillars, the performance, the infrastructure, the tooling and the support that we try and bring to the table.
+
+522
+01:44:13.860 --> 01:44:31.489
+Philip Kiely: With that we've been able to work with a lot of really cool companies. We are powering, you know, for every logo that you see up on the screen and dozens that you don't. We're powering these, you know, sort of core workloads. We are there generally like the primary infrastructure provider for AI workloads.
+
+523
+01:44:32.004 --> 01:44:47.879
+Philip Kiely: And yeah, so that's kind of the that's kind of the the sales pitch, I guess. But I don't really want to spend a ton of time on sales pitches. I want to show you how you can actually use your $1,000 of credits. Because that is a lot more fun.
+
+524
+01:44:49.090 --> 01:44:53.599
+Philip Kiely: So again, you know.
+
+525
+01:44:54.440 --> 01:45:06.960
+Philip Kiely: as I as I've been as I've been talking about base 10 is really for these like high volume production use cases. So if you're just like building a, you know, a weekend project building a demo in this course.
+
+526
+01:45:06.960 --> 01:45:27.580
+Philip Kiely: you're not necessarily going to see a ton of the value of this kind of platform. And in many cases you are going to be better off running on shared endpoints. For for these low volume use cases. But the point of the credits is basically to make it so that cost isn't an issue. With.
+
+527
+01:45:27.580 --> 01:45:51.090
+Philip Kiely: you know where, where you're saying, okay, why am I spinning up a couple of H. 100 s. Just to, you know. Serve my own traffic so that you can actually start to experiment with the level of control that you get from dedicated deployments. So that you understand what options you have once once you do hit scale with some of these projects. Also, if you know, just shout out like, if if any of you are, you know, working at a
+
+528
+01:45:51.090 --> 01:45:59.818
+Philip Kiely: at a company where you think this would make sense definitely hit me up and I will get you. You know the the full the full blooded access with the
+
+529
+01:46:00.510 --> 01:46:02.835
+Philip Kiely: with the you know, whole
+
+530
+01:46:04.030 --> 01:46:08.466
+Philip Kiely: legitimate sales cycle rather than the the Philip Devwell cycle.
+
+531
+01:46:09.140 --> 01:46:34.160
+Philip Kiely: But yeah. So when you when you come in here, you know, you can see in our model library a bunch of models that you might want to start with. And so let's say, you know, you are really interested in working on reasoning models. And so you want to maybe try like a a deepseq model. Maybe one of these distilled deep seek models. So you'd come in here, and the easiest way that you can get started is just you click deploy model. Come over here.
+
+532
+01:46:34.160 --> 01:46:44.269
+Philip Kiely: It you know you you gotta give it the hugging face token so that it knows that you have access through hugging face. But yeah, you just get an instance. You just deploy it off the shelf super easy.
+
+533
+01:46:44.650 --> 01:46:58.829
+Philip Kiely: That's, you know, great for getting started. But it doesn't actually get you that far into that customization path where you can actually get a lot deeper, is if you go into so the way I got here is, I just click the view repository link
+
+534
+01:46:58.890 --> 01:47:27.779
+Philip Kiely: and I got into the trust examples. So this is, you know, hundreds and hundreds of model implementations that we've made. And this lets me start to get into the tensor. Otllm build configuration. So in this case, you know, I have details around like how many Gpus, I'm using my tensor parallel count. I have different plugins that I can turn it off and on different sequence lengths. I can also, I should have
+
+535
+01:47:27.810 --> 01:47:30.032
+Philip Kiely: hold this one up ahead of time.
+
+536
+01:47:36.879 --> 01:47:46.730
+Philip Kiely: yeah. I can also, for example, find one that is using speculative decoding. So
+
+537
+01:47:47.000 --> 01:47:55.040
+Philip Kiely: I can, you know. Add a speculator model to this same kind of config. So I can basically
+
+538
+01:47:55.230 --> 01:48:22.909
+Philip Kiely: add a and and all all this, by the way, is in the documentation. I can add a smaller model and try and see how much performance lift. I get on. You know, one type of input versus another type, because speculative decoding is, of course, very dependent on the actual input that you're putting in here. So yes. So with with this, you can actually do a lot more to kind of experiment with these different models.
+
+539
+01:48:23.460 --> 01:48:43.351
+Philip Kiely: and and the different levers that are available to you in dedicated deployments. The other thing I would really encourage you to do is go beyond just language models and think about what you can build from more of a multimodal sense. I know this course is maybe called. I think Llm. Is in the title of this course, but there's a lot of great models outside of Llms.
+
+540
+01:48:43.640 --> 01:49:06.920
+Philip Kiely: whisper is, of course, a great model to play with for audio transcription. If you want to build rag and agents. We just published a bunch of new text embedding models. Using a new optimized embedding runtime, which is twice as fast as Tei or Vlm or other industry standards. So you can, you know, use this for something like chroma or pinecone
+
+541
+01:49:06.940 --> 01:49:18.350
+Philip Kiely: or Mongodb and build, you know, rag and agent type stuff. We have really great speech speech synthesis models. Where is it?
+
+542
+01:49:18.906 --> 01:49:32.473
+Philip Kiely: Orpheus is one that's come out recently. That's kind of been like a llama moment for text to speech, where you're able to, you know, actually generate some very, very lifelike speech. With this model.
+
+543
+01:49:33.430 --> 01:49:55.520
+Philip Kiely: and yeah, of course, like image generation, we have all the all the hot ones there. So yeah, that's that's kind of my. My biggest recommendation is to, you know, as you're exploring this world. Not just stick with Llms. But also look at all these other modalities, how you can plug them together, and how you can start to make really interesting things with that.
+
+544
+01:49:56.707 --> 01:50:21.340
+Philip Kiely: So yeah, one quick note on the credits. Is just like, if you want to get started with those, just please make a base 10 account before you email me, I cannot issue you credits if you don't have an account. And then email me from the account or from the email that's associated with your base 10 account, so that I know where to find it. I will be going through probably tomorrow morning, and issuing
+
+545
+01:50:21.340 --> 01:50:28.100
+Philip Kiely: a bunch of those. When you make your account, you get like 30 bucks of credit. So hopefully, you don't burn through those overnights.
+
+546
+01:50:28.349 --> 01:50:33.339
+Philip Kiely: But yeah, I'll be at the airport tomorrow, approving all of these requests on my way to Google Cloud next
+
+547
+01:50:33.997 --> 01:50:56.259
+Philip Kiely: in terms of resources and inspiration for what? To look at, definitely would recommend the blog. Not just because I wrote most of these, I think. Actually, some of them are kind of good and then we also have just launched new revamped documentation. That will walk you through. You know, a bunch of examples of you know how to build stuff.
+
+548
+01:50:56.260 --> 01:51:12.469
+Philip Kiely: a bunch of information about how to call the model, how to manage your deployments, what kind of observability you get, as well as a complete Api reference. If you want to start diving into more of like mlop stuff. You know how to build Cicd pipelines, that kind of stuff around models.
+
+549
+01:51:16.550 --> 01:51:17.770
+Philip Kiely: That's my show.
+
+550
+01:51:18.430 --> 01:51:19.370
+hugo bowne-anderson: Ashfield.
+
+551
+01:51:19.640 --> 01:51:42.370
+hugo bowne-anderson: That was. That was fantastic. We've got it. We've got several great questions in the chat which I'll get people to turn their mics on to ask themselves in a second. I also I've so I've had a wonderful experience with base 10 support. We're not offering support from base 10 in our discord. But my understanding is, if people ping support, they should be relatively quick in being able to help help with stuff.
+
+552
+01:51:42.910 --> 01:52:07.890
+Philip Kiely: Yeah, yeah. So we we try and give, you know, good support to everyone. Self service or enterprise. So yeah, absolutely stick with the stick with the support channel. Just, you know, like I said, we just we just did revamp docs. So hopefully, that's able to catch a bunch of stuff, but if not definitely, don't hesitate to hit us up. If it's something close or credit related, feel free to reach out to me directly.
+
+553
+01:52:08.230 --> 01:52:24.129
+hugo bowne-anderson: Awesome. I really appreciate it, and of course we'll try to help help each other as well before before pinging you. Caleb Tutti has a great question, Caleb, would you mind just asking your question? Maybe you could just start by introducing yourself what what you do and and where you are, so we'll have a bit more context.
+
+554
+01:52:24.910 --> 01:52:37.616
+Caleb Tutty: Sure. Yeah, Hi, I'm I'm Caleb. So I do. Consulting one of the projects that I work on is ASR into the legal domain.
+
+555
+01:52:38.140 --> 01:52:53.337
+Caleb Tutty: and we we do. Yeah, sort of a number of different projects with sort of Llms. I I guess the question I was wondering about is, I guess, just looking at costs, and when it's
+
+556
+01:52:54.020 --> 01:53:16.829
+Caleb Tutty: when it makes sense, maybe to have sort of a dedicated endpoint. Is it common with other customers to do batch workloads, maybe. Is this sort of infrastructure code kind of tools I saw you showed some gamble there to maybe sort of set up, do a batch job and then shut shut down. So the instance is that a common or good use case with base 10.
+
+557
+01:53:17.970 --> 01:53:21.150
+Philip Kiely: Yeah, that's a great question, Caleb, and
+
+558
+01:53:21.580 --> 01:53:43.887
+Philip Kiely: I would definitely love to learn a little bit more. Maybe you could send me an email or something about what you're working on on that ASR stuff because we have done a ton of whisper optimizations, and cancer of legal and other regulated industries. Anyway, to answer your question directly about batch workloads. I think that's actually a great use case for dedicated deployments.
+
+559
+01:53:44.220 --> 01:53:52.760
+Philip Kiely: you do have batch Apis on stuff like Openai's Gpt. Api, where generally they'll give you, I think, 50% off on a per token basis.
+
+560
+01:53:53.184 --> 01:54:11.849
+Philip Kiely: But if you are not latency constrained, which is exactly the definition of a batch workload. You're able to go on a Gpu and massively increase your throughput, your batch size and and gpus the throughput machines right? They're really good at large batches.
+
+561
+01:54:11.850 --> 01:54:27.599
+Philip Kiely: So you're able to get a really really high tokens per second out of that on, not on like a per user basis, but on a per Gpu basis, which makes your effective cost per token very, very low. So if you have large batches and each batch is, you know.
+
+562
+01:54:27.890 --> 01:54:31.922
+Philip Kiely: millions, tens of millions, hundreds of millions of tokens.
+
+563
+01:54:32.540 --> 01:54:35.179
+Philip Kiely: it can actually make a lot of sense to
+
+564
+01:54:35.540 --> 01:54:49.999
+Philip Kiely: to run those on a dedicated deployment. You you, in fact, with base 10, even get auto scaling. So you don't even really have to do a lot to set it up and tear it down. You just kind of like send a ping and say, Hey, I need some gpus.
+
+565
+01:54:50.000 --> 01:55:06.959
+Philip Kiely: The other great thing with batch look is, especially if you're on like a daily or weekly cycle where you have maybe like a 24 h turnaround type of sla you can often get great pricing from Gpu providers, if you are taking up Gpus at off peak times.
+
+566
+01:55:07.870 --> 01:55:10.600
+Philip Kiely: and that can help with the pro token price even more.
+
+567
+01:55:12.010 --> 01:55:12.979
+Caleb Tutty: Cool. Thank you.
+
+568
+01:55:13.640 --> 01:55:20.719
+hugo bowne-anderson: Thanks so much. Philip and and Rafi had a a great question. Maybe you could turn your your microphone on Rafi and introduce yourself and.
+
+569
+01:55:23.890 --> 01:55:25.450
+rafiolaverria: Hey? All! Can you hear me?
+
+570
+01:55:25.450 --> 01:55:25.820
+hugo bowne-anderson: Yeah.
+
+571
+01:55:25.820 --> 01:55:26.430
+Philip Kiely: Yep.
+
+572
+01:55:27.210 --> 01:55:36.900
+rafiolaverria: Hey? I'm Raphael, Maria. I am a senior software engineer team lead at a startup. Responsible for the Llm applications.
+
+573
+01:55:37.320 --> 01:55:41.190
+rafiolaverria: And I just build some fun almost every day.
+
+574
+01:55:41.380 --> 01:55:45.610
+rafiolaverria: And one of my questions, one thing I've been trying to do
+
+575
+01:55:45.770 --> 01:55:48.800
+rafiolaverria: is learning Llms on transcripts.
+
+576
+01:55:48.910 --> 01:55:50.960
+rafiolaverria: so doing, a lot of streaming audio.
+
+577
+01:55:51.190 --> 01:55:54.299
+rafiolaverria: The is that supported? Or is that something? I had to implement myself.
+
+578
+01:55:56.048 --> 01:56:17.070
+Philip Kiely: Streaming audio input, we just actually built Websocket support. It's still in beta but is potentially, gonna actually, I think we released documentation for it. It's definitely at a place where you can play with it. But it's probably not yet ready for like a a really large scale production use case should be ready, though in a couple of weeks.
+
+579
+01:56:20.590 --> 01:56:25.399
+hugo bowne-anderson: So yeah, save save some of those 1,000 credits. Only spend 500 in the next couple of weeks, Rafi.
+
+580
+01:56:26.710 --> 01:56:55.429
+hugo bowne-anderson: So, Philip, we're going to wrap up in a second. Firstly, just thank you so much for your time, and also thank you and all of base 10 for this incredibly generous sponsorship and and be involved with the course, and we all appreciate it so much. We. We have a question from Vishrut which is is based in similar in offering to things like Microsoft, azure aws bedrock these types of things, and I can say from my perspective of using all of these, that
+
+581
+01:56:55.830 --> 01:57:11.669
+hugo bowne-anderson: the level of abstraction for base 10 is far more appropriate for the type of work I want to do like. It's relatively high level of abstraction. It's model and app focus, whereas azure bedrock seem to me like infra focus pretty pretty low level. But I'm wondering on your take, and just
+
+582
+01:57:12.010 --> 01:57:24.620
+hugo bowne-anderson: if you can give any insight around how to think about the space more generally, just because there are a bazillion. And we have something called the mad landscape literally because of this space. Right? So how you think about, you know, tools in the space more generally.
+
+583
+01:57:25.450 --> 01:57:53.420
+Philip Kiely: I, I actually have a whole market map talk track which probably takes more than 15 seconds to get through. Generally, if you're looking at a influence platform from a Csp a cloud service provider. So like you were talking about bedrock, sagemaker, votex azure AI foundry. You're generally gonna run into a lot of the same like shared influence endpoint limitations with those you might be able to kick the can down the road a little bit further with some of these.
+
+584
+01:57:53.470 --> 01:58:17.060
+Philip Kiely: but generally we find that when developer teams switch from a Csp platform like that to a dedicated platform like Base 10 they end up with much better performance. Better pricing as well as just like better support. You know. I don't know if you've ever tried to go through. Aws support. It's it's not legendarily amazing. And
+
+585
+01:58:17.060 --> 01:58:32.040
+Philip Kiely: so yeah, it's it's definitely a a pretty direct competitor in that same space of going from that kind of offering within the Csp to a offering that sits on top of multiple Csps and is able to kind of leverage the best of everyone.
+
+586
+01:58:33.230 --> 01:58:36.140
+hugo bowne-anderson: Awesome. Well, thank you so much. It's
+
+587
+01:58:36.260 --> 01:58:49.880
+hugo bowne-anderson: we're we're at time. It's it's time to wrap up, but really appreciate your time and hope you travel safe, and don't have to give away too many, too many credits at the at the airport or not. The amount of credits, just the amount of time. Hope you get the chill as well.
+
+588
+01:58:49.880 --> 01:58:57.390
+Philip Kiely: It'll be great. Yeah, definitely hit me. Send me an email. Hit me up for credits. And if you have any remaining questions for my talk. I do have
+
+589
+01:58:57.640 --> 01:59:02.439
+Philip Kiely: a link to the discord. Drop them in the discord, and I'll swing by tomorrow and answer them
+
+590
+01:59:02.440 --> 01:59:06.600
+Philip Kiely: fantastic. And are you at liberty to share your slides in the discord as well cause people love.
+
+591
+01:59:06.670 --> 01:59:09.860
+Philip Kiely: Yeah, I'll drop by and and put those out as well.
+
+592
+01:59:09.860 --> 01:59:13.059
+hugo bowne-anderson: Fantastic. Well, safe travels, my man, and be in touch soon.
+
+593
+01:59:13.560 --> 01:59:14.679
+Philip Kiely: All right. Sounds good.
+
+594
+01:59:14.680 --> 01:59:16.209
+hugo bowne-anderson: Thank you. And everyone.
+
+595
+01:59:16.210 --> 01:59:18.869
+Philip Kiely: Thank you so much for having me. Thanks everyone for your time today.
+
+596
+01:59:18.870 --> 01:59:20.759
+hugo bowne-anderson: Such a pleasure. Thanks, Philip.
+
+597
+01:59:22.210 --> 01:59:28.784
+hugo bowne-anderson: and everyone else. It's it's time to time to wrap up. I just want to give Philip one more round of applause. Great
+
+598
+01:59:29.560 --> 01:59:52.879
+hugo bowne-anderson: It is time to wrap up. We do have 2. As as I mentioned before, we have an just an onboarding form. A lot of you have completed it, but if you're if you haven't, and able to, this will allow us, it'll let us know where you are. What you're interested in, and it will allow us to set up the office hours that that we're going to with our wonderful builders in residence as well. Once again I will share with you
+
+599
+01:59:52.900 --> 02:00:06.409
+hugo bowne-anderson: the feedback form. A bunch of you have already provided a lot of valuable feedback in there, which we'll use to iterate quickly on how we, how we teach and how we approach this course. I'm going to share that in the discord chat also.
+
+600
+02:00:06.690 --> 02:00:19.940
+hugo bowne-anderson: So it's there. But that's it for today, and we'll see you on discord, and we'll see you in 46 h for the next workshop as well. So thanks everyone, and thanks for a great 1st session.
+
