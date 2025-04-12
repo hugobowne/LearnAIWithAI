@@ -27,7 +27,7 @@ except ImportError:
     from utils import load_workshop_transcript
 
 # === CONFIG SECTION ===
-WORKSHOP_TRANSCRIPT_PATH = "/data/WS1.vtt"
+WORKSHOP_TRANSCRIPT_PATH = "/data/WS1-C2.vtt"
 CHROMA_DB_PATH = "chroma_db"
 COLLECTION_NAME = "workshop_chunks"
 EMBEDDING_MODEL = "text-embedding-3-small"
