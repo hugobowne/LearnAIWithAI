@@ -1,24 +1,6 @@
 # Standalone RAG + Feedback App (Modal Deployable)
 
-This repository contains a simplified implementation of a Retrieval Augmented Generation (RAG) system with user feedback capabilities, deployable using Modal. **It serves as the starting point for exploring Evaluation-Driven Development (EDD) in the context of building LLM applications.**
-
-## Features
-
-- Core RAG functionality:
-  - VTT transcript parsing (default: `data/WS1-C2.vtt`)
-  - Text chunking
-  - Vector storage with ChromaDB
-  - Semantic search
-  - Response generation
-  - Source citation
-- SQLite logging system (`logs.db`) capturing interactions and feedback.
-- **Persistent Logging:** Logs are stored persistently across deployments using a `modal.Volume` named `rag-app-logs`.
-- **User Feedback:** Gradio interface allows users to rate responses (PASS/FAIL) and provide reasons/notes.
-- Modal deployment configuration (`src/app-modal.py`) including:
-  - Web interface using Gradio named `query-workshop`
-  - API endpoints with FastAPI (including `/logs`)
-  - Persistent volume setup
-  - Cloud deployment readiness
+Welcome! 👋 We're excited to build this application together as part of the **Building LLM Applications for Data Scientists and Software Engineers** course. This repository provides the starting point for our hands-on exploration.
 
 ## Learning Objectives & Project Goal
 
@@ -37,6 +19,24 @@ This first version is intentionally simple. As we progress through the course, w
 *   Consider advanced patterns, such as creating **agents** that could potentially search external resources or use tools if the answer isn't found directly in the transcript.
 
 The aim is to iteratively improve the application, guided by continuous evaluation – the core principle of EDD.
+
+## Features
+
+- Core RAG functionality:
+  - VTT transcript parsing (default: `data/WS1-C2.vtt`)
+  - Text chunking
+  - Vector storage with ChromaDB
+  - Semantic search
+  - Response generation
+  - Source citation
+- SQLite logging system (`logs.db`) capturing interactions and feedback.
+- **Persistent Logging:** Logs are stored persistently across deployments using a `modal.Volume` named `rag-app-logs`.
+- **User Feedback:** Gradio interface allows users to rate responses (PASS/FAIL) and provide reasons/notes.
+- Modal deployment configuration (`src/app-modal.py`) including:
+  - Web interface using Gradio named `query-workshop`
+  - API endpoints with FastAPI (including `/logs`)
+  - Persistent volume setup
+  - Cloud deployment readiness
 
 ## Setup
 
