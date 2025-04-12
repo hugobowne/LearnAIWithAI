@@ -10,7 +10,7 @@ image = (
 )
 
 # Define the Modal app
-app = modal.App("rag-app", image=image)
+app = modal.App("query-workshop", image=image)
 
 # Define persistent volume for logs
 logs_db_storage = modal.Volume.from_name("rag-app-logs", create_if_missing=True)
