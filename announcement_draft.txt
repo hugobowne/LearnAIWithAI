@@ -1,0 +1,33 @@
+Subject: 🚀 Let's Build AI! Workshop Q&A Code Examples & Your Starting Point!
+
+Hey @everyone,
+
+Exciting news! 🎉 I've set up a code repository with examples to support our **Building LLM Applications** course, and it's ready for you to dive into!
+
+Remember that RAG Q&A app I shared last week (the one hosted on Modal)? That more advanced application is included in this repository as a great example of a full RAG system (`src/simple_rag.py` & `src/app-modal.py`).
+
+**But, for starting your hands-on work in the course, let's begin with something simpler!** 💡
+
+➡️ In the repository, you'll find `src/basic_qa.py`. This is a basic command-line Q&A script designed as **your starting point** for applying course concepts.
+
+**Get ready to Build AI to Learn AI!** 🧠 ➡️ 🤖
+
+Here's how to get started:
+
+1.  **Clone the repository:**
+    *   [Link to your GitHub Repo - e.g., https://github.com/hugobowne/LearnAIWithAI]
+2.  **Check out the `README.md`:** 📄 
+    *   It has setup instructions and details on these examples.
+3.  **Run `src/basic_qa.py`:** 💻
+    *   See the README for the command (`python src/basic_qa.py "Your question?"`).
+    *   It lets you query the workshop transcript directly from your terminal!
+4.  **Start experimenting!** 🧪
+    *   This script is your foundation. Use what you're learning in the course to modify it, try different prompts, test models, and maybe even tackle its limitations (like how it handles long transcripts).
+
+This is your chance to get hands-on and build your own AI tools using our workshop content. 🛠️ You can even use the Q&A systems you build to help you study the workshop material!
+
+Explore the repo, start with `basic_qa.py`, and let the building begin!
+
+Best,
+
+[Your Name] 
