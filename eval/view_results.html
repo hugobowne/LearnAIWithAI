@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Results Viewer</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .record {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        .record h3 {
+            margin-top: 0;
+            font-size: 1.1em;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .field strong {
+            display: block;
+            color: #555;
+            margin-bottom: 3px;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .human-feedback, .llm-judge {
+            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .human-feedback { background-color: #eef; }
+        .llm-judge { background-color: #efe; }
+        .PASS { color: green; font-weight: bold; }
+        .FAIL { color: red; font-weight: bold; }
+        pre { /* Style for response */
+            white-space: pre-wrap; /* Wrap long lines */
+            word-wrap: break-word; /* Break words if necessary */
+            background-color: #eee;
+            padding: 8px;
+            border-radius: 4px;
+            max-height: 200px; /* Limit height */
+            overflow-y: auto; /* Add scroll if needed */
+        }
+    </style>
+</head>
+<body>
+    <h1>Evaluation Results Comparison</h1>
+    <div id="results-container">
+        <!-- Results will be loaded here by JavaScript -->
+    </div>
+
+    <script>
+        // JavaScript to load and display results will go here
+        const resultsContainer = document.getElementById('results-container');
+        const jsonPath = 'test-set-llm-judged.json'; // Relative path to the JSON file
+
+        fetch(jsonPath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error('Loaded data is not an array.');
+                }
+                resultsContainer.innerHTML = ''; // Clear loading/placeholder text
+
+                data.forEach((item, index) => {
+                    const recordDiv = document.createElement('div');
+                    recordDiv.className = 'record';
+
+                    // Question
+                    const questionHeader = document.createElement('h3');
+                    questionHeader.textContent = `Record ${index + 1}: ${item.question || 'N/A'}`;
+                    recordDiv.appendChild(questionHeader);
+
+                    // Response
+                    const responseDiv = document.createElement('div');
+                    responseDiv.className = 'field';
+                    responseDiv.innerHTML = `<strong>Response:</strong>`;
+                    const responsePre = document.createElement('pre');
+                    responsePre.textContent = item.response || 'N/A';
+                    responseDiv.appendChild(responsePre);
+                    recordDiv.appendChild(responseDiv);
+
+                    // Comparison Section
+                    const comparisonDiv = document.createElement('div');
+                    comparisonDiv.className = 'comparison';
+
+                    // Human Feedback Column
+                    const humanDiv = document.createElement('div');
+                    humanDiv.className = 'human-feedback';
+                    const humanVerdict = item.feedback_rating || 'N/A'; // Handle null
+                    const humanReason = item.feedback_reason || 'No reason provided.';
+                    humanDiv.innerHTML = `<strong>Human Feedback:</strong>
+                                        <p>Verdict: <span class="${humanVerdict}">${humanVerdict}</span></p>
+                                        <p>Reason: ${humanReason}</p>`;
+                    comparisonDiv.appendChild(humanDiv);
+
+                    // LLM Judge Column
+                    const llmDiv = document.createElement('div');
+                    llmDiv.className = 'llm-judge';
+                    const llmVerdict = item.llm_judge_verdict || 'N/A'; // Handle null
+                    const llmReason = item.llm_judge_reason || 'No reason provided.';
+                    llmDiv.innerHTML = `<strong>LLM Judge:</strong>
+                                      <p>Verdict: <span class="${llmVerdict}">${llmVerdict}</span></p>
+                                      <p>Reason: ${llmReason}</p>`;
+                    comparisonDiv.appendChild(llmDiv);
+
+                    recordDiv.appendChild(comparisonDiv);
+
+                    resultsContainer.appendChild(recordDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading or processing evaluation results:', error);
+                resultsContainer.innerHTML = `<p style="color: red;">Error loading results: ${error.message}. Please check the console and ensure '${jsonPath}' exists and is valid JSON.</p>`;
+            });
+    </script>
+</body>
+</html> 
