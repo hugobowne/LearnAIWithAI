@@ -1,0 +1,19 @@
+{
+    "baseline_version_name": "Human Feedback v1",
+    "based_on_num_rated": 53,
+    "based_on_total_records": 68,
+    "source_file": "test-set.csv",
+    "quality": {
+        "pass_rate_pct": 75.47169811320755
+    },
+    "latency_seconds": {
+        "average": 1.8460950356609416,
+        "p95": 3.3268148899078365
+    },
+    "tokens_total": {
+        "average": 10194.207547169812
+    },
+    "estimated_cost_usd": {
+        "average": 0.0015257603773584905
+    }
+}

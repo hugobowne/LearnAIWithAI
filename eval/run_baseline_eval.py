@@ -57,10 +57,12 @@ The next iteration of the evaluation harness would likely involve:
 import pandas as pd
 import numpy as np
 import os
+import json # Import json
 
 # --- Configuration ---
 TEST_SET_PATH = os.path.join(os.path.dirname(__file__), "test-set.csv")
 BASELINE_VERSION_NAME = "Human Feedback v1" # Identifier for this baseline
+OUTPUT_METRICS_PATH = os.path.join(os.path.dirname(__file__), "baseline_metrics.json") # Output file
 PROMPT_OVERHEAD_TOKENS = 100 # Assumed tokens for system prompt, question text etc.
 
 # --- Pricing (Approximate - Update as needed!) ---
@@ -180,6 +182,43 @@ def main():
     rated_df['estimated_cost_usd'] = rated_df.apply(calculate_estimated_cost, axis=1)
     avg_cost, median_cost, p95_cost = calculate_stats(rated_df['estimated_cost_usd'])
     
+    # --- Prepare Metrics Dictionary --- 
+    metrics = {
+        "baseline_version_name": BASELINE_VERSION_NAME,
+        "based_on_num_rated": num_rated,
+        "based_on_total_records": len(df),
+        "source_file": os.path.basename(TEST_SET_PATH),
+        "quality": {
+            "pass_rate_pct": pass_rate if num_rated > 0 else None
+        },
+        "latency_seconds": {
+            "average": avg_latency if not np.isnan(avg_latency) else None,
+            "p95": p95_latency if not np.isnan(p95_latency) else None
+        },
+        "tokens_total": {
+            "average": avg_tokens if not np.isnan(avg_tokens) else None
+        },
+        "estimated_cost_usd": {
+            "average": avg_cost if not np.isnan(avg_cost) else None
+        }
+    }
+    # Convert numpy types to standard types for JSON serialization
+    for category in metrics:
+        if isinstance(metrics[category], dict):
+            for key, value in metrics[category].items():
+                if isinstance(value, (np.int64, np.integer)): metrics[category][key] = int(value)
+                if isinstance(value, (np.float64, np.floating)): metrics[category][key] = float(value)
+        elif isinstance(metrics[category], (np.int64, np.integer)): metrics[category] = int(metrics[category])
+        elif isinstance(metrics[category], (np.float64, np.floating)): metrics[category] = float(metrics[category])
+            
+    # --- Save Metrics to JSON --- 
+    try:
+        with open(OUTPUT_METRICS_PATH, 'w') as f:
+            json.dump(metrics, f, indent=4)
+        print(f"\nSuccessfully saved baseline metrics to {OUTPUT_METRICS_PATH}")
+    except Exception as e:
+        print(f"\nError saving metrics to JSON: {e}")
+
     # --- Print Report ---
     print("\n--- Baseline Evaluation Report --- ")
     print(f"Baseline Version: {BASELINE_VERSION_NAME}")
