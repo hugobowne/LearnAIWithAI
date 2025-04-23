@@ -1,0 +1,29 @@
+--- Evaluation Comparison Report ---
+Current Run vs. Human Feedback v1
+Compared 68 judged results against 53 baseline results.
+
+--- Quality (PASS Rate %) ---
+Current:          47.1%
+Baseline:         75.5%
+Change:           -28.4pp
+
+--- Latency (seconds) ---
+Avg Current:      1.73s
+Avg Baseline:     1.85s
+Avg Change:       -0.11 (-6.2%)
+---
+P95 Current:      3.29s
+P95 Baseline:     3.33s
+P95 Change:       -0.03 (-1.0%)
+
+--- Tokens (total per query) ---
+Avg Current:      10187
+Avg Baseline:     10194
+Avg Change:       -7.50 (-0.1%)
+
+--- Estimated Cost (USD per query) ---
+Avg Current:      $0.001518
+Avg Baseline:     $0.001526
+Avg Change:       -0.0pp
+
+------------------------------------
