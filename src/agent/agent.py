@@ -55,7 +55,7 @@ def get_available_tools():
 def run_agent_conversation(user_query: str) -> dict:
     """Handles a single turn of conversation and returns detailed execution log."""
     span = trace.get_current_span() # Get current span
-    span.set_attribute("input.query", user_query)
+    span.set_attribute("input.value", user_query)
     print(f"\n{'='*20} New Query {'='*20}")
     print(f"User Query: {user_query}")
     
@@ -167,14 +167,14 @@ def run_agent_conversation(user_query: str) -> dict:
             
             messages.append(final_response_message)
             run_log["messages"].append(final_response_message.model_dump()) # Log LLM response 2
-            span.set_attribute("output.answer", final_response_message.content)
+            span.set_attribute("output.value", final_response_message.content)
             run_log["final_answer"] = final_response_message.content
             print("--- Received final response from LLM ---")
         
         else:
             # No tool call was made
             print("--- LLM did not request tool call, returning response directly ---")
-            span.set_attribute("output.answer", response_message.content)
+            span.set_attribute("output.value", response_message.content)
             run_log["final_answer"] = response_message.content
             
         span.set_status(Status(StatusCode.OK))
