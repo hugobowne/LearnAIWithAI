@@ -18,16 +18,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from typing import List, Dict, Any
 
-# Change from relative to absolute import to support running as a script
-try:
-    # When running as a module (for Modal)
-    from .utils import load_workshop_transcript
-except ImportError:
-    # When running as a script directly
-    from utils import load_workshop_transcript
-
 # === CONFIG SECTION ===
-WORKSHOP_TRANSCRIPT_PATH = "/data/WS1-C2.vtt"
+WORKSHOP_TRANSCRIPT_PATH = "data/WS1-C2.vtt"
 CHROMA_DB_PATH = "chroma_db"
 COLLECTION_NAME = "workshop_chunks"
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -40,6 +32,40 @@ LOGS_DB_PATH = "logs.db"  # Path to SQLite database for logs
 SYSTEM_PROMPT = """You are a helpful workshop assistant.
 Answer questions based only on the workshop transcript sections provided.
 If you don't know the answer or can't find it in the provided sections, say so."""
+
+# === UTILITY FUNCTION (COPIED FROM basic_qa.py) ===
+
+def load_vtt_content(file_path):
+    """Reads a VTT file and extracts the text content, skipping metadata and timestamps."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        print(f"Error: Transcript file not found at {file_path}")
+        return None
+    except Exception as e:
+        print(f"Error reading transcript file: {e}")
+        return None
+
+    content_lines = []
+    is_content = False
+    for line in lines:
+        line = line.strip()
+        # Skip empty lines, WEBVTT header, and timestamp lines
+        if not line or line == 'WEBVTT' or '-->' in line:
+            is_content = False
+            continue
+        # Skip lines that look like metadata (e.g., NOTE, STYLE)
+        if re.match(r'^[A-Z]+(\s*:.*)?$', line):
+             is_content = False
+             continue
+        # If it's not metadata or timestamp, assume it's content
+        # A simple heuristic: content often follows a timestamp line
+        # A better check might be needed for complex VTTs
+        # We will just append any line that doesn't match the skip conditions
+        content_lines.append(line)
+
+    return " ".join(content_lines)
 
 # === EMBEDDING FUNCTIONS ===
 
@@ -207,10 +233,14 @@ def chunk_workshop_transcript(transcript_path: str) -> List[Dict[str, Any]]:
     """Process a workshop transcript file and return chunks"""
     # Parse the VTT file to get accurate timestamps
     vtt_segments = extract_vtt_timestamps(transcript_path)
-    
+
     # Load and clean the transcript for chunking
-    transcript_text = load_workshop_transcript(transcript_path)
-    
+    # Use the copied function here
+    transcript_text = load_vtt_content(transcript_path)
+    if transcript_text is None: # Handle potential loading error
+        print(f"Error: Failed to load transcript content from {transcript_path}. Cannot create chunks.")
+        return []
+
     # Create chunks from the transcript
     chunks = create_chunks(transcript_text)
     
@@ -720,9 +750,33 @@ def answer_question(question):
 def main():
     """Main entry point for the simple RAG system"""
     import sys
+    # --- ADD load_dotenv() HERE ---
+    load_dotenv() # Load environment variables from .env file
+    # --- END ADD load_dotenv() ---
     
+    # --- ADD Phoenix Tracing Setup HERE ---
+    from phoenix.otel import register # Import register here or globally
+    try:
+        # Initialize Phoenix tracing AFTER loading .env
+        tracer_provider = register(
+            project_name="simple-rag", 
+            auto_instrument=True 
+        )
+        print("Phoenix tracing configured successfully.")
+    except Exception as e:
+        print(f"Warning: Failed to configure Phoenix tracing: {e}. Tracing will be disabled.")
+        tracer_provider = None 
+    # --- END ADD Phoenix Tracing Setup ---
+
     print("Simple RAG System for Workshop Q&A")
     print("----------------------------------")
+
+    # Ensure the path is correct when running from root
+    if not os.path.exists(WORKSHOP_TRANSCRIPT_PATH):
+        print(f"Error: Transcript file not found at {WORKSHOP_TRANSCRIPT_PATH}")
+        print("Please ensure you are running this script from the repository root directory.")
+        sys.exit(1) # Exit if transcript not found
+
     print(f"Workshop transcript: {WORKSHOP_TRANSCRIPT_PATH}")
     
     # Initialize the database if needed
