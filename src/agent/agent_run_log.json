@@ -1,0 +1,362 @@
+[
+    {
+        "user_query": "Summarize the key points about evaluation driven development.",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Summarize the key points about evaluation driven development."
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_1RUQJdlyn9PLGXIoZyZU4UWe",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT text FROM transcript_segments WHERE text LIKE '%evaluation driven development%'\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_1RUQJdlyn9PLGXIoZyZU4UWe",
+                "role": "tool",
+                "name": "query_database",
+                "content": "[{\"text\": \"how we oh, yeah, I'm sorry. Microphones off, please. The foundations of Llm software and evaluation driven development. And what's changed now from traditional software software development. And how we really need to think about building software that's powered by machine learning and Llms which share a lot of similarities, as Stefan pointed out. But instead of you know, writing some specs.\"}, {\"text\": \"Evaluation driven development isn't. New people have been building Ml. Software. Well, I've been doing it for years. If you tell me that the original Google search didn't use evaluation driven development. I'd say what? What the heck you're talking about? Because clearly they were using in like highly sophisticated monitoring and evaluation in in order to rapidly iterate on on that product. So\"}]"
+            },
+            {
+                "content": "Evaluation driven development focuses on the foundations of software powered by machine learning and large language models (LLMs). It differs from traditional software development by emphasizing the importance of evaluation and monitoring throughout the development process. This approach is not new, as it has been utilized by developers of machine learning software, with historical examples like Google Search employing sophisticated monitoring and evaluation to facilitate rapid iteration on their products.",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "Evaluation driven development focuses on the foundations of software powered by machine learning and large language models (LLMs). It differs from traditional software development by emphasizing the importance of evaluation and monitoring throughout the development process. This approach is not new, as it has been utilized by developers of machine learning software, with historical examples like Google Search employing sophisticated monitoring and evaluation to facilitate rapid iteration on their products.",
+        "error": null
+    },
+    {
+        "user_query": "List the names of the builders in residence mentioned.",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "List the names of the builders in residence mentioned."
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_uKxuoiF0lIWStB6UvjgEg9xn",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT text FROM transcript_segments WHERE text LIKE '%builder in residence%'\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_uKxuoiF0lIWStB6UvjgEg9xn",
+                "role": "tool",
+                "name": "query_database",
+                "content": "No matching records found in the database for this query."
+            },
+            {
+                "content": "I cannot answer the question about the names of the builders in residence based on the available transcript data.",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "I cannot answer the question about the names of the builders in residence based on the available transcript data.",
+        "error": null
+    },
+    {
+        "user_query": "Find mentions of 'non-determinism' and provide timestamps.",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Find mentions of 'non-determinism' and provide timestamps."
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_ivAftvrquWGPcvy3v8cxupsg",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT start_time_seconds, end_time_seconds FROM transcript_segments WHERE text LIKE '%non-determinism%'\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_ivAftvrquWGPcvy3v8cxupsg",
+                "role": "tool",
+                "name": "query_database",
+                "content": "[{\"start_time_seconds\": 854.54, \"end_time_seconds\": 877.46}, {\"start_time_seconds\": 2780.51, \"end_time_seconds\": 2789.849}]"
+            },
+            {
+                "content": "The mentions of 'non-determinism' occur at the following timestamps:\n\n1. From 14:14.54 to 14:37.46\n2. From 46:20.51 to 46:29.849",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "The mentions of 'non-determinism' occur at the following timestamps:\n\n1. From 14:14.54 to 14:37.46\n2. From 46:20.51 to 46:29.849",
+        "error": null
+    },
+    {
+        "user_query": "What did Stefan Krawczyk say during his introduction?",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "What did Stefan Krawczyk say during his introduction?"
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_soYJZQi0gitYb4FdwTQnM4hS",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT text FROM transcript_segments WHERE speaker='Stefan Krawczyk' AND text LIKE '%introduction%';\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_soYJZQi0gitYb4FdwTQnM4hS",
+                "role": "tool",
+                "name": "query_database",
+                "content": "No matching records found in the database for this query."
+            },
+            {
+                "content": "I cannot answer the question based on the available transcript data.",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "I cannot answer the question based on the available transcript data.",
+        "error": null
+    },
+    {
+        "user_query": "Who mentioned Carvana?",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Who mentioned Carvana?"
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_0kZOShL0nnnUMZpIAznxHAi2",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT speaker, text FROM transcript_segments WHERE text LIKE '%Carvana%';\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_0kZOShL0nnnUMZpIAznxHAi2",
+                "role": "tool",
+                "name": "query_database",
+                "content": "[{\"speaker\": \"Nathan Danielsen\", \"text\": \"which I mean technically in Pasadena, which is the plus part not really la. But the 1st time I've heard that. So I'm going to adopt that bring it over to to la, so yeah, I've been in the kind of data building space for a while. I started as a software engineer. And then about 5, 6 years ago, kind of moved over into the data science. Ml, range. I've kind of been all over the place. But I'm currently at Carvana right now. Just started a new role.\"}]"
+            },
+            {
+                "content": "Nathan Danielsen mentioned Carvana.",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "Nathan Danielsen mentioned Carvana.",
+        "error": null
+    },
+    {
+        "user_query": "Did the transcript mention monitoring?",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Did the transcript mention monitoring?"
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_nUb2Fi1ZvUaoF6QIUsgGy6vk",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT * FROM transcript_segments WHERE text LIKE '%monitoring%'\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_nUb2Fi1ZvUaoF6QIUsgGy6vk",
+                "role": "tool",
+                "name": "query_database",
+                "content": "[{\"segment_id\": 49, \"session_name\": \"WS1-C2\", \"start_time_seconds\": 795.13, \"end_time_seconds\": 808.9, \"speaker\": \"hugo bowne-anderson\", \"text\": \"Want to think about tracing and general observability when monitoring and when evaluating. We want to think about not only monitoring how good individual Llm. Calls are, but how they relate to the business metrics that you're you're trying to meet as well.\", \"word_count\": 43}, {\"segment_id\": 140, \"session_name\": \"WS1-C2\", \"start_time_seconds\": 1990.3, \"end_time_seconds\": 2015.79, \"speaker\": \"hugo bowne-anderson\", \"text\": \"Evaluation driven development isn't. New people have been building Ml. Software. Well, I've been doing it for years. If you tell me that the original Google search didn't use evaluation driven development. I'd say what? What the heck you're talking about? Because clearly they were using in like highly sophisticated monitoring and evaluation in in order to rapidly iterate on on that product. So\", \"word_count\": 64}, {\"segment_id\": 408, \"session_name\": \"WS1-C2\", \"start_time_seconds\": 4897.53, \"end_time_seconds\": 4922.25, \"speaker\": \"hugo bowne-anderson\", \"text\": \"in next week it'll all be about iteration, evaluation, and observability. So we'll be jumping right into systematic evaluation of Llm outputs qualitative and quantitative outputs how to define metrics for success such as relevance, coherence, user satisfaction setting up feedback loops, observability basics, debugging common Llm issues and then scaling observability and tools for production. Monitoring\", \"word_count\": 57}, {\"segment_id\": 505, \"session_name\": \"WS1-C2\", \"start_time_seconds\": 5995.86, \"end_time_seconds\": 6003.609, \"speaker\": \"hugo bowne-anderson\", \"text\": \"I think we're good. We're. I'm monitoring questions in the in the discord, and we haven't had any questions about that. So.\", \"word_count\": 22}]"
+            },
+            {
+                "content": "Yes, the transcript mentioned monitoring several times. For example, it discusses the importance of monitoring in relation to business metrics and includes a reference to \"highly sophisticated monitoring and evaluation\" in the context of Google search development. Additionally, there is mention of \"monitoring questions\" being tracked in a discord channel.",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "Yes, the transcript mentioned monitoring several times. For example, it discusses the importance of monitoring in relation to business metrics and includes a reference to \"highly sophisticated monitoring and evaluation\" in the context of Google search development. Additionally, there is mention of \"monitoring questions\" being tracked in a discord channel.",
+        "error": null
+    },
+    {
+        "user_query": "What software tools were discussed before the 15-minute mark?",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "What software tools were discussed before the 15-minute mark?"
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_ao9S9bLRvxGiDlqAlIPa5WSc",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT * FROM transcript_segments WHERE start_time_seconds < 900 AND text LIKE '%software tool%'\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_ao9S9bLRvxGiDlqAlIPa5WSc",
+                "role": "tool",
+                "name": "query_database",
+                "content": "No matching records found in the database for this query."
+            },
+            {
+                "content": "I cannot answer the question based on the available transcript data.",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "I cannot answer the question based on the available transcript data.",
+        "error": null
+    },
+    {
+        "user_query": "Who is Jeff Pidcock?",
+        "system_prompt": "\n    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. \n    Use the available tools to query the transcript database when necessary. \n    The database table is ''transcript_segments'' and contains segments of the transcript.\n    Base your answers SOLELY on the information retrieved from the database using the tools. \n    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.\n    Be concise and directly answer the user's query based on the tool results.\n    ",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Who is Jeff Pidcock?"
+            },
+            {
+                "content": null,
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": [
+                    {
+                        "id": "call_JmkctMFQPk7fBtQZJQHDaknZ",
+                        "function": {
+                            "arguments": "{\"sql_query\":\"SELECT * FROM transcript_segments WHERE text LIKE '%Jeff Pidcock%'\"}",
+                            "name": "query_database"
+                        },
+                        "type": "function"
+                    }
+                ]
+            },
+            {
+                "tool_call_id": "call_JmkctMFQPk7fBtQZJQHDaknZ",
+                "role": "tool",
+                "name": "query_database",
+                "content": "[{\"segment_id\": 19, \"session_name\": \"WS1-C2\", \"start_time_seconds\": 280.2, \"end_time_seconds\": 297.489, \"speaker\": \"hugo bowne-anderson\", \"text\": \"And, as we all know, Linkedin is the only reality. So we'll wait for that to happen. Thanks so much, Stefan. I also am super excited to introduce you to Jeff Pidcock, Nathan Danielson, and William Horton, who\", \"word_count\": 38}]"
+            },
+            {
+                "content": "I cannot answer the question based on the available transcript data.",
+                "refusal": null,
+                "role": "assistant",
+                "annotations": [],
+                "audio": null,
+                "function_call": null,
+                "tool_calls": null
+            }
+        ],
+        "final_answer": "I cannot answer the question based on the available transcript data.",
+        "error": null
+    }
+]
