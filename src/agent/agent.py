@@ -4,6 +4,13 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from pathlib import Path # Import Path
 
+# Tracing Imports
+import phoenix as px # Alias phoenix
+from phoenix.otel import register # <-- Use register function from notebook
+from openinference.instrumentation.openai import OpenAIInstrumentor
+from opentelemetry import trace
+from opentelemetry.trace import Status, StatusCode
+
 # Import tool functions (changed to direct import for simplicity)
 from tools import query_database, get_tool_schemas
 
@@ -19,6 +26,22 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 MODEL = "gpt-4o-mini" # Or "gpt-4o" if needed later
 
+# --- Phoenix/OpenTelemetry Tracing Setup ---
+PROJECT_NAME = "transcript-agent-mvp"
+try:
+    # register will now automatically use 
+    # OTEL_EXPORTER_OTLP_ENDPOINT and OTEL_EXPORTER_OTLP_HEADERS 
+    # environment variables if they are set.
+    # It returns a tracer provider, but we can get the tracer globally too
+    phoenix_tracer_provider = register(project_name=PROJECT_NAME)
+    OpenAIInstrumentor().instrument(tracer_provider=phoenix_tracer_provider)
+    tracer = trace.get_tracer("agent.agent") 
+    print(f"✅ Phoenix tracing initialized for project '{PROJECT_NAME}'. Using standard OTel env vars.")
+except Exception as e:
+    print(f"⚠️ Failed to initialize Phoenix tracing: {e}. Tracing disabled.")
+    tracer = None # Set tracer to None if setup fails
+# --- End Tracing Setup ---
+
 # Store available tools {tool_name: function}
 def get_available_tools():
     return {
@@ -27,8 +50,12 @@ def get_available_tools():
     }
 
 # Main agent function - Now returns a detailed dictionary
+# Add span decorator to trace the whole conversation function
+@tracer.start_as_current_span("run_agent_conversation", kind=trace.SpanKind.SERVER)
 def run_agent_conversation(user_query: str) -> dict:
     """Handles a single turn of conversation and returns detailed execution log."""
+    span = trace.get_current_span() # Get current span
+    span.set_attribute("input.query", user_query)
     print(f"\n{'='*20} New Query {'='*20}")
     print(f"User Query: {user_query}")
     
@@ -41,116 +68,136 @@ def run_agent_conversation(user_query: str) -> dict:
     }
     
     # --- Agent Logic --- 
-    # 1. Define System Prompt
-    system_prompt = (f"""
-    You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. 
-    Use the available tools to query the transcript database when necessary. 
-    The database table is '{get_tool_schemas()[0]['function']['parameters']['properties']['sql_query']['description'].split('targeting the ')[1].split(' table.')[0]}' and contains segments of the transcript.
-    Base your answers SOLELY on the information retrieved from the database using the tools. 
-    If the information is not found in the database, say that you cannot answer the question based on the available transcript data.
-    Be concise and directly answer the user's query based on the tool results.
-    """)
-    run_log["system_prompt"] = system_prompt
+    try: # Wrap main logic in try/except to ensure span status is set
+        # 1. Define System Prompt
+        system_prompt = (f"""
+        You are a helpful assistant designed to answer questions about the LearnAIWithAI Workshop 1 transcript. 
+        Use the available tools to query the transcript database when necessary. 
+        The database table is '{get_tool_schemas()[0]['function']['parameters']['properties']['sql_query']['description'].split('targeting the ')[1].split(' table.')[0]}' and contains segments of the transcript.
+        Base your answers SOLELY on the information retrieved from the database using the tools. 
+        If the information is not found in the database, say that you cannot answer the question based on the available transcript data.
+        Be concise and directly answer the user's query based on the tool results.
+        """)
+        run_log["system_prompt"] = system_prompt
+        span.set_attribute("llm.system_prompt", system_prompt) # Add system prompt to span
 
-    # 2. Define Tools
-    available_tools = get_available_tools()
-    tool_schemas = get_tool_schemas()
+        # 2. Define Tools
+        available_tools = get_available_tools()
+        tool_schemas = get_tool_schemas()
 
-    # 3. Manage Conversation History 
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_query}
-    ]
-    run_log["messages"].append(messages[-1]) # Log user message
+        # 3. Manage Conversation History 
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_query}
+        ]
+        run_log["messages"].append(messages[-1]) # Log user message
 
-    print("\n--- Sending request to LLM (Attempt 1) ---")
-    # 4. Call OpenAI API (First Attempt)
-    try:
-        response = client.chat.completions.create(
-            model=MODEL,
-            messages=messages,
-            tools=tool_schemas,
-            tool_choice="auto"
-        )
-        response_message = response.choices[0].message
-        messages.append(response_message) 
-        run_log["messages"].append(response_message.model_dump()) # Log LLM response 1
-
-    except Exception as e:
-        print(f"Error calling OpenAI API: {e}")
-        run_log["error"] = f"Error calling OpenAI API (Attempt 1): {e}"
-        return run_log # Return early on error
-
-    # 5. Process Response
-    tool_calls = response_message.tool_calls
-
-    if tool_calls:
-        print("--- LLM requested tool call(s) ---")
-        for tool_call in tool_calls:
-            function_name = tool_call.function.name
-            function_to_call = available_tools.get(function_name)
-            tool_error = None
-            function_response = None
-            
-            if not function_to_call:
-                 tool_error = f"Error: Tool '{function_name}' not found."
-                 print(tool_error)
-                 function_response = tool_error 
-            else:
-                try:
-                    function_args = json.loads(tool_call.function.arguments)
-                    print(f"Calling tool: {function_name} with args: {function_args}")
-                    function_response = function_to_call(**function_args)
-                except json.JSONDecodeError:
-                    tool_error = f"Error: Invalid arguments format for tool '{function_name}'. Expected JSON."
-                    print(f"{tool_error} Got: {tool_call.function.arguments}")
-                    function_response = tool_error
-                except Exception as e:
-                    tool_error = f"Error executing tool '{function_name}': {e}"
-                    print(tool_error)
-                    function_response = tool_error
-            
-            # Append the tool's response to the message history
-            messages.append({
-                "tool_call_id": tool_call.id,
-                "role": "tool",
-                "name": function_name,
-                "content": function_response
-            })
-            run_log["messages"].append(messages[-1]) # Log tool message
-
-        # 6. Call OpenAI API again with tool results
-        print("\n--- Sending request to LLM (Attempt 2, with tool results) ---")
-        try:
-            second_response = client.chat.completions.create(
+        print("\n--- Sending request to LLM (Attempt 1) ---")
+        # 4. Call OpenAI API (First Attempt) - Auto-instrumented by OpenAIInstrumentor
+        # We can add a span here if we want to group this specific call
+        with tracer.start_as_current_span("llm_call_1") as llm_span_1:
+            response = client.chat.completions.create(
                 model=MODEL,
-                messages=messages 
+                messages=messages,
+                tools=tool_schemas,
+                tool_choice="auto"
             )
-            final_response_message = second_response.choices[0].message
+            response_message = response.choices[0].message
+        
+        messages.append(response_message) 
+        run_log["messages"].append(response_message.model_dump()) 
+
+        # 5. Process Response
+        tool_calls = response_message.tool_calls
+
+        if tool_calls:
+            print("--- LLM requested tool call(s) ---")
+            # Add a span around the tool execution loop
+            with tracer.start_as_current_span("tool_execution_loop") as tool_loop_span:
+                for tool_call in tool_calls:
+                    function_name = tool_call.function.name
+                    function_to_call = available_tools.get(function_name)
+                    tool_error = None
+                    function_response = None
+                    tool_loop_span.set_attribute(f"tool.{function_name}.id", tool_call.id)
+                    
+                    if not function_to_call:
+                        tool_error = f"Error: Tool '{function_name}' not found."
+                        print(tool_error)
+                        function_response = tool_error 
+                        tool_loop_span.set_status(Status(StatusCode.ERROR, tool_error))
+                    else:
+                        try:
+                            function_args = json.loads(tool_call.function.arguments)
+                            tool_loop_span.set_attribute(f"tool.{function_name}.args", json.dumps(function_args)) # Log args
+                            print(f"Calling tool: {function_name} with args: {function_args}")
+                            # The actual tool call is traced by the decorator in tools.py
+                            function_response = function_to_call(**function_args)
+                            tool_loop_span.set_attribute(f"tool.{function_name}.response_preview", str(function_response)[:500]) # Log response preview
+                        except json.JSONDecodeError as e:
+                            tool_error = f"Error: Invalid arguments format for tool '{function_name}'. Expected JSON."
+                            print(f"{tool_error} Got: {tool_call.function.arguments}")
+                            function_response = tool_error
+                            tool_loop_span.record_exception(e)
+                            tool_loop_span.set_status(Status(StatusCode.ERROR, tool_error))
+                        except Exception as e:
+                            tool_error = f"Error executing tool '{function_name}': {e}"
+                            print(tool_error)
+                            function_response = tool_error
+                            tool_loop_span.record_exception(e)
+                            tool_loop_span.set_status(Status(StatusCode.ERROR, tool_error))
+                    
+                    # Append the tool's response to the message history
+                    messages.append({
+                        "tool_call_id": tool_call.id,
+                        "role": "tool",
+                        "name": function_name,
+                        "content": function_response
+                    })
+                    run_log["messages"].append(messages[-1]) # Log tool message
+
+            # 6. Call OpenAI API again with tool results - Auto-instrumented
+            print("\n--- Sending request to LLM (Attempt 2, with tool results) ---")
+            with tracer.start_as_current_span("llm_call_2") as llm_span_2:
+                second_response = client.chat.completions.create(
+                    model=MODEL,
+                    messages=messages 
+                )
+                final_response_message = second_response.choices[0].message
+            
             messages.append(final_response_message)
             run_log["messages"].append(final_response_message.model_dump()) # Log LLM response 2
+            span.set_attribute("output.answer", final_response_message.content)
             run_log["final_answer"] = final_response_message.content
             print("--- Received final response from LLM ---")
-        except Exception as e:
-            print(f"Error calling OpenAI API on second attempt: {e}")
-            run_log["error"] = f"Error calling OpenAI API (Attempt 2): {e}"
+        
+        else:
+            # No tool call was made
+            print("--- LLM did not request tool call, returning response directly ---")
+            span.set_attribute("output.answer", response_message.content)
+            run_log["final_answer"] = response_message.content
             
+        span.set_status(Status(StatusCode.OK))
         return run_log
     
-    else:
-        # No tool call was made
-        print("--- LLM did not request tool call, returning response directly ---")
-        run_log["final_answer"] = response_message.content
+    except Exception as e:
+        # Record exception and set error status on the main span
+        print(f"Error during agent conversation: {e}")
+        run_log["error"] = f"Error during agent conversation: {e}"
+        if span:
+            span.record_exception(e)
+            span.set_status(Status(StatusCode.ERROR, str(e)))
         return run_log
 
 # Example Usage Block (Writes results to JSON log file)
 if __name__ == "__main__":
+    # Remove the outer span wrapper - each run_agent_conversation call
+    # will now be its own root trace thanks to its decorator.
     print("Running agent with predefined questions from JSON file...")
-
+    
     queries_file_path = Path(__file__).parent / "docs" / "test_queries.json"
-    # Log file inside the agent directory
     log_file_path = Path(__file__).parent / "agent_run_log.json" 
-    all_run_logs = [] # List to store logs for all queries
+    all_run_logs = [] 
     
     if not queries_file_path.exists():
         print(f"Error: Test queries file not found at {queries_file_path}")
@@ -168,24 +215,23 @@ if __name__ == "__main__":
 
     print(f"Loaded {len(example_queries)} queries from {queries_file_path}")
 
+    # Loop through queries directly
     for query in example_queries:
         try:
             run_log_result = run_agent_conversation(query)
             all_run_logs.append(run_log_result)
-            # Print only the final answer to keep console output cleaner
             print(f"\nAgent Response: {run_log_result.get('final_answer', '[No answer generated]')}\n") 
             print(f"{'-'*50}\n") # Separator
         except Exception as e:
             print(f"\nCritical Error processing query '{query}': {e}\n")
-            # Log the error case as well
             all_run_logs.append({"user_query": query, "error": f"Critical Error: {e}"})
             print(f"{'-'*50}\n") # Separator
 
-    # Write all logs to the JSON file
+    # (Log writing logic remains the same)
     print(f"\nWriting detailed logs to {log_file_path}...")
     try:
         with open(log_file_path, 'w') as f:
-            json.dump(all_run_logs, f, indent=4) # Use indent for readability
+            json.dump(all_run_logs, f, indent=4) 
         print("Logs written successfully.")
     except Exception as e:
         print(f"Error writing log file: {e}")

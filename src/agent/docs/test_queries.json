@@ -1,10 +1,21 @@
 [
-    "Summarize the key points about evaluation driven development.",
-    "List the names of the builders in residence mentioned.",
-    "Find mentions of 'non-determinism' and provide timestamps.",
+    "Who is Jeff Pidcock?",
     "What did Stefan Krawczyk say during his introduction?",
+    "List all unique speakers mentioned.",
+    "How many words did Hugo speak in total?",
+    "Find segments mentioning 'evaluation' and provide timestamps.",
+    "Which speaker has the most segments?",
+    "What is the total word count for all segments combined?",
     "Who mentioned Carvana?",
+    "List the builders in residence mentioned.",
+    "When did Nathan Danielsen first speak?",
+    "Summarize the key points about evaluation driven development.",
+    "Find mentions of 'non-determinism' and provide timestamps.",
     "Did the transcript mention monitoring?",
-    "What software tools were discussed before the 15-minute mark?",
-    "Who is Jeff Pidcock?"
+    "Tell me about AI observability.",
+    "What was said about Discord?",
+    "How many times was 'Discord' mentioned?",
+    "What's the recipe for spaghetti carbonara?",
+    "Summarize Workshop 2.",
+    "What did they say about reinforcement learning?"
 ] 

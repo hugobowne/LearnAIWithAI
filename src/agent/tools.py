@@ -1,21 +1,35 @@
 import sqlite3
 import json
 from pathlib import Path
+from opentelemetry import trace # Import trace
+from opentelemetry.trace import Status, StatusCode # Import Status codes
 
 # --- Constants ---
 # Assuming the script using this module is run from the project root
 DB_FILE_PATH = Path("data/workshop1_transcript.db")
 TABLE_NAME = "transcript_segments"
 
+# Get a tracer instance for this module
+tracer = trace.get_tracer("agent.tools")
+
 # --- Tool Functions ---
 
+@tracer.start_as_current_span("query_database_tool", kind=trace.SpanKind.INTERNAL)
 def query_database(sql_query: str) -> str:
     """Executes a SQL query against the transcript database and returns the results."""
+    span = trace.get_current_span()
+    span.set_attribute("db.system", "sqlite")
+    span.set_attribute("db.statement", sql_query)
+    span.set_attribute("db.table", TABLE_NAME)
+    
     print(f"--- Executing Tool: query_database --- ")
     print(f"SQL Query: {sql_query}")
 
     if not DB_FILE_PATH.exists():
-        return f"Error: Database file not found at {DB_FILE_PATH}"
+        error_msg = f"Error: Database file not found at {DB_FILE_PATH}"
+        span.record_exception(FileNotFoundError(error_msg))
+        span.set_status(Status(StatusCode.ERROR, error_msg))
+        return error_msg
 
     conn = None
     try:
@@ -31,22 +45,32 @@ def query_database(sql_query: str) -> str:
         results_list = [dict(row) for row in results]
 
         if not results_list:
+            result_str = "No matching records found in the database for this query."
             print("Result: No matching records found.")
-            return "No matching records found in the database for this query."
-
-        # Return results as a JSON string for the LLM
-        # (Could also return a formatted string, but JSON is structured)
-        results_json = json.dumps(results_list)
-        print(f"Result (first 500 chars): {results_json[:500]}...")
-        return results_json
+            span.set_attribute("db.results.count", 0)
+        else:
+            results_json = json.dumps(results_list)
+            result_str = results_json
+            span.set_attribute("db.results.count", len(results_list))
+            # Log truncated result to avoid overly large spans
+            span.set_attribute("db.results.preview", results_json[:500] + ("..." if len(results_json) > 500 else ""))
+            print(f"Result (first 500 chars): {results_json[:500]}...")
+            
+        span.set_status(Status(StatusCode.OK))
+        return result_str
 
     except sqlite3.Error as e:
+        error_msg = f"Error executing SQL query: {e}. Please check the query syntax and table/column names."
         print(f"SQLite Error: {e}")
-        # Provide a more informative error message to the LLM
-        return f"Error executing SQL query: {e}. Please check the query syntax and table/column names."
+        span.record_exception(e)
+        span.set_status(Status(StatusCode.ERROR, f"SQLite Error: {e}"))
+        return error_msg
     except Exception as e:
+        error_msg = f"An unexpected error occurred while querying the database: {e}"
         print(f"Unexpected Error: {e}")
-        return f"An unexpected error occurred while querying the database: {e}"
+        span.record_exception(e)
+        span.set_status(Status(StatusCode.ERROR, f"Unexpected Error: {e}"))
+        return error_msg
     finally:
         if conn:
             conn.close()
