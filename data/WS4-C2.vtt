@@ -1,0 +1,2219 @@
+WEBVTT
+
+00:01:22.000 --> 00:01:30.000
+I see Mike Powell's in the house. Welcome back, Mike.
+
+00:01:30.000 --> 00:01:37.000
+Great to see you, man.
+
+00:01:37.000 --> 00:01:42.000
+So we'll get started in uh Minute or two.
+
+00:01:42.000 --> 00:01:46.000
+I've been seeing you all day. This is my day of Hugo, I think.
+
+00:01:46.000 --> 00:01:47.000
+Hello, Lillian. Thanks for joining me. All the earlier sessions as well.
+
+00:01:47.000 --> 00:01:51.000
+With all the guests.
+
+00:01:51.000 --> 00:02:04.000
+For everyone, we've had a bunch of really, well, I found quite wonderful guest lectures and I'll share them all Once we have all the videos. And we've got a couple more later today as well.
+
+00:02:04.000 --> 00:02:16.000
+But yeah, great to see you all. And I'm particularly excited about this workshop, not because I don't have to speak so much.
+
+00:02:16.000 --> 00:02:36.000
+Although that is a bonus. I get to learn from from Stefan, which is just so wonderful. And he brings so much of the the software side of things that isn't my my strongest suit So yeah, thinking through observability and debugging and testing in Devon production in these two loops. So maybe I'll just hand it over to you.
+
+00:02:36.000 --> 00:02:50.000
+Stefan, you can take it away.
+
+00:02:50.000 --> 00:02:51.000
+Do you go, some recording stopped? Yep.
+
+00:02:51.000 --> 00:02:53.000
+Oh. Sorry about that.
+
+00:02:53.000 --> 00:03:03.000
+So workshop four, observatory debugging and dev and production. So I'm sure you've seen this loop a lot.
+
+00:03:03.000 --> 00:03:16.000
+You'll continue to kind of see it, right? Trying to give you the first principles way of thinking of how you deliver and build these apps and so which case I'm going to be talking a little bit more around specifically some of these aspects of
+
+00:03:16.000 --> 00:03:31.000
+With respect to observable and debugging. So specifically, we've kind of been uh going through this kind of toy application Booting it up through the weeks in session three, you did more on evals, right? And so just to give you a little bit of a mental picture
+
+00:03:31.000 --> 00:03:55.000
+What we mean by observability and kind of process and software development lifecycle as we'll kind of dig into is really how you see things, how do you connect systematize some of what you did in workshop three, some techniques, some more, so we're going to look at PyTest as one way of making something a little bit more systematic in terms of the process of
+
+00:03:55.000 --> 00:04:02.000
+So creating some tests and being uh driven with some sort of evals.
+
+00:04:02.000 --> 00:04:09.000
+But then we're also going to talk about in general some constructs or concepts you should know to instrument your application for production.
+
+00:04:09.000 --> 00:04:20.000
+And then how those two things connect. So specifically how some of the stuff in workshop three connects with stuff when you kind of deploy an application.
+
+00:04:20.000 --> 00:04:32.000
+To kind of get some, you know, make sure I've already put you to sleep and think about so just to In the chat in, I think, Discord.
+
+00:04:32.000 --> 00:04:37.000
+Or chat, right? I want you to answer A, B, C, or D.
+
+00:04:37.000 --> 00:05:01.000
+And specifically, how many calls do you think an application that has using LLMs or agents is going to have. So do you think so an end-to-end application, something like a speech trench, veterinary transcription thing or you know some customer service agent for a bank or something. How many LLM calls do you think these apps are going to have?
+
+00:05:01.000 --> 00:05:08.000
+Like a zero to 10. B, 10 to 20, say 20 to 50D 50 plus.
+
+00:05:08.000 --> 00:05:13.000
+Just quickly, I've written A, B, C, D. Give it a thumb up.
+
+00:05:13.000 --> 00:05:15.000
+Give each one a thumb up so that we can count how… Yeah.
+
+00:05:15.000 --> 00:05:20.000
+All right, Zugia. Good idea, Hugo.
+
+00:05:20.000 --> 00:05:26.000
+Yep. Lucas has a great question over how much time. So I don't know whether you want to answer that.
+
+00:05:26.000 --> 00:05:38.000
+I was going to say, in terms of the product experience. So if you're trying to develop some sort of product experience, you can think of it just as a From an end user, let's just simplify it. From an end user.
+
+00:05:38.000 --> 00:05:43.000
+Calls to create a response do you think these things could potentially be?
+
+00:05:43.000 --> 00:05:44.000
+Yeah.
+
+00:05:44.000 --> 00:05:51.000
+I think the question Lucas is getting at is if the product is live for a year, there'll be more calls than if it's live for one day.
+
+00:05:51.000 --> 00:06:03.000
+Yeah, no. So what I'm trying to say is in terms of In terms of the actual application. So a request comes in or a user types in something to a chat. How many LLM calls on the back end behind that?
+
+00:06:03.000 --> 00:06:05.000
+Per user requested is the question. Okay. Very good.
+
+00:06:05.000 --> 00:06:17.000
+Quest. Yes. Yes, correct.
+
+00:06:17.000 --> 00:06:18.000
+Yeah, cool.
+
+00:06:18.000 --> 00:06:27.000
+Okay, we've got, let's just wait wait a minute because we've got 30 people on the call And we've got 15 responses. So I'd actually like, because we're seeing a distribution here, which is super interesting.
+
+00:06:27.000 --> 00:06:31.000
+Yeah. Yeah.
+
+00:06:31.000 --> 00:06:34.000
+Let's just give it a 20 seconds more. This is cool.
+
+00:06:34.000 --> 00:06:40.000
+So.
+
+00:06:40.000 --> 00:06:47.000
+Right. And so, I mean, so it looks like, so Dee's winning no votes for C, or at least somehow they got I thought there was something.
+
+00:06:47.000 --> 00:06:50.000
+Sorry, guys. But I need to add an answer, but where?
+
+00:06:50.000 --> 00:06:54.000
+Go ahead.
+
+00:06:54.000 --> 00:07:01.000
+In Discord, in workshop for… channel.
+
+00:07:01.000 --> 00:07:05.000
+Workshop for okay
+
+00:07:05.000 --> 00:07:09.000
+Nice.
+
+00:07:09.000 --> 00:07:16.000
+Um so Super interesting.
+
+00:07:16.000 --> 00:07:29.000
+I wouldn't say everyone's voted but um the In terms of you can think of it so like from pugos, the price session, we've just been thinking largely about like one LLM.
+
+00:07:29.000 --> 00:07:45.000
+But as kind of what I've seen in kind of industry is actually it's very easy to do one LLM call or at least one of the ways that you make things better Right. Is you make things more specific. That generally means then that you break up
+
+00:07:45.000 --> 00:08:05.000
+Calls and then for if you're really latency is is something That you're optimizing for, you might want to do things more in parallel. So rather than having one large prompt that could take a while, you could actually split things up into parallel potentially, right? And so where I've been seeing things is actually over time, like your first app might have a few calls, but as potentially things mature, like you could actually have
+
+00:08:05.000 --> 00:08:16.000
+Something like 50 plus calls, right? And so I do know that I have some examples where that's the case, but others, it's kind of like, you know, zero to 10, I want to say it's a very basic thing that you're doing, but
+
+00:08:16.000 --> 00:08:25.000
+If you're doing things that get into more enterprise or other kind of concerns, you can kind of see them growing more. So point here is like.
+
+00:08:25.000 --> 00:08:28.000
+Your app is going to have a lot of LLM calls.
+
+00:08:28.000 --> 00:08:35.000
+So… Question number two, same thing again. Options ABC, D, and D.
+
+00:08:35.000 --> 00:08:39.000
+How long, given that what you've seen in the course thus far.
+
+00:08:39.000 --> 00:08:50.000
+Do you think it would take you to optimize a prompt to a shippable state? So this is just, you know, a shippable as in you can get it to production kind of state and you're kind of happy. Obviously, there's going to be ongoing things, but just that like that first
+
+00:08:50.000 --> 00:08:57.000
+So is it going to take you a couple hours? B, do you think B, maybe like on the order of a day?
+
+00:08:57.000 --> 00:09:09.000
+You may be on a couple of days or or do you like, you know, like a week around a week.
+
+00:09:09.000 --> 00:09:16.000
+Yeah, there's no option for greater than five days. Yeah, I should have probably put five days plus but um
+
+00:09:16.000 --> 00:09:31.000
+And so um The claim winner, I guess, from people was like three to five days and i'll say like, yeah, that's right. Right. And so if you think about what the prior slide of, it's not just going to be a single LM call.
+
+00:09:31.000 --> 00:09:45.000
+And then you're going to have multiple of these. And each one of them could potentially to get to some sort of state, right? It's going to take a bunch of days So then now you can start to think of like the project planning and other things that you'll need to kind of take into account as you're
+
+00:09:45.000 --> 00:09:54.000
+Building these and taking it to production. It's not going to be done in a single sprint is potentially my point, but your POC could be.
+
+00:09:54.000 --> 00:10:01.000
+Um and then question for you always so simple, yes, no.
+
+00:10:01.000 --> 00:10:08.000
+Once you have shipped this kind of prompt or like, you know, somewhat optimized, can you forget about it?
+
+00:10:08.000 --> 00:10:29.000
+Meaning once it's done, can you move on and never have to look at it again or Will there be ongoing things you will need to do?
+
+00:10:29.000 --> 00:10:47.000
+I also, I kind of, I'm with Rafi in the sense of like depending on how risky like the risk assessment is kind of YOLOing, like rolling out something to some uses pretty pretty quickly, to be honest, even if that's like internal stakeholders, you could call that
+
+00:10:47.000 --> 00:10:51.000
+Like POC, but it's kind of in prod as well, right?
+
+00:10:51.000 --> 00:10:52.000
+Yeah. Yep.
+
+00:10:52.000 --> 00:11:00.000
+And I rolled out something to you all. Like, it's part of this course, but the rag system I built Like I did that in a few hours, right?
+
+00:11:00.000 --> 00:11:01.000
+Yeah, yeah.
+
+00:11:01.000 --> 00:11:06.000
+So and that's that's in production in some sense. I'm not doing serving it on behalf of a business. Well, I kind of am.
+
+00:11:06.000 --> 00:11:17.000
+In a sense like in a sense I'm a web business stakeholder serving it to you know you all who are paying substantial money for this course so
+
+00:11:17.000 --> 00:11:28.000
+Yeah, so… So large, like I said, I guess everyone said no. And so like, yeah, so this is the other thing. All right. This isn't like traditional software.
+
+00:11:28.000 --> 00:11:45.000
+It's not like you can write it, feature complete, write some tests, and it's done. This is where like to continue the data gathering and other stuff will be something that you will need to add in an account for in your project planning maintenance kind of cycle. So if you think about how many LLM calls there are and like if you really want to optimize all of them and then
+
+00:11:45.000 --> 00:11:50.000
+Now you're going to start to have, you know, it's a lot more work than traditional software engineering.
+
+00:11:50.000 --> 00:12:08.000
+And so For the take-home, so if you fall asleep or you find me too boring, right? The basic things I kind of want to have you take home today is that You basically need to manage your data and curate it to make use of it to make things better
+
+00:12:08.000 --> 00:12:31.000
+And so this is hopefully going to give you some ideas for how your development cycle and production software development lifecycle can kind of gel together. Obviously, I want to say it's not going to, there's many ways to do this. I'm just going to give you one example, something relatively simple, but obviously, depending on where you come from and what your environment is, you might have to do things differently.
+
+00:12:31.000 --> 00:12:37.000
+The idea with this course is the first principles. So the ideas behind it will help guide you in that process.
+
+00:12:37.000 --> 00:12:46.000
+And so I'm going to use PyTest. So if you've seen the lightning lesson on PyTest, this is going to be a rehash of some of that, but it's going to be slightly a little deeper on it.
+
+00:12:46.000 --> 00:13:01.000
+If you have heard about traces and production, like what do you do in production like this will give you some mental picture of how that fits into the picture and then Right. And then… trying to at least hammer home the point that you know
+
+00:13:01.000 --> 00:13:08.000
+What you instrument is what you observe in production. And so that's kind of key here to understand what's going on.
+
+00:13:08.000 --> 00:13:21.000
+And then I want to give you a brief armchair sense of when to use a framework, when not to so Just to have a response to if someone answers the question, we should be using X, right? Just give you some ideas of how to
+
+00:13:21.000 --> 00:13:35.000
+Critically think about it. And then hopefully so this session is 90 minutes. We're going to have a guest speaker afterwards and then there's a second guest speaker in a different Zoom. So hopefully time permitting, we'll do a brief section on guard rails and
+
+00:13:35.000 --> 00:13:45.000
+But just to mention guardrails aren't anything too extensive. They should be fairly They're fairly basic, but hopefully I'll be time managing enough to make sure we get there.
+
+00:13:45.000 --> 00:13:58.000
+Anything else to add, Hugo, before I dig in but otherwise Hopefully with those questions, this is the setup of the mindset of like Some things to think about as I'm kind of going through the rest of this workshop.
+
+00:13:58.000 --> 00:14:14.000
+No, the only thing I'd reiterate, and it's not adding anything but it's just you know really you know really making sure this is a takeaway. Use the minimal tools you need. Pytest is awesome. It will remain supported for a long time. It has a huge community around it. Use this type of thing before adopting
+
+00:14:14.000 --> 00:14:26.000
+Vendor tools which may not be around in 12 to 18 months. And we're going to see a bust in the tooling space. I want to be very clear. There are a lot of tools that people are using today which will not be around in two
+
+00:14:26.000 --> 00:14:37.000
+Years because venture capitalists are fleeing okay So I just want to be very clear about that. Be mindful in what you adopt.
+
+00:14:37.000 --> 00:15:05.000
+Cool. So, um. So just to, yeah, also reiterate recontextualize how today fits in. So last session, you talked about this evaluation driven loop And that was specifically doing something local and optimizing a single prompt. And so just to The mental note here is the takeaway for what we're doing today is that like potentially you might want to have to do this for every single LLM call
+
+00:15:05.000 --> 00:15:09.000
+And what that means is from also data set curation perspective.
+
+00:15:09.000 --> 00:15:16.000
+And so from our checklist of first principles, right? So today.
+
+00:15:16.000 --> 00:15:24.000
+Just going to cover the logging, monitoring, tracing part, and then the iteration with respect to kind of software development lifecycle.
+
+00:15:24.000 --> 00:15:35.000
+And so this is How is this going to help us get out of PLC figuratory, right? It's helping, again, reinforce some of the things from workshop three, but systematizing it so that you can, you know.
+
+00:15:35.000 --> 00:15:46.000
+Approach ensuring that your app doesn't have hallucinations, but then giving you an idea as a way to kind of implement a software development lifecycle.
+
+00:15:46.000 --> 00:15:57.000
+Well, cool. There is in the workshop for the code for today is linked at the top. So if you do want to follow along in code spaces.
+
+00:15:57.000 --> 00:16:06.000
+By all means. But otherwise, I'm going to Yeah, partitions into three things. So talk about the iteration loops and how PyTest kind of fits in.
+
+00:16:06.000 --> 00:16:27.000
+Frameworks and then guardrails. And so The way that we've drawn this picture right we've actually is actually you know two iteration loops here hidden, but we've simplified it into one and that's specifically that there is a div stage, so something you do locally right but then
+
+00:16:27.000 --> 00:16:46.000
+To ship software to production, there is another process another system And so you can think of there being two loops where build and you're running tests or even this is where eval sets and synthetic data right like you could do that kind of locally you can then
+
+00:16:46.000 --> 00:17:04.000
+They capture it, monitor it, evaluate it but then you need your app eventually makes it to production this is where traces and logging comes in so you know what happens. And then depending on your domain and field What you capture can or might be complete enough for you to then
+
+00:17:04.000 --> 00:17:14.000
+Bring that into monitoring, evaluate that then you can feed into this inner loop or and conversely, you know, help build out and feed it, feed this kind of outer loop.
+
+00:17:14.000 --> 00:17:32.000
+And so, right. So dev is the center one, right? And then from dev, then to get to production is also then a CI CD steps, so continuous integration or continuous deployment step And so, right.
+
+00:17:32.000 --> 00:17:43.000
+The things that I show you today, you could place potentially in the CI CD, the CI bucket specifically. And then when I talk about kind of traces and logging.
+
+00:17:43.000 --> 00:17:48.000
+Giving you reference points for that.
+
+00:17:48.000 --> 00:17:59.000
+Cool. Why is this important? Why are we thinking about this in the first place? Or why did I break it out into these two loops, right?
+
+00:17:59.000 --> 00:18:05.000
+For me, if you can iterate faster on both of these loops, you can produce more business value.
+
+00:18:05.000 --> 00:18:24.000
+Right. The key to kind of get right i think is that right You can do a POC, but you want to get past that and so These loops, these circles should work for you go zero to one and then iteration to your one to uh
+
+00:18:24.000 --> 00:18:38.000
+Iteration to kind of loop around. Once we're past the first one, we want to make sure that each change to application, just like in regular software engineering, is something that we can be confident about.
+
+00:18:38.000 --> 00:18:44.000
+And so we want to make sure make use of these loops in a systematic way that we can be confident that we're building.
+
+00:18:44.000 --> 00:19:02.000
+Something reliable. And more importantly, one of the things that with traditional software development lifecycle loop is, you know, if something breaks a unit test or other things like ideally we want it to have some action that we can take.
+
+00:19:02.000 --> 00:19:10.000
+And so this is something that's a little tricky, as I'm sure if you saw with the eval driven development not everything is black and white.
+
+00:19:10.000 --> 00:19:21.000
+So we'll have a… with podcasts, I'll kind of discuss a little bit of some things we can kind of do here to help directionally at least indicate what was happening.
+
+00:19:21.000 --> 00:19:32.000
+But from a you know, something to keep in the back of your mind Right.
+
+00:19:32.000 --> 00:19:38.000
+The data set you curate. So in evaluation driven, we're focused on building a better prompt.
+
+00:19:38.000 --> 00:20:01.000
+But we can actually use some of that data we captured or data synthetic data we generated Or even stuff we captured during development or production as kind of ground truth to the bounds of application of a behavior so I put it this way, like if a product manager was to come to you, what are the examples you'd want to give them to exercise that the kind of product works and it does, you know.
+
+00:20:01.000 --> 00:20:09.000
+The right thing in certain situations. We can use and curate a specific data set to help us kind of define that.
+
+00:20:09.000 --> 00:20:20.000
+But then this is where, you know. That same data, we can actually generate more synthetic data based on some examples we came from production.
+
+00:20:20.000 --> 00:20:28.000
+Or you just iterating on it like this same data set can also be used as a means to iterate on the product.
+
+00:20:28.000 --> 00:20:44.000
+And so this is the, I think the interesting thing that everyone as a software engineer is grappling with from a perspective of, hey, this is different than than before because what I capture can actually improve the product, but it's also, I need to use it to kind of validate things.
+
+00:20:44.000 --> 00:20:54.000
+And so this is, I want to say, where some of the tooling and processes right People are still figuring this out. And so a first principles approach i want to say, well.
+
+00:20:54.000 --> 00:21:02.000
+Hopefully ensure that you can kind of navigate this. Independent of the actual tactical tooling approach that you take.
+
+00:21:02.000 --> 00:21:08.000
+If that made sense. Okay. Any questions here?
+
+00:21:08.000 --> 00:21:12.000
+Anything to call out, Nathan or anyone?
+
+00:21:12.000 --> 00:21:22.000
+Priya has had a great question. Iterations from the POV of a multi-agent. That would be cool. So let's first start with an agent before we go to multi-agents, please.
+
+00:21:22.000 --> 00:21:45.000
+But for clarity, that's what we'll be starting to dive into next week as well. So these general principles that Stefan is going to talk about and take us through apply to all types of AI-powered systems to be to be very clear agentic or not. And funnily, not a lot changes with agents except
+
+00:21:45.000 --> 00:21:47.000
+The trace is a horrible to look at.
+
+00:21:47.000 --> 00:21:48.000
+Yes. Thanks, Hugo.
+
+00:21:48.000 --> 00:21:57.000
+Yep. I mean, this is… Sorry, go ahead.
+
+00:21:57.000 --> 00:22:10.000
+Yeah, so agents, right? Agents are just comprised of LLM calls, right? So if you think of uh multiple len calls in succession like this is where an agent in a loop can kind of generate that so this is where
+
+00:22:10.000 --> 00:22:19.000
+I want to say, to Hugo's point, same principles apply, but obviously some of the eval stuff becomes even a little trickier.
+
+00:22:19.000 --> 00:22:24.000
+Because you could do it at the individual core level, but then from the macro to the agent do its thing right there?
+
+00:22:24.000 --> 00:22:31.000
+So I'm just going to briefly go over continuous integration for those who don't know.
+
+00:22:31.000 --> 00:22:49.000
+And so it is a software engineering term if you're familiar and you've been delivering software, this should be you should understand this, but the main point of this from what continuous integration, the idea is supposed to be is that you create changes in a code base
+
+00:22:49.000 --> 00:23:05.000
+You merge that code into some sort of branch or something, right? And then there is a bunch of integration And what that means is continuous is that it's automated. So test suites and things run. And if it's good, like you can merge. If not, it will, you know.
+
+00:23:05.000 --> 00:23:23.000
+Hopefully catch bad things. And so this is, yeah, anyone I want to say who's doing any production software engineering generally has some sort of continuous integration system that you can leverage here to For example, run PyTest as I'll kind of show.
+
+00:23:23.000 --> 00:23:31.000
+Yeah.
+
+00:23:31.000 --> 00:23:32.000
+Yes.
+
+00:23:32.000 --> 00:23:40.000
+And I'll just add, and I'll try to shush out after this, but this really ties into what we were talking about earlier this week, where I showed you how we think about building evaluation harnesses from the ground up using your annotated data. So an equivalent of your test set in your machine learning workflows. The really cool thing with using CICD for that type of thing is, let's say I want to switch out
+
+00:23:40.000 --> 00:23:53.000
+My open AI model for Gemini 2.5, I can do that in a challenger branch, run CICD. It will run my evaluation harness and I can get the results out automatically without having to, you know.
+
+00:23:53.000 --> 00:23:54.000
+Yeah.
+
+00:23:54.000 --> 00:24:02.000
+Do any tomfoolery and manual manual stuff. And then you can look at the results so We'll be focusing on testing today but you can do exactly the same for evaluation.
+
+00:24:02.000 --> 00:24:06.000
+Yeah, great. Same mechanics.
+
+00:24:06.000 --> 00:24:16.000
+And hence, this is where if you are working with software engineering this is You don't have to build any new pipelines. You can just leverage continuous integration.
+
+00:24:16.000 --> 00:24:39.000
+And so why using PyTest, right? Because one, I think a lot of the word is in Python and two, it's a very common system or library or framework that runs NCI and so That's kind of why I'm going to show you a podcast today, but you can write vanilla Python scripts or the script that you wrote for the eval driven harness, this could be one of the things you could run.
+
+00:24:39.000 --> 00:24:50.000
+Nci, right? Cool. So… Enter into PyTest. So it is a popular code testing framework, right?
+
+00:24:50.000 --> 00:25:04.000
+The key things is that, you know, in some module you write your your logic that you want to be tested Here it's just a function called sum logic. It's going to sum a and b And then to test it, PyTest kind of runs by convention.
+
+00:25:04.000 --> 00:25:16.000
+So it is a convention that for any tests. For logic, prefix, all in a single module prefix with test underscore logic.
+
+00:25:16.000 --> 00:25:31.000
+And then similarly for the actual individual tests cases that are going to be run You have to prefix them with the word test and then some sort of suffix here. They don't have to match, but it's best practice to at least have them if that makes sense to
+
+00:25:31.000 --> 00:25:39.000
+And then inside the test exercises, the code appropriately, and then, you know, has some assert to kind of check things.
+
+00:25:39.000 --> 00:25:46.000
+You can run this on the command line. This is where you can script this. This is how it typically runs in CIs.
+
+00:25:46.000 --> 00:25:57.000
+And there's a bunch of hooks and a lot of rich features that PyTest gives you, which I'm not going to dive into, but we can at least link to in some resources.
+
+00:25:57.000 --> 00:26:08.000
+In terms of contextualizing how I'm going to use PyTests. So I'm going to briefly walk through a very simple example of potentially how you could use it to iterate on a prompt.
+
+00:26:08.000 --> 00:26:19.000
+And so you can do some prompt engineering. This is where you can run like a test function in PyTest, which will exercise an LLM call.
+
+00:26:19.000 --> 00:26:31.000
+This then can collect and collect some results I'll be using a PyTest plugin called PyTest Harvest. There's many ways to do this. I just chose this because this was the easiest thing.
+
+00:26:31.000 --> 00:26:44.000
+They're going to set up and do. And then from there, right, this is where you can bring in like a manual process or automated one, but this is where you decide whether to ship it or not or tweak.
+
+00:26:44.000 --> 00:27:00.000
+And so specifically, there's a slide from last workshop where you found the traces and spreadsheet and you kind of went through and curated and annotated them and so What I'm going to do with PyTest is show you how you could potentially create a CSV file that you could then upload to a spreadsheet.
+
+00:27:00.000 --> 00:27:08.000
+Do your spreadsheet things, determine what needs to be fixed, and then go back to this kind of cycle again.
+
+00:27:08.000 --> 00:27:26.000
+So with that, I'm going to go to GitHub, right? So you can follow along here under workshop four and in the PyTest overview the things that you need to do to get set up is obviously I do a git pull
+
+00:27:26.000 --> 00:27:40.000
+On your branch, go to the right kind of directory, make sure Python environment set up. But then if uh if you don't have the right Python dependencies installed then.
+
+00:27:40.000 --> 00:28:01.000
+The requirements of text should have everything in there. Now, I'm just going to switch over to my local computer just to So it's a, I can show you more than… than how Codespaces allows me to set up. So just a second.
+
+00:28:01.000 --> 00:28:07.000
+All right. Cool. Can everyone see my screen?
+
+00:28:07.000 --> 00:28:18.000
+Yeah, cool. All right. So… This is… So going to briefly go over that.
+
+00:28:18.000 --> 00:28:23.000
+Hi, yes. So I have in workshop four under PyTest Overview.
+
+00:28:23.000 --> 00:28:39.000
+There's logic. So this contains our logic here and so I have obviously a little simple dummy function like I showed in the slide but then say we have, we're doing LinkedIn kind of profile extraction. I have some code here to
+
+00:28:39.000 --> 00:28:47.000
+Give pasta some pasta LinkedIn text, right? I want to extract some things from it.
+
+00:28:47.000 --> 00:28:56.000
+So uh So if I go to test logic.py, this is where we kind of see things.
+
+00:28:56.000 --> 00:29:02.000
+I have provided the commands if you want to kind of follow along and see things. But to run pytest.
+
+00:29:02.000 --> 00:29:06.000
+I'm also including dash vv to have more verbose output.
+
+00:29:06.000 --> 00:29:18.000
+We can then specify the module and this will run everything in the module with a test prefix, or we can actually specify the single thing to run. So that's what I've done here.
+
+00:29:18.000 --> 00:29:38.000
+The other thing to note about PyTest is that it allows you to write tests that are fairly dry. Because a lot of tests you generally want to change the inputs and see the expectations. So this will be kind of useful If you're doing LLM calls because you can change the inputs and outputs without having to rewrite a test.
+
+00:29:38.000 --> 00:29:47.000
+To do that in PyTest you mark a function with parameterized.
+
+00:29:47.000 --> 00:29:55.000
+You give it this kind of mapping here. So we see A, B expected, just needs to kind of map to these arguments.
+
+00:29:55.000 --> 00:30:03.000
+And then we provide a list of tuples and the tuples have to match, the order just matches the arguments.
+
+00:30:03.000 --> 00:30:19.000
+You can see here there's two different inputs here for A and B, and then we have two different expectations and then As you see when this is run, this is actually turned into two tests because there's kind of two inputs, right?
+
+00:30:19.000 --> 00:30:43.000
+Right. Cool. So… So now say I want to test the extract kind of profile data function right and so what we can do is we could write a basic test that is just loading my LinkedIn profile. So it's under, if you want to see it, it's going to under data here.
+
+00:30:43.000 --> 00:30:52.000
+And I'm going to show you, I guess, one of the things or limitations that If you're going to use PyTest for testing LM calls, we'll kind of have to get around.
+
+00:30:52.000 --> 00:30:57.000
+Cool. All right.
+
+00:30:57.000 --> 00:31:04.000
+We see that as fail. But we wanted to extract several things.
+
+00:31:04.000 --> 00:31:16.000
+So one of the assumptions of PyTest, just because of where it came from, is that assert statements in a test If it fails on the first one, it doesn't run any below it.
+
+00:31:16.000 --> 00:31:26.000
+That's kind of what we see here is that it got my name correct, but then, you know, I failed on the current role and we didn't actually get to check any of the other stuff.
+
+00:31:26.000 --> 00:31:33.000
+So that is the one thing we're going to have to get around to use pytest.
+
+00:31:33.000 --> 00:31:37.000
+And I'll show you kind of how to do it in a second.
+
+00:31:37.000 --> 00:31:57.000
+The… I… One cool trick to kind of, before I go there that I found that like you can kind of do is like you can actually write tests uh Things with LMs, right? The generative, rather than running the same thing 10 times, like you could just actually write a test
+
+00:31:57.000 --> 00:32:08.000
+That actually gives you, runs it however many times you want And then gives you at least a check on what is the variance of these outputs.
+
+00:32:08.000 --> 00:32:15.000
+So you can kind of see what to hone into. And so in this particular test here, you can kind of see here, it says, hey.
+
+00:32:15.000 --> 00:32:24.000
+You're getting different inputs for education. So maybe it's something on our prompt iteration we need to kind of dig into, right?
+
+00:32:24.000 --> 00:32:40.000
+And so How would I do the prompt iteration? Well, this is where you know i we could set up some expectations, right? We can then go back to the logic file. We could do our prompt engineering here and then rerun this test.
+
+00:32:40.000 --> 00:32:50.000
+And so this is where we can back and forth do it. And then once it's done right we actually have some some record of expectation that we have encoded.
+
+00:32:50.000 --> 00:32:59.000
+That we can then systematize. So rather than it being in a notebook, this is then potentially more easy to productionize, so to speak.
+
+00:32:59.000 --> 00:33:07.000
+To cheat a little, I have two functions. I have an already iterated on function that largely actually I want to thank Hugo for.
+
+00:33:07.000 --> 00:33:21.000
+And so generally, I think what happens, it's either your prompts become more specific Or you try to shorten what they do. And so in this case here, I've included a lot more context to what to kind of extract.
+
+00:33:21.000 --> 00:33:38.000
+And so I can… run this test again right with this say new prompt iteration And we should hopefully see that things pass. Cool. All right. It did. Let's see how stable this is.
+
+00:33:38.000 --> 00:33:45.000
+Right.
+
+00:33:45.000 --> 00:33:57.000
+Cool. Awesome. So this table. Now, so that shows you just basic one iteration, right? Now, obviously, so how do we incorporate some more data?
+
+00:33:57.000 --> 00:34:18.000
+And so this is where PyTest parameterize could be used to come in and so So here I have it in line, but this this is where it could it could come from a data set or a file or something that you're curating but effectively here, I now have my expectations and, you know, ones for kind of hugo's profile.
+
+00:34:18.000 --> 00:34:25.000
+And so I can… now write a more generic function that just iterates over different data, right?
+
+00:34:25.000 --> 00:34:36.000
+Using partis might prioritize. To get around the side, this is where we are using the PyTestHarvest plugin.
+
+00:34:36.000 --> 00:34:47.000
+What it does is it gives us a little fixture, what's called a fixture. So I'm not going to dive into that, but fixtures are a thing in PyTest that you can kind of use to do a lot of customization.
+
+00:34:47.000 --> 00:34:57.000
+What it means is it can give us back an object where we don't actually have to do asserts here, but we can capture information we need in a key value manner.
+
+00:34:57.000 --> 00:35:20.000
+And then at a later point, like assess everything altogether. And so how this works is that these functions are going to be So this function is going to access once for a feature of mine and Hugo's profiles. We're going to capture the inputs, outputs. Each kind of field match?
+
+00:35:20.000 --> 00:35:27.000
+And then if you only assert we're going to have is like, we want to make sure that we always get the name correct, right? So this is a choice we can make.
+
+00:35:27.000 --> 00:35:42.000
+Do we want to, you can use the search to fail hard or you can capture things in a software and then process them later to then decide whether to fail an aggregate or not and so with podcast harvest, this is where this test prep results function comes in.
+
+00:35:42.000 --> 00:35:51.000
+It gives us a, we can ask for a pandas data frame that has uh all this information.
+
+00:35:51.000 --> 00:35:54.000
+That was captured in these tests that were using the results back.
+
+00:35:54.000 --> 00:36:01.000
+And so… Let me just walk through it without scrolling too quickly.
+
+00:36:01.000 --> 00:36:07.000
+So… This will give us a data frame.
+
+00:36:07.000 --> 00:36:17.000
+We can then compute or add columns to this data frame. So if you come from the data science side, like this is where you know you can start to do some of those things you do with a data frame.
+
+00:36:17.000 --> 00:36:27.000
+We can, you know, we can compute field accuracy based on the different fields right This is where we can kind of, you know.
+
+00:36:27.000 --> 00:36:43.000
+Print what we want We can compute different measures, sorry, we compute different metrics from the things that we have measured And this is where like in aggregate, right, we can then choose to you know assert like fail like hey
+
+00:36:43.000 --> 00:37:00.000
+Fail the pipeline or fail the test completely or not, or just, you know, log some warnings This is where we could also in this function you know upload the data to Google Sheets and you know kick off some other process but
+
+00:37:00.000 --> 00:37:05.000
+Just to give you a mental picture of kind of how this works.
+
+00:37:05.000 --> 00:37:06.000
+Yep.
+
+00:37:06.000 --> 00:37:20.000
+Hey, Stefan, just one look. We've had a couple of related questions in the chat, which is… The answer is implicit in everything you're talking about, but it's around, but I think it's worthwhile being explicit about it.
+
+00:37:20.000 --> 00:37:30.000
+How do we use testing, deterministic tests, when the stochastic, when the nature of LLMs and this type of software is stochastic?
+
+00:37:30.000 --> 00:37:31.000
+Yep.
+
+00:37:31.000 --> 00:37:37.000
+And part of the answer that William spoke to in the thread is around running it several times and getting a distribution of results, right?
+
+00:37:37.000 --> 00:37:38.000
+But if you could speak to that explicitly, and I know you intend on doing so but
+
+00:37:38.000 --> 00:37:45.000
+Yep. Yeah, yeah. I mean, that's a good question. So this is where one of the things is like, should things be 100%?
+
+00:37:45.000 --> 00:38:02.000
+And so this is where I think if you're going to use PyTest, this is where you can't use asserts, really. You need to use some sort of fixture or other things to collect aggregate things and then later this is where distributionally like this is where like and from an aggregate measure
+
+00:38:02.000 --> 00:38:12.000
+You can decide. Whether to fail or not. So this is where if you aggregate things, you can then make that decision.
+
+00:38:12.000 --> 00:38:17.000
+Obviously, with enterprise and other stuff, like you're going to have test cases that you'll be like.
+
+00:38:17.000 --> 00:38:32.000
+No like this needs to always like work right And so in which case you might mark those differently. You might treat those differently. But then there are these other aspects of retrieval or things that you're testing, which are a little softer. And so this is where you might just want to log them
+
+00:38:32.000 --> 00:38:40.000
+And then view them as a human and then see things over time. But this is where I think I was kind of getting to a little bit with the mental note on the tension of like.
+
+00:38:40.000 --> 00:38:59.000
+Some of these aspects of inputs can be things that are helping you test the bounds of like the expected behavior But in which case you definitely want to get them right but then You need to balance that with the distribution on the aspects of like, you know.
+
+00:38:59.000 --> 00:39:06.000
+How often do you want to get it right? And so this is where I've seen strategies where people do like this, this.
+
+00:39:06.000 --> 00:39:12.000
+This here is actually, you don't always do all the data you do. You do a random sample.
+
+00:39:12.000 --> 00:39:32.000
+Of some of this, right? And then on this random sample of the data that you've labeled, hand labeled or synthetic data kind of generated right You try to make sure that distributionally, that's uh you compute some metrics to decide whether to pass fail.
+
+00:39:32.000 --> 00:39:37.000
+Does that help? I can't see anyone in the chat, so Hugo, I'm going to or William, I'm going to roll on you.
+
+00:39:37.000 --> 00:39:42.000
+It definitely helps me and answers it for me. But please, if any clarifying questions, please put it in the chat and we'll get to it.
+
+00:39:42.000 --> 00:40:02.000
+Yeah. So on that note, like this is where like one of the things that PyTest does actually allows you to mark things. And so you can actually come up with these kind of If you've heard of smoke tests or other things, it basically allows you to kind of
+
+00:40:02.000 --> 00:40:16.000
+Mark each of these functions with different kind of attributes. And so then you can actually in different parts of your CI system or other things decide what level of specificity or granularity of tests you kind of want to run
+
+00:40:16.000 --> 00:40:22.000
+And so here I'm kind of specifying that, hey, I only want to run the test mark test, right?
+
+00:40:22.000 --> 00:40:45.000
+And so this is where, you know. As part of handling the non-determinism versus determinism aspects you can in your kind of software development lifecycle decide which tests need to be run when and at which cadence because The other flip side of this is LLM calls can cost you money, right? And so which case, you know, having some means to curate
+
+00:40:45.000 --> 00:40:57.000
+This is what you want to have and so Hence why the reason why I use PyTest, because it's a lot off the shelf, like allows you to curate functions or these tests into different kind of sets, right?
+
+00:40:57.000 --> 00:41:14.000
+It can help you parameterize them and it's very kind of extensible and flexible to you know to to help you create a data frame of results, right? That then you can kind of uh use but But if you're not going to use part tests, but hopefully this gives you some sense or ideas of some features you will want.
+
+00:41:14.000 --> 00:41:22.000
+Here to have in your kind of, as you're writing these tests, but then also how to use them.
+
+00:41:22.000 --> 00:41:23.000
+Cool. All right. Yep.
+
+00:41:23.000 --> 00:41:32.000
+Question? So let me know if this is too much in the weeds, but I'm kind of getting conceptually what's going on, but not like how the pieces connect. Like there's a results bag in one test that I assume is from Harvest, and then there's a module results DF.
+
+00:41:32.000 --> 00:41:37.000
+Mm-hmm.
+
+00:41:37.000 --> 00:41:39.000
+But is that defined somewhere or where are these things configured? How do these things fit together?
+
+00:41:39.000 --> 00:41:51.000
+Yeah. Yeah. Yeah, yeah. So this is the podcast fixtures thing. And so in So Podcast fixtures. So basically.
+
+00:41:51.000 --> 00:42:11.000
+Modules, there's a lot of them. They're generally high tests you know prefix with pytest and then the name. And PyTest, what it does in the Python environment actually I can auto load things or modules or practice harvest plugins that have been installed in your Python environment. And so this is a little bit of the magic of PyTest. And so that's how
+
+00:42:11.000 --> 00:42:18.000
+That's where module results DF comes from. There are like, yeah.
+
+00:42:18.000 --> 00:42:30.000
+I was going to say there isn't any any other magic I've done to kind of set anything else up, but this is this is This is a feature of PyTest, and that's kind of how it works.
+
+00:42:30.000 --> 00:42:32.000
+Does that answer the question?
+
+00:42:32.000 --> 00:42:37.000
+I think so, yeah. So I just need to read about PyTest Harvest. It kind of does these things.
+
+00:42:37.000 --> 00:42:38.000
+Behind the scenes.
+
+00:42:38.000 --> 00:42:49.000
+Yeah, yeah. And specifically, I would say PyTest plugins because that's kind of They do a little bit of magic to just auto load stuff If it's in the environment, else it will kind of complain.
+
+00:42:49.000 --> 00:43:07.000
+I was just going to say like, I've been using PyTest for a while at my job and like Sometimes the fact that it automatically inserts like params to the function name like It can be really counterintuitive and sometimes it still surprises me if it's especially if it's a new plugin that you don't know about and all of a sudden you're like, well, why is
+
+00:43:07.000 --> 00:43:22.000
+This arg in my function and you have to make sure it's named the thing that the plugin expects it to be so Yeah, it's worth ringing me up on but it is also just something you kind of sometimes it breaks and you're like, why? And you're like, oh, it's because um
+
+00:43:22.000 --> 00:43:25.000
+The plugin loaded something under this name.
+
+00:43:25.000 --> 00:43:52.000
+Yep. But yeah, but yeah, I guess… Meta point, shouldn't be too fixated on PyTest, but hopefully the conceptual structure of like, this is what you can do to set up something systematic that takes workshop three and you know puts it into something that is a little more software engineering and kind of shape.
+
+00:43:52.000 --> 00:43:54.000
+Hey, Stefan. Just a heads up that we're nearly halfway through.
+
+00:43:54.000 --> 00:44:00.000
+Yeah, cool. Yep. Cool. All right.
+
+00:44:00.000 --> 00:44:11.000
+With that, I don't think I have… Any more to share on this? Let me flip back to Don't touch on. All right.
+
+00:44:11.000 --> 00:44:18.000
+Here, so… Let's see. Sorry.
+
+00:44:18.000 --> 00:44:24.000
+Discussions and questions. I think some of the questions that you guys kind of brought up, I think, touched on this.
+
+00:44:24.000 --> 00:44:41.000
+So in the repo I did give an example of like, you know, a CI implementation. So GitHub, if you don't know, allows you to write workflows. These can be run on, say, every pull request.
+
+00:44:41.000 --> 00:44:48.000
+And so I wrote an example one that exercises
+
+00:44:48.000 --> 00:45:01.000
+High test logic. A logic.py has been changed. Obviously, you can make this run when any files in the repository have changed, but here I've just done being very specific.
+
+00:45:01.000 --> 00:45:08.000
+And so… This is an example of a CI pipeline.
+
+00:45:08.000 --> 00:45:22.000
+Fairly basic. All it's doing is just running by test logic now Depending on what you're doing, like this does output a CSV file like either in the test logic pi itself or outside of it, like this is where you can kind of connect it to like, you know.
+
+00:45:22.000 --> 00:45:52.000
+Uploading results to Google Sheets or um if you really want this pipeline to fail, like you could have it ping something and wait for a callback to say some human looked at things, yes or no, this is where your imagination and regular software engineering skills can kind of help you come up with the right process for you that works internally.
+
+00:45:54.000 --> 00:46:08.000
+I think we covered this question as well. So should you aim to never have failures Right. And Hamill, I think, in his wisdom, the way that he kind of frames it is like, if your tests are passing 100%, like what are they testing?
+
+00:46:08.000 --> 00:46:23.000
+Right. And so to me, there is a bit of a, the things you want 100% are the things like you always want your application to behave and do. But then there's just going to be this kind of gray area of things right which is kind of like you don't want to stop your push to production
+
+00:46:23.000 --> 00:46:33.000
+But you do want to longitudinally potentially measure or track or have some sort of data point so that you can go like, hey, something looks weird. And then you can look back, hey, look at our last releases.
+
+00:46:33.000 --> 00:46:48.000
+This particular accuracy measure has actually been fluctuating a little bit or now it's been dipping down, right? And so this is where This is where a bit of the data sciencey type aspect comes into measuring and figuring out where things are going but
+
+00:46:48.000 --> 00:47:00.000
+But then with this podcast set up, right, at least you can set up a way that you can measure and track these artifacts with these CSV files. If you need to dig into more, you do have the data.
+
+00:47:00.000 --> 00:47:07.000
+Okay. Question for you all.
+
+00:47:07.000 --> 00:47:20.000
+Llms cost money and potentially depending if your eval set is a thousand things you really want to do A thousand calls to an LLM, And then if you think about, you know, it's not just one LM call it's multiple
+
+00:47:20.000 --> 00:47:36.000
+Does anyone have any ideas or suggestions as to what the the best way potentially to keep track of costs associated with testing because i'm sure uh you know that's going to be whoever is in finance or whoever's enabling you
+
+00:47:36.000 --> 00:48:01.000
+It's probably going to ask you know Who's using all the credits?
+
+00:48:01.000 --> 00:48:04.000
+Like its own keys and you can track it down to the At the key level.
+
+00:48:04.000 --> 00:48:22.000
+Yep. Yeah. So make sure that when you're doing this right, make sure you have different keys for different environments and different purposes is usually all these, if you're not hosting your models locally, most of these model providers basically allow you to track
+
+00:48:22.000 --> 00:48:35.000
+Usage by keys right and so um so So good practice, number one, to make sure you have separate keys for this type of thing. So you can easily associate to make sure that, you know.
+
+00:48:35.000 --> 00:48:36.000
+Stefan, as an illustrative example, can you just go to GitHub?
+
+00:48:36.000 --> 00:48:39.000
+Testing isn't a runaway cost for you.
+
+00:48:39.000 --> 00:48:43.000
+And show what I did yesterday when we're on a call
+
+00:48:43.000 --> 00:48:52.000
+Uh… You mean adding
+
+00:48:52.000 --> 00:48:53.000
+Yeah. Oh, yes.
+
+00:48:53.000 --> 00:49:03.000
+Yeah, well, literally, we added one token for these tests. And you can actually show in GitHub where like just as people have a sense of how this Like…
+
+00:49:03.000 --> 00:49:04.000
+But I didn't literally show where I added the token. Maybe not permissions in this repository.
+
+00:49:04.000 --> 00:49:10.000
+Yeah. Yeah. So, oh, yeah. So how does this pipeline look like in a in a
+
+00:49:10.000 --> 00:49:11.000
+Okay.
+
+00:49:11.000 --> 00:49:20.000
+I do not have permissions to show that. But this is where you can see when things kind of run This is the test that gets done, right? This is the PI test, everything kind of passed, right?
+
+00:49:20.000 --> 00:49:40.000
+So, but This is where the key here that you'd use, right? This is then you could go to open AI and go, hey, how much cost is my thing? And that would kind of Let you track it that way.
+
+00:49:40.000 --> 00:49:48.000
+Cool. All right.
+
+00:49:48.000 --> 00:49:49.000
+Hmm.
+
+00:49:49.000 --> 00:49:54.000
+Actually, is it worth? Let me actually just share my screen very briefly because I think part of the homework or something you can do afterwards is set up CIC yourself and test. So I do Just want to quickly
+
+00:49:54.000 --> 00:49:57.000
+You'll have to fork the Reaper though, right?
+
+00:49:57.000 --> 00:50:06.000
+Yes, absolutely. But let me just let me just let me just
+
+00:50:06.000 --> 00:50:13.000
+Fund this. I've got so many screens open. This is intense.
+
+00:50:13.000 --> 00:50:16.000
+Can you see… Get up, Stefan?
+
+00:50:16.000 --> 00:50:19.000
+Yep. Yes.
+
+00:50:19.000 --> 00:50:22.000
+Was it under actions or could you actually remove
+
+00:50:22.000 --> 00:50:29.000
+It was a repository, it was environments, I think. Secrets and variables, I think.
+
+00:50:29.000 --> 00:50:30.000
+Sorry, down the button.
+
+00:50:30.000 --> 00:50:46.000
+Yes, exactly. And it was under actions. What I've done is I literally set up an OpenAI key here four actions that Stefan has called in his test. And we don't use this key anywhere else.
+
+00:50:46.000 --> 00:50:51.000
+So that's essentially, and you can, you literally just put new repository secret, right? And that's the reason I want to show this because it is a UI.
+
+00:50:51.000 --> 00:50:57.000
+Or UX, right? And once you set up CICD, you can add that.
+
+00:50:57.000 --> 00:51:03.000
+Essentially, and that's how you do it. And that's what you can all do as part of the homework or project if you're interested.
+
+00:51:03.000 --> 00:51:07.000
+So thank you for humoring me with showing that.
+
+00:51:07.000 --> 00:51:15.000
+A quick question. I'm sorry to interrupt. Is it possible to guard this different secrets.
+
+00:51:15.000 --> 00:51:25.000
+From like the developers and maintainers of the library like the maintainer obviously has access to everything, but I don't want the contributors to the repo to have access to the secrets to be able to copy and
+
+00:51:25.000 --> 00:51:31.000
+Yeah. Yes, because so for example, Hugo was the only one who could set up i can't.
+
+00:51:31.000 --> 00:51:46.000
+I could consume it and write it. The action that uses it but i don't have access to it. Obviously, I think potentially, I mean… Since it's in the environment, I could write a script to print it out. So you always have that kind of vulnerability right but
+
+00:51:46.000 --> 00:51:52.000
+In terms of changing or manipulating it from there, GitHub does have the permissions scheme for that.
+
+00:51:52.000 --> 00:52:02.000
+Yeah. And although I do trust Stefan as much as I trust nearly anyone, as an Australian, I'd be conditioned to not share our secrets with people from New Zealand.
+
+00:52:02.000 --> 00:52:18.000
+Yeah, yeah. All right. Cool. So next section. So… So I'm going to go over what is a trace and I guess bring it back to kind of the app and then hopefully tie it together with a little bit of
+
+00:52:18.000 --> 00:52:24.000
+How this fits into some of the data generation work and evaluation.
+
+00:52:24.000 --> 00:52:35.000
+So what is a trace, right? It is really if you were to draw a flow chart or like if you're onboarding an engineer is typically, you know, for me, I used to draw pencil and paper of how everything connects.
+
+00:52:35.000 --> 00:52:49.000
+Right. So that you can kind of think of this as that given a request from a user what is the code and the code path that it goes through while also capturing what were the inputs, how long was this overall step?
+
+00:52:49.000 --> 00:52:54.000
+Right. And so this is where you see the term trace or trace is for a single request.
+
+00:52:54.000 --> 00:53:18.000
+And then within it, you'll see kind of these kind of boxes that represent spans and so There could be an overarching span that underneath is calling various different things. So you can then see the breakdown of the span as it kind of
+
+00:53:18.000 --> 00:53:35.000
+Who responds, what type of cuisine do you prefer would be, you know, this kind of represent one trace and then the next input would then represented by another trace, right? And so this is where, depending if it's agents or other things, you know, different call paths or code and logic can be taken.
+
+00:53:35.000 --> 00:53:54.000
+And so, uh. So therefore, I mentioned spans This is the other word you'll hear if you hear about tracing, it spans right and so In a LLM app or something like this will be different these bands will correspond to
+
+00:53:54.000 --> 00:54:04.000
+Extraction going for to an API for retrieval the vector database for retrieval coming back you know that the LLM call, how long did it take?
+
+00:54:04.000 --> 00:54:18.000
+And so spans, you can think of it, if you're familiar with logging, it's kind of like a structured log where There are IDs that help it capture the relationship between like, so what was my parents span so what created me
+
+00:54:18.000 --> 00:54:27.000
+But then also some sort of, you know, it does have a payload that you can kind of, that is fairly flexible.
+
+00:54:27.000 --> 00:54:35.000
+There's a lot of UIs here. There's a lot of vendors here. This is an example of UI, but if you think about for LLM side.
+
+00:54:35.000 --> 00:54:44.000
+So Datadog has now built a product here but This does come from distributed tracing, which is between distributed systems.
+
+00:54:44.000 --> 00:54:51.000
+The only difference LLM providers here in the space have done is they've just provided a different UI treatment.
+
+00:54:51.000 --> 00:55:07.000
+To uh two traces. And so very, very important pretty much all of them have this kind of interface. So if you can kind of see this kind of tree type structure of relationship between like spans and things and then
+
+00:55:07.000 --> 00:55:15.000
+When you cook on them, you can kind of see more information, and this is what was logged along with that span.
+
+00:55:15.000 --> 00:55:30.000
+Right. How do traces fit in right it is you know unless you can use them in development, right? So as you're running your app locally this is you can actually leverage this as a way to do data collection but then
+
+00:55:30.000 --> 00:55:47.000
+When it goes to production, you can also do the same thing. So this is the interesting difference between regular software engineering If you are familiar with distributed tracing and Datadog, you would only use that in production But here with Gen AI tools, you can actually use the tracing tools locally in development for yourself as well.
+
+00:55:47.000 --> 00:55:53.000
+And so… what do those tools look like? How do you integrate them?
+
+00:55:53.000 --> 00:55:57.000
+So I'm just picking Langfuse just because it's a popular open source project.
+
+00:55:57.000 --> 00:56:14.000
+The main thing that you'll kind of see is like there is, you know, you have to install some libraries You then potentially, if you're using their cloud service or you basically have to put in some sort of endpoint And then you're instrumenting so you're instrumenting
+
+00:56:14.000 --> 00:56:25.000
+Using that particular library Importing those modules and then say in this case here, decorating functions that then When this function runs, it is capturing certain aspects about it.
+
+00:56:25.000 --> 00:56:48.000
+And then this doesn't have to be LLM calls. It could be any internal function right and so That's just kind of one example. I think, you know, Arise Phoenix, just to give you another example, right, is like you install something, import things to set things up and then wherever you want to kind of track or do more stuff right you
+
+00:56:48.000 --> 00:56:57.000
+Basically using that SDK, so to speak, to kind of instrument to create traces.
+
+00:56:57.000 --> 00:57:16.000
+Yeah. So nothing too complex, but But I want to say in the last year and a half, there's like a lot of these tracing providers initially when they came out, they were like very they were proprietary right meaning that the data format they sent was
+
+00:57:16.000 --> 00:57:26.000
+Something that they came up. But OpenTelemetry, which is an open standard, we can see a lot of convergence on vendors using this.
+
+00:57:26.000 --> 00:57:35.000
+And so one of the things you want to avoid is vendor lock-in. And so OpenTelemetry allows you to kind of uncheck yourself from that. And so specifically.
+
+00:57:35.000 --> 00:57:39.000
+As I mentioned, spans are a bit like a structured log.
+
+00:57:39.000 --> 00:57:44.000
+Opentelemetry gives a very specific vendor agnostic standard that a lot of vendors buy into.
+
+00:57:44.000 --> 00:57:52.000
+That then allows you to specifies how things should be formatted and how things should be logged.
+
+00:57:52.000 --> 00:58:06.000
+They even have a standard that's kind of, you know, in terms of the standard, they have a standard around what attributes and what they're called to be logged. So this is where if you use OpenTelemetry and a provider that supports ingesting it.
+
+00:58:06.000 --> 00:58:19.000
+They then very easily can then, this is where you can attach metadata like the LLM token usage, the LLM, how many tokens were input, how many tokens were output What were the inputs? What was the type of model?
+
+00:58:19.000 --> 00:58:33.000
+And so they're providing a structured schema that then any downstream consumer, as long as they support it, can ingest it. And then you can kind of see stuff and so the value add to use that. Ideally, you should only have to instrument your code once
+
+00:58:33.000 --> 00:58:40.000
+And then choose the right provider if you don't want to host it yourself, right?
+
+00:58:40.000 --> 00:58:54.000
+And you should, yeah. Choose the right provider for you. And then the switching costs is literally just switching what URL to point to type thing. And so So then you can really force those vendors to compete on functionality and not on
+
+00:58:54.000 --> 00:58:58.000
+Vendor lock-in.
+
+00:58:58.000 --> 00:59:09.000
+But otherwise, yeah, there's a lot of them. But if I was to say, you know, hedge your bets, like, you know, pick something that's using OpenTelemetry.
+
+00:59:09.000 --> 00:59:18.000
+Because it'll be easier if one of them does VC money does dry up, you'll have options and you won't be stuck.
+
+00:59:18.000 --> 00:59:41.000
+Cool. So… How does this all fit together? So how does traces fit together with kind of the ED stuff or like the PyTest stuff, right? So I kind of drew out these these two loops. And so specifically, I kind of frame it as, you know, there could be this test driven or more, you know, internal local or edd uh driven loop
+
+00:59:41.000 --> 00:59:51.000
+But then there's this outer app one. And so where traces kind of fit in right is that If you're running your full application, it gives you a means to capture more data.
+
+00:59:51.000 --> 01:00:02.000
+And so from that trace, this is where you can create synthetic data or, you know, in PyTest add some data inputs and outputs that you want to iterate on.
+
+01:00:02.000 --> 01:00:19.000
+I mean, this is maybe then something if you have subject matter experts, you could take some of those traces and then have them annotate it so you can get better ground truth, right? And so then All this kind of feeds into some sort of data sets you're curating
+
+01:00:19.000 --> 01:00:30.000
+You're then analyzing things and then just deciding what to do next, right? And then depending on where you are, whether you're optimizing a single prompt or you're doing stuff in production, this is where then, you know.
+
+01:00:30.000 --> 01:00:41.000
+This effectively you're feeding these two loops with the data that you are creating or generating or seeing with your GenAI apps.
+
+01:00:41.000 --> 01:00:46.000
+And so I think some of you have experience with, I know William does.
+
+01:00:46.000 --> 01:00:52.000
+One of the things to kind of note though is that if you're an enterprise.
+
+01:00:52.000 --> 01:00:58.000
+Sometimes the trace data, you might not actually be able to see what the actual inputs and outputs were. So you can't actually do too much on this.
+
+01:00:58.000 --> 01:01:15.000
+Annotate phase, right? And so this is where short answer is unless you have agreements with your users it's going to be hard. And so you have to kind of, ideally you could probably ideally if you can log something about the shape of what the requests are doing, synthetic data can fill your gap.
+
+01:01:15.000 --> 01:01:26.000
+But just to mention though, an enterprise like this, this, this top loop may or may not be applicable if you can or cannot see the data.
+
+01:01:26.000 --> 01:01:40.000
+But the flip side of this is like you know, if someone does come to you and go, what is my agent doing right If you have no instrumentation, you can't really answer that question. So therefore.
+
+01:01:40.000 --> 01:01:52.000
+Important to log stuff. And this is where I think you can log stuff and use it in development rather than waiting until you get to production.
+
+01:01:52.000 --> 01:01:59.000
+And for those who've been around, I want to say, if you think about observability from the beginning, you'll structure your code slightly differently.
+
+01:01:59.000 --> 01:02:12.000
+To make it that easier to do. So I want to say it's easier to do it if you can do it from the beginning rather than trying to retrofit it later on.
+
+01:02:12.000 --> 01:02:13.000
+Any questions? Yeah, I was going to say, any questions on traces and stuff?
+
+01:02:13.000 --> 01:02:16.000
+Got around half an hour.
+
+01:02:16.000 --> 01:02:28.000
+I kind of flew through that, but that Yes, part of the homework will be to maybe play around with one of these vendor tools or set something or do your own logging.
+
+01:02:28.000 --> 01:02:39.000
+And we'll be looking more at traces as We've been looking at traces in spreadsheets already, just to be clear, everyone, right? And also in JSON viewers and that type of stuff.
+
+01:02:39.000 --> 01:02:44.000
+But next week, we'll be looking at more traces of agentic systems as well.
+
+01:02:44.000 --> 01:02:54.000
+And get a sense of what happens there.
+
+01:02:54.000 --> 01:03:03.000
+Hardest on Tracers. Where I see PyTest fitting in with this is that like um with.
+
+01:03:03.000 --> 01:03:11.000
+With test logic, right? Okay, well, sorry.
+
+01:03:11.000 --> 01:03:29.000
+What's too slow? Where I see parties fitting in is that parties the like it just is helping you provide structure, but the inputs, this is where with parameterization like if you're loading data from some data file, this is where traces fits in. Traces can feed into the data that you're using.
+
+01:03:29.000 --> 01:03:43.000
+And that's kind of how I see the connection and podcasts is just one means to exercise that evaluation driven development kind of script.
+
+01:03:43.000 --> 01:03:52.000
+But then I guess maybe I misunderstood your question. If you're running PyTest, does it make sense to use tracing then?
+
+01:03:52.000 --> 01:04:02.000
+I want to say i want to say most tracing providers, if you don't set something up, they don't log traces. So it's a no-op.
+
+01:04:02.000 --> 01:04:17.000
+But depending if you're doing something more agentic or more complex You could turn on tracing, right? So when you run a test case, you see the result, but then if you really want to dig into it, you could then go to your trace provider and dig in.
+
+01:04:17.000 --> 01:04:23.000
+I have seen people kind of set up a few things like that as well.
+
+01:04:23.000 --> 01:04:43.000
+So the answer is it kind of depends. But if you're trying to do something a little more complex, then actually, yeah, maybe you want to turn on tracing while you're using PyTest. If it's exercising some more code than just a single kind of LLC.
+
+01:04:43.000 --> 01:04:51.000
+Oh, so… So, Roshan, your question on should you write test cases on traces because it's structured?
+
+01:04:51.000 --> 01:04:58.000
+I'm not sure I… understand that. I mean, like.
+
+01:04:58.000 --> 01:05:08.000
+You… Depending on how you're capturing these traces, you may or may not have access to the traces like You might have to look somewhere else.
+
+01:05:08.000 --> 01:05:16.000
+But I want to say Yeah, depending on what you're doing, that may or may not make sense. But I would say, you know.
+
+01:05:16.000 --> 01:05:28.000
+Do the simplest thing. And so don't try to do things that are too complex without a clear workflow productivity gain need for them.
+
+01:05:28.000 --> 01:05:35.000
+Got it. Okay. So you're saying that PyTest would be a separate workflow and the tracing would be a separate workflow and You can do pi tests.
+
+01:05:35.000 --> 01:05:40.000
+Completely separately from just using the tracing data at all this it's more simpler to do as well.
+
+01:05:40.000 --> 01:05:53.000
+Yeah, I mean, yeah, I was going to say start simple and then see where it makes sense like like technically in this app dev loop like you could write a PyTest test that actually runs like some part of your agent.
+
+01:05:53.000 --> 01:06:05.000
+Like you and so in which case you could use pricing with that to use with as an integration test right debug things right so because because py test could you could set up integration tests with pytests as well right and so
+
+01:06:05.000 --> 01:06:16.000
+But in terms of using the output of the trace in the test during PyTest, I want to say that sounds a little hard to do but um But, you know, there's probably, you know.
+
+01:06:16.000 --> 01:06:20.000
+There's not saying it's impossible. I just haven't seen anyone do it.
+
+01:06:20.000 --> 01:06:27.000
+Okay, so you use your traces as As I said, we're going to…
+
+01:06:27.000 --> 01:06:33.000
+Yep. Yeah. Yes.
+
+01:06:33.000 --> 01:06:34.000
+Yeah. Yep. Yep, yep, yep.
+
+01:06:34.000 --> 01:06:37.000
+I'm sorry. Let's take this conversation to discord if that if that's okay Just because there's significant appetite for guardrails. So I don't know whether we've got around 25 left so I don't know how much more of this
+
+01:06:37.000 --> 01:06:44.000
+Yes. So short interlude on frameworks and then on guardrails. But yeah, Roshan, I'll follow up on discord.
+
+01:06:44.000 --> 01:06:53.000
+Um so uh… I was looking for a definition of a framework, ask Google Gemini. I think this is pretty reasonable, right?
+
+01:06:53.000 --> 01:07:08.000
+A framework effectively is like, to me, an opinionated it's inserted opinionated like collection of code that forces you to do things in a certain way Libraries are very similar. I guess my difference between a library and a framework is a
+
+01:07:08.000 --> 01:07:14.000
+A framework is also potentially a system, whereas libraries are just, you know, they never are kind of full systems.
+
+01:07:14.000 --> 01:07:26.000
+And so As we demonstrated in the first session of this course using Lama index, but then trying to get you to rip out Right. The question is, when should you use one or not? And so hopefully I'll give you some
+
+01:07:26.000 --> 01:07:32.000
+Mental kind of constructs or things that you can ask people to decide whether to choose one or not.
+
+01:07:32.000 --> 01:07:45.000
+But… Most of these frameworks, right? The reason why they're built is to help speed something up. And so you really should understand what that is and so what they're optimizing for.
+
+01:07:45.000 --> 01:07:56.000
+So uh take different tools, open source tools out there, right? They all have different things they're optimizing for so Langchain versus Pident AI. So Pydantic AI is by Samuel Coleman Colvin, who's the creator of Pydian.
+
+01:07:56.000 --> 01:08:09.000
+Pydantic is all our people like it because it's around types and type safety, right? And so you can kind of think that like Pydantic AI is going to take Samuel Colvin's views on type safety far more seriously than something like Bangchen.
+
+01:08:09.000 --> 01:08:15.000
+So Langchain came out of like the first thing, the research and was just optimizing for speed.
+
+01:08:15.000 --> 01:08:30.000
+All right, of getting a POC, right? Versus, you know, fast API, which is meant to be, you know, it's a web service, pretty stable. It doesn't dictate The logic in the service, it just wants to help you stitch together HTTP to business logic and back.
+
+01:08:30.000 --> 01:08:41.000
+And I want to say the best ways to understand is to understand a bit more about the project origins or understand who created it, right? So this is where Samuel Colvin, Pydantic creator and Pydantic AI.
+
+01:08:41.000 --> 01:08:46.000
+We'll give you, I guess, a bit more of a sense as to what they're optimizing for.
+
+01:08:46.000 --> 01:08:58.000
+And then you should not bring in a framework just because you think you need a framework. Like you really should like you know, when you bring it in, it should be clear that like, hey, this will actually make some part of iteration faster.
+
+01:08:58.000 --> 01:09:02.000
+Iteration is going to be different for you, different on your context. So asterisk there.
+
+01:09:02.000 --> 01:09:18.000
+And then you also have to partition it into the zero to one case. So I have nothing and I want to create something very quickly to, oh, look, this is going to be running in production There's going to be many iterations. It's going to be living for a long time.
+
+01:09:18.000 --> 01:09:29.000
+Like you might make different choices between these two things, right? And so I want to say this is probably the where things I think, bifurcate the most in terms of frameworks or choosing stuff, at least in the gen ai space is like
+
+01:09:29.000 --> 01:09:42.000
+Do you optimize something that gets you from zero to one first or do you optimize to something that helps you iterate successively and progressively as a team versus say an individual.
+
+01:09:42.000 --> 01:09:47.000
+And then importantly, right? This should replace code that you don't care about.
+
+01:09:47.000 --> 01:09:52.000
+Because that is what you want to delegate to the framework. If you have to dive into the framework.
+
+01:09:52.000 --> 01:09:57.000
+Too often to change something, to augment or to implement. I want to say that's a smell.
+
+01:09:57.000 --> 01:10:07.000
+And so just Not to say that it's bad, but this is where, you know, if you're diving and changing things too much, then maybe it's like, well.
+
+01:10:07.000 --> 01:10:12.000
+What value is that framework kind of providing? You have to be clear about it.
+
+01:10:12.000 --> 01:10:13.000
+So, yeah.
+
+01:10:13.000 --> 01:10:18.000
+Sorry, Seven. One question on the last slide. People were wondering why like you included FastAPI as an example, along with the other two.
+
+01:10:18.000 --> 01:10:29.000
+Yeah, I mean, because to build a Gen AI app, I could just do everything vanilla, right? But it's like, this is where like my problem is if I'm serving something, I mean, this is where I just wanted to kind of give you an example of like frameworks and not just focus on generic ones but like
+
+01:10:29.000 --> 01:10:33.000
+Hmm.
+
+01:10:33.000 --> 01:10:45.000
+There isn't anything You shouldn't read too much into that versus you're saying like they optimize for different things, right? And so this is the the This does not optimize for any LLM stuff at all.
+
+01:10:45.000 --> 01:10:51.000
+Yeah.
+
+01:10:51.000 --> 01:11:07.000
+Good question. Cool. So just to give you, so I actually, you know, I've created two open source projects, right? And so just to give you a quick sense of in a couple of minutes, two example design differences just to like hopefully crystallize an example of kind of what I was talking to about
+
+01:11:07.000 --> 01:11:32.000
+What we were optimizing for and of course spaces back up cool so um uh In the first kind of workshop, we used kind of lamarind dates right and so um uh the um there's a lot that kind of happens in here right and so
+
+01:11:32.000 --> 01:11:44.000
+You can, this is where you can this is we, you know, you uploaded some pretty pdf Right. And then you say, given the query, give me a response.
+
+01:11:44.000 --> 01:12:02.000
+Super cute like super fast, right? But this is where If I want to know what's happening, like I really now have to dig into understanding the framework and then all the frameworks and direction, right? So this is where you know, they're not optimizing for that perspective right and so
+
+01:12:02.000 --> 01:12:08.000
+To juxtaposition burr, which is, if you're familiar with Landgraph, it is something pretty similar to that.
+
+01:12:08.000 --> 01:12:20.000
+But part of the idea was that we actually don't want to hide anything any logic, but we want to make it really easy to glue things together and show how things kind of relate.
+
+01:12:20.000 --> 01:12:38.000
+And so with respect to how something is actually kind of generated right we You can actually see like this LLM client is actually a, you know, you pass in the LLM client to kind of use.
+
+01:12:38.000 --> 01:12:51.000
+Doesn't do anything LLM specific, right? So in terms of one thing you can kind of tell is when you're looking at someone that's using a framework how much code from the framework or modules that they're importing.
+
+01:12:51.000 --> 01:13:00.000
+And so I think in Lamarindex, actually, it's not too much but um uh As your code base gets more complex, this is where you can kind of really see this kind of come out.
+
+01:13:00.000 --> 01:13:06.000
+But the design decision is that this is a little more verbose.
+
+01:13:06.000 --> 01:13:21.000
+In terms of description. So specifically, how do you construct and do something like you need to like construct like a graph and say how things kind of are connected, right? So it's a little more kind of verbose than that. But then if you think about the one to n iteration, this is where it's, well.
+
+01:13:21.000 --> 01:13:41.000
+This verbose should actually make some things a little clearer so if i want to really change how the query is done using the input user data from the client like this is where i can there's a very clear place for me to kind of go do that. Whereas with llama
+
+01:13:41.000 --> 01:13:54.000
+Slam or index, if I want to change something, I really now need to understand Lambda Dix framework. I really now need to go understand, okay, like if I really want to change how this is queried or what the prompt is like, you know, this is where I really need to do, you know, a lot more work.
+
+01:13:54.000 --> 01:14:04.000
+So, um. Hopefully that gives you you know Just a bit of a sense of like, if you're going to look at frameworks and you're going to evaluate them, maybe some lenses to kind of look at.
+
+01:14:04.000 --> 01:14:12.000
+Um but uh peel back the onion there a little bit.
+
+01:14:12.000 --> 01:14:21.000
+All right. And so, you know, is every framework it's right for every situation.
+
+01:14:21.000 --> 01:14:26.000
+Hopefully this is a rhetorical question. But, you know.
+
+01:14:26.000 --> 01:14:39.000
+Short answer is it depends. So this is where like Lama index could be very good for you when you when you need to kind of use it and you really want that quick POC. But then, you know, this is where for the one to n iteration, you really understand like, well.
+
+01:14:39.000 --> 01:14:44.000
+Or what parts of the vacancy retrieval process do I really not want to deal with?
+
+01:14:44.000 --> 01:14:55.000
+That I really want Lamarindex to kind of hand, right? Whereas with Burr, it's like, yeah, it's more bring your own. But then I get those benefits that I can stitch together llama index and, you know.
+
+01:14:55.000 --> 01:15:14.000
+Haystack together because I can do that because that's, you know, Burke makes that easy for you to kind of do so Well, cool. So in this last 15 minutes, I probably don't quite as much. I'm going to quickly go over guardrails.
+
+01:15:14.000 --> 01:15:19.000
+Otherwise, Priya, good point. Yes, frameworks are as opinionated as models are.
+
+01:15:19.000 --> 01:15:26.000
+So what are GAD reps? Nothing too complex.
+
+01:15:26.000 --> 01:15:32.000
+We have some input, right? We want to send to an LLM and then we want to get some output.
+
+01:15:32.000 --> 01:15:48.000
+God rows, you can think of it as visually things that are guiding and trying to make sure like things don't go off the rails so to speak We have actually two places where guardrails come in or how people think about them, how people use them, right? So it's either you know.
+
+01:15:48.000 --> 01:16:00.000
+We get some input and we're doing some check here before we send it to the LM or afterwards we you know get the output from the LLM, do some check before we send it back onto the user. And so mechanically, what that actually means is that
+
+01:16:00.000 --> 01:16:06.000
+Rather than having the input directly go to the LM, you're processing it through some sort of code.
+
+01:16:06.000 --> 01:16:21.000
+So, you know. This is where you might have like different ways of doing this, but it could be if else statements on like what questions or input the user has put in, right?
+
+01:16:21.000 --> 01:16:31.000
+You might have regular expressions. You might have machine learning models that are specifically trained on detecting a particular type of either injection prompt injection attack.
+
+01:16:31.000 --> 01:16:42.000
+It could actually be another LLM call. If it's another LM call, you run into this kind of, you know, how do you trust the LM call that it's doing its thing right but In both of these places.
+
+01:16:42.000 --> 01:17:04.000
+This is where uh yeah You can put some arbitrary Python code that is looking at the inputs or the output of what it's passed and then it's deciding either, you know, whether to flag this raise an exception This is where, depending on how your system does, it could actually you know uh
+
+01:17:04.000 --> 01:17:17.000
+Retry things. So in the case of hallucinations or other things like there's different strategies but In terms of guardrails right they're not anything too complex. All it is is Before you send input to an LLM.
+
+01:17:17.000 --> 01:17:30.000
+You have some if-al statements, regexes, machine learning models or another LLM call to check the quality or the things you want to check or guard against in the input And then similarly in the output, some sort of checks to to see
+
+01:17:30.000 --> 01:17:35.000
+What's going on.
+
+01:17:35.000 --> 01:17:46.000
+Anyone have questions here? Happy to dig into more. I think there's more Yes, good question. So can we paralyze the guardrails if you care about latency?
+
+01:17:46.000 --> 01:17:59.000
+So… it kind of depends. So yes, if you add in guardrails right naively like this will actually add potentially add to your latency cost. So if it's any one of these top three.
+
+01:17:59.000 --> 01:18:04.000
+Like the it's going to be pretty marginal, but if it's going to be another LM call or series of LLM calls.
+
+01:18:04.000 --> 01:18:13.000
+Then yes, then this can add to your latency. Can you paralyze some of these things? It kind of depends on the question. So if you have multiple guardrail checks.
+
+01:18:13.000 --> 01:18:19.000
+And there are multiple different LLM calls and they don't feed into each other like yes you can you can paralyze them.
+
+01:18:19.000 --> 01:18:33.000
+And then you know decide But in terms of, it kind of really depends on your user experience and the what you can kind of do because once you send something to a user, unless you can claw it back, like what use is the guardrail to you?
+
+01:18:33.000 --> 01:18:50.000
+And so there are people who are Where, you know, because of latency, it's more of a passive thing. So they have guardrails run on the outputs just so that I can keep track of things and kind of have some sort of measure of like, are things kind of performing
+
+01:18:50.000 --> 01:19:06.000
+But there is no free lunch here. If you really want to check things before a user, there will be And it's using an LLM call, like there are some latency impacts here to consider.
+
+01:19:06.000 --> 01:19:19.000
+So Nathan had a question. What's the difference between an eval and a guardrail so um Nathan, do you want to elaborate more on what you mean by eval or which interpretation?
+
+01:19:19.000 --> 01:19:23.000
+Yeah, yeah, yeah. Yes.
+
+01:19:23.000 --> 01:19:24.000
+Yep.
+
+01:19:24.000 --> 01:19:36.000
+Well, that's what I'm kind of getting at because like what you're saying here is like the outputs of an LLM you're running a a variety of… code fuzzy ML models and then maybe like a LLMS judge show Maybe just wondering like a little like distinction there, like guardrail and even
+
+01:19:36.000 --> 01:19:37.000
+Maybe it's all a little blurry.
+
+01:19:37.000 --> 01:19:43.000
+Yep. Yeah, I mean… Yeah, yeah, yeah. So I want to say it depends what you're using it for. What action do you want to take?
+
+01:19:43.000 --> 01:19:49.000
+Like I want to say if it's a passive thing that's happening, like maybe that's just a, you know, using an LLM as judge and it's giving you an evaluation.
+
+01:19:49.000 --> 01:19:54.000
+But whether you use that to impact the user experience, I want to say that probably crosses the line into like, okay.
+
+01:19:54.000 --> 01:19:59.000
+It's termed a guardrail, right? Because actually trying to prevent doing something.
+
+01:19:59.000 --> 01:20:25.000
+But this is where, yeah. Uh… Being super clear on terminology, I think is good. And that's a good clarification. So yeah, guardrails, I want to say are things that you can say impact the request path somehow But then if you're doing things out of band, I mean, these guardrails might be using some sort of evaluation. So you could use that output for some sort of eval kind of critique, right?
+
+01:20:25.000 --> 01:20:30.000
+But when you're using it to impact the user experience, I'll turn that a guardrail.
+
+01:20:30.000 --> 01:20:39.000
+And so I want to say evals is a superset of guardrails then.
+
+01:20:39.000 --> 01:20:51.000
+Okay. Yeah, I see some questions. Are guardrails like setting boundary conditions for the models that they are depicted in the slide. They seem like an attribute of how inputs are processed.
+
+01:20:51.000 --> 01:21:07.000
+Priya, what do you mean? I mean, like they are in terms of, you know, potentially checking different things around equality but this is where Depending on your iteration cycle and things you want to prevent right this is you will do
+
+01:21:07.000 --> 01:21:09.000
+Potentially different things. Yeah.
+
+01:21:09.000 --> 01:21:22.000
+What I meant is when you run the model, like in CAE or thermal models or anything like that.
+
+01:21:22.000 --> 01:21:23.000
+Hmm.
+
+01:21:23.000 --> 01:21:29.000
+You would set constraints for various conditions uh you would set conditions or constraints for how the model should run.
+
+01:21:29.000 --> 01:21:32.000
+I was wondering if guardrails are those. If they are…
+
+01:21:32.000 --> 01:21:45.000
+Yeah. I mean, I want to say i said that's not, I think, a bad approach to think about them. But I guess I… If they are, I guess I'll let you finish your sentence.
+
+01:21:45.000 --> 01:21:54.000
+No, if they are, then… I was just wondering I was getting confused with the placement of the boxes there but I don't. Yeah, thank you.
+
+01:21:54.000 --> 01:22:15.000
+Yeah. Yeah. Yeah. Yeah. Yeah. Yeah. Yeah. So like, uh, I mean… Depending on what you check here, right? You can check to make sure that specific inputs or other things are always, some criteria is match before you send it to an LLM. So you can kind of think of it as it's constraining what the LLM is actually operating on.
+
+01:22:15.000 --> 01:22:33.000
+But this is where, I mean, these dotted lines is is um me trying to at least indicate like when someone is adding in guardrails they actually mean like you're taking some input, routing it through some sort of check and actually then passing it back onto the lm
+
+01:22:33.000 --> 01:22:40.000
+Versus it being a direct kind of call. So maybe I should flip the dotted lines and get a solid edges here on the slide.
+
+01:22:40.000 --> 01:22:54.000
+Otherwise, that is an interesting point. You do kind of bring up from the evaluation side, right? So this is where if you're generating synthetic data and you have a bunch of guardrails that guard inputs, you got to make sure that those two things kind of
+
+01:22:54.000 --> 01:23:19.000
+Match up, so to speak, so that you're actually generating things that are worthwhile. But this is where I think most people Depending on how they run things potentially run the guardrail checks uh with the LLM as they're developing obviously depends what you're optimizing for, whether that's a good idea or not.
+
+01:23:19.000 --> 01:23:26.000
+Rafi.
+
+01:23:26.000 --> 01:23:27.000
+Yep.
+
+01:23:27.000 --> 01:23:45.000
+Yeah, sorry, I'm going back to the latency thing so like I was thinking in the sentence So I'm looking at guardrail as a way to block something, right? So if I parallelized the input So let's say I put a guardrail between the input
+
+01:23:45.000 --> 01:23:46.000
+Yeah.
+
+01:23:46.000 --> 01:23:52.000
+Instead of before LLM, let's say I have 12, is a guardrail and one that is the actual process.
+
+01:23:52.000 --> 01:23:53.000
+Yeah.
+
+01:23:53.000 --> 01:23:57.000
+If I just parallelize that and then at the end gathering the results if the guardo doesn't pass, I could just disregard the losses, right?
+
+01:23:57.000 --> 01:24:09.000
+Yep. Yep. Yeah, yeah. So if I understand, it's kind of if some input check here, I'm just, let's say like.
+
+01:24:09.000 --> 01:24:16.000
+You want to do the LLM call anyway, but you want to double check that like, hey, they're not doing a prompt injection attack.
+
+01:24:16.000 --> 01:24:17.000
+Yeah.
+
+01:24:17.000 --> 01:24:27.000
+So yeah, like, so therefore, I mean, they haven't succeeded if you haven't given them the output. So like in that case, like, yeah, you could run that check in parallel on the input.
+
+01:24:27.000 --> 01:24:38.000
+As you're doing the LLM call and do that gather, as you kind of said, and then check like, hey, are they doing it like if it is an attack, discard the result, right? If not, pass it back on, return it. So like, yeah, that's reasonable.
+
+01:24:38.000 --> 01:24:45.000
+Okay. And I can do the same for the output as well, where I'm checking in the LLM Well, that really can't be realized.
+
+01:24:45.000 --> 01:24:52.000
+Yeah, yeah, yeah, yeah, yeah. And so that brings up a good point.
+
+01:24:52.000 --> 01:25:00.000
+What do you think happens here if you are streaming the LLM response back?
+
+01:25:00.000 --> 01:25:01.000
+If you're streaming. Yeah.
+
+01:25:01.000 --> 01:25:04.000
+I've seen it happen.
+
+01:25:04.000 --> 01:25:05.000
+William just wanted something very related to this in the Discord, actually.
+
+01:25:05.000 --> 01:25:08.000
+Say that again.
+
+01:25:08.000 --> 01:25:15.000
+Where multimodal models will render images and then halfway through be like, well, what's up?
+
+01:25:15.000 --> 01:25:16.000
+Yeah. But I saw it happen.
+
+01:25:16.000 --> 01:25:17.000
+Yeah. Yeah.
+
+01:25:17.000 --> 01:25:23.000
+And stop. We've got around five minutes. Yeah, sorry. Please, William. And after that, just so stephanie is aware.
+
+01:25:23.000 --> 01:25:24.000
+Yep.
+
+01:25:24.000 --> 01:25:37.000
+I saw it happen in deep seek they must have had some kind of like regex on like Tiananmen Square. So like it would actually write a sentence or two then it would stop. Then it would delete everything it had sent you and put in a different sentence.
+
+01:25:37.000 --> 01:25:52.000
+Yeah. Yeah. Short answer is like, so if you have a streaming output from an lm like uh you yeah you if you're really worried about showing stuff to the user like Unless you can call it back like you actually have to
+
+01:25:52.000 --> 01:26:01.000
+See the whole stream right or like evaluate everything before you can kind of return it so this again is a latency trade-off thing, quality trade-off, right?
+
+01:26:01.000 --> 01:26:05.000
+If you really want that first token back, then unless you can claw stuff back.
+
+01:26:05.000 --> 01:26:15.000
+Like, you know, and you're okay with them seeing something weird That's okay. But otherwise, streaming doesn't make sense if you really need to check the output.
+
+01:26:15.000 --> 01:26:28.000
+Oh, cool. Just to kind of get a few minutes to kind of wrap up. So hopefully, you know, today's session right gave you a bit of a sense of like, yeah.
+
+01:26:28.000 --> 01:26:43.000
+Reinforce the fact that to make a gen app editor, you need to create data I gave you at least hopefully a mental picture of like, hey, there's two development loops, right? Two loops rather development and then production I gave you a bit of a sense of how potentially you could systematize
+
+01:26:43.000 --> 01:26:51.000
+Some part of it with using pytest, so how we potentially connect the EDD loop from some workshop three kind of with it.
+
+01:26:51.000 --> 01:26:56.000
+If you were new to traces, hopefully gave you an idea of where they fit in, how they use them.
+
+01:26:56.000 --> 01:27:10.000
+And then, you know, talking and then, you know. Pointing out that if you want to observe stuff in production, you've got to have it instrumented so um might as well use it. And then these tooling is good enough that you should be able to use it in development as well.
+
+01:27:10.000 --> 01:27:17.000
+And then if someone comes to you, if you need to use a framework, hopefully giving you a few pointers as to how to push back or ask questions as to whether it's a good idea.
+
+01:27:17.000 --> 01:27:33.000
+And then this last slide is to how guardrails fit in and some kind of caveats and complications with using them, which is namely latency and then streaming.
+
+01:27:33.000 --> 01:27:38.000
+I guess I'll skip this part, I guess, in terms of time, put your questions in discord and we'll kind of get to them.
+
+01:27:38.000 --> 01:27:45.000
+Otherwise, Hugo. Any words to say for the upcoming workshops?
+
+01:27:45.000 --> 01:27:56.000
+Yeah, yeah. I've got a lot to say, actually. So next week, we're going to be jumping into Thinking through embeddings, RAG, and then a whole bunch of agentic stuff as well, which I'm super excited.
+
+01:27:56.000 --> 01:28:02.000
+Excited for. So that's a little precursor there. Could you go to the next slide, Stefan?
+
+01:28:02.000 --> 01:28:16.000
+Yep. So what I would love is Eddie, we're about to have a guest lecture, but as always, please give as much feedback as possible. I'm going to put this link in the discord now, if you can take a couple of minutes now while
+
+01:28:16.000 --> 01:28:24.000
+Oh, sorry, I just… I just put something else in the Discord. I don't know if anybody remembers the game Leisure Suit Larry.
+
+01:28:24.000 --> 01:28:34.000
+But I actually had, I was trying to create, anyway, I got it to break a bunch of guardrails In terms of getting celebrities and breaking copyright the other day as well.
+
+01:28:34.000 --> 01:28:35.000
+Yeah.
+
+01:28:35.000 --> 01:28:46.000
+Just be careful, if you're having a chat with one of these systems and it gets a bit iffy on its own guardrails, it will then be very conservative. So start a new conversation with it at that point.
+
+01:28:46.000 --> 01:28:56.000
+We would love feedback. Please give us as much feedback as possible. Once again, I hope you all are aware that we take your feedback very, very seriously. So if you have it.
+
+01:28:56.000 --> 01:29:00.000
+Give it. Next slide. Oh.
+
+01:29:00.000 --> 01:29:04.000
+No. Wait a second. Can you go to the next one?
+
+01:29:04.000 --> 01:29:08.000
+No, these are any slides you added. Unless you added
+
+01:29:08.000 --> 01:29:12.000
+No, no, no, no. No, there are several others. I'm looking at them right now, actually
+
+01:29:12.000 --> 01:29:22.000
+Okay, I just need to… Fresh. Ah.
+
+01:29:22.000 --> 01:29:25.000
+Yes, there we go. So you change them yeah
+
+01:29:25.000 --> 01:29:40.000
+Yes. This is important. We've got a bunch of very exciting guest talks next week. One of the ones I'm most excited about is actually William Horton, one of our builders in residence, come and talk about what is production. People talk about production or not a lot of the time.
+
+01:29:40.000 --> 01:29:58.000
+But it's not only a continuum, it's a dimensional unbounded space in a lot of respects. So we're going to jump into that with William. We've also got Constantine from Learn Prompting. So he runs DevRel there and we're getting you all your free access to learn prompting by end of week.
+
+01:29:58.000 --> 01:30:05.000
+On top of that, we've got Paige Bailey is coming from Google DeepMind to talk about building AI systems with Gemini. And in fact.
+
+01:30:05.000 --> 01:30:27.000
+You should all have received in the past hour or two or in the next hour or two will receive instructions for how to get your $300 credit coupon for Gemini APIs. And Paige is coming… essentially to talk about how to leverage that $300 to build cool stuff. Okay. So super excited about that.
+
+01:30:27.000 --> 01:30:47.000
+And then… Shredder from Replicate is actually going to have a 45 minute session on building multimodal apps from scratch on Replicate.
+
+01:30:47.000 --> 01:31:03.000
+Trying to figure out, we've got 70 people enrolled in the course. I'm trying to figure out how much more wiggle room they have for that. So I can't promise anything but know that I'm working hard to get more credits. But if I can't, I do sincerely apologize for that.
+
+01:31:03.000 --> 01:31:10.000
+This session will be incredibly useful. If you want to put 10 bucks of your own down on these credits as well, though.
+
+01:31:10.000 --> 01:31:31.000
+Next slide. We then then we then have This is actually going to be super cool. Greg Cicerelli, I've mentioned him. He used to be a VP of data science at GitHub and chief product at Plurasight He's going to come and give a short talk and demo on how to build with AI assistance. We've talked about vibe coding and
+
+01:31:31.000 --> 01:31:47.000
+He frames it as software composition. So stepping back and building systems with AI assistance. And he's one of the people who builds custom JSON viewers for a lot of stuff that he does. So those are the types of things we'll be doing there.
+
+01:31:47.000 --> 01:32:01.000
+And then Philip Carter from Huntingcomb will give a talk on building an MCP from the the trenches. And I think It's unclear what protocols will last.
+
+01:32:01.000 --> 01:32:15.000
+The test of time currently for, you know, LLMs and agents interacting with them each other and other systems I think MCP with the community behind it, at least in some form, is particularly interesting to think about at the moment, but I don't want to index on it
+
+01:32:15.000 --> 01:32:33.000
+On it too much. And then an old dear friend of mine and collaborator, Alan Nickel um will be talking about building reliable agents, thinking through state. And instead of tool calling, thinking about process calling for context there, Alan has been working on conversational AI for
+
+01:32:33.000 --> 01:32:46.000
+Over a decade now and servicing and like Fortune 500 companies for over a decade with open source software. So he has a lot of insight into that.
+
+01:32:46.000 --> 01:32:51.000
+Next slide. I think maybe we're done. Oh, yeah.
+
+01:32:51.000 --> 01:32:58.000
+Feedback would be great, as I said. And yeah, maybe you can talk a bit about the project or homework.
+
+01:32:58.000 --> 01:32:59.000
+Stefan.
+
+01:32:59.000 --> 01:33:16.000
+Yeah. I mean, yeah, so… building on to like uh part of the thought is like, you know, I don't know necessarily how um where everyone works but like trying to at least get you to think about like, what would you put in your continuous integration loop
+
+01:33:16.000 --> 01:33:35.000
+Obviously, we're building this toy app, but hopefully at least think about what would be we require for you to do it at your place but But do something at least if you're for your toy app. This is where you can use PyTest, you can use your own custom script, right? In the repo, there's a link to this GitHub workflow so you can, you know.
+
+01:33:35.000 --> 01:33:40.000
+Play around with figuring out what to trigger, how to trigger, where to store the output or the artifact.
+
+01:33:40.000 --> 01:33:54.000
+All right. If you're so inclined, pick up some sort of tracing tool, right? So this is where you can actually, as I said, you can use it in development, like see you know if it makes sense to you obviously like in app one like we're just logging to SQLite and like that works
+
+01:33:54.000 --> 01:34:05.000
+Reasonably well. So maybe this is where like, you know, maybe homegrown is fine. So this is where you know um Have a feel and play around with it. And then if you really want to dive into and understand frameworks
+
+01:34:05.000 --> 01:34:18.000
+I guess one of the things I forgot to mention on it is that like never just choose a framework, always do a bake off right and so this is this is where potentially like if you I'm so inclined to learn something you know right
+
+01:34:18.000 --> 01:34:29.000
+Rewrite your app in like one framework, two frameworks to compare like the previous state so you can kind of get a sense for like, okay, oh, this is what it's optimizing for. Oh, these are the different things that become easier or harder.
+
+01:34:29.000 --> 01:34:35.000
+But yeah, with that, is Eddie on? All right, cool. Hey, Eddie.
+
+01:34:35.000 --> 01:34:39.000
+What's up?
+
+01:34:39.000 --> 01:34:51.000
+Thanks so much. Where do I get this? I wish I could give like a larger round of applause than this, but thank you so much for bringing all your expertise with respect to infrastructural and testing and actually productionizing stuff.
+
+01:34:51.000 --> 01:35:06.000
+To this course. I'm incredibly excited to introduce you all to Eddie Landersburg, who I could introduce in many ways but First, what's up, Eddie?
+
+01:35:06.000 --> 01:35:13.000
+I'm doing great. My dog is barking in the background, so apologize for any background noise in advance.
+
+01:35:13.000 --> 01:35:31.000
+Thanks so much for the invitation, Hugo and Stefan. It's great to reconnect, man. Stefan and I, for others work together at stitch fix and He pioneered a lot of super high impact data science infrastructure work while he was there.
+
+01:35:31.000 --> 01:35:32.000
+Yeah.
+
+01:35:32.000 --> 01:35:40.000
+So yeah, excited or just fun for me to kind of poke in and hear him talking about some stuff. I miss the days where I got to hear that stuff on a regular basis.
+
+01:35:40.000 --> 01:35:41.000
+Super cool. Just by way of introduction.
+
+01:35:41.000 --> 01:35:43.000
+Too kindly.
+
+01:35:43.000 --> 01:35:53.000
+Eddie, of course, was it Stitch Fix as a data scientist and machine learning engineer. Before that, he was a manager in data science at a data scientist at Salesforce.
+
+01:35:53.000 --> 01:36:11.000
+Since then, he's a co-founder and CEO and AI engineer at Fondue, where they're really thinking in a very principled manner about how we can have LLMs using our own data and be like Person first, principled, and privacy first as well.
+
+01:36:11.000 --> 01:36:26.000
+Which is one of the reasons I invited Eddie here. The other thing worth stating is that Brian Bischoff, who was at Stitchfield… And I guess in I said to him.
+
+01:36:26.000 --> 01:36:30.000
+Who should I talk with to have on the podcast sometime? And he said to me, you know.
+
+01:36:30.000 --> 01:36:47.000
+Anyone, everyone's dumb. Well, he didn't quite say that, but he was like, whatever. And then he was like, actually, Eddie's someone you should speak with. He's sharp and interesting and curious. And I spoke with Eddie and we hit it off and we started talking about, and this is to introduce
+
+01:36:47.000 --> 01:37:06.000
+His talk, but I'm just going to share my screen briefly. And this is something we'll talk more about next week when working through agents We started talking about augmented LLMs, right? Which is how, you know, we're all thinking this late last year, but Anthropic, Eric and Bariat and Anthropic really crystallized
+
+01:37:06.000 --> 01:37:30.000
+How we're all thinking about this is how we're all thinking about this As opposed to going straight to agents thinking about starting to augment LLMs and building workflows that can do tool calls and retrieval And memory, right? So even before going to multi-agent architectures and that type of stuff, there's actually like, I don't want to tell you not to do that, but you're going to build way cooler and way more impactful stuff
+
+01:37:30.000 --> 01:37:42.000
+If you forget about that stuff in the short term and start thinking about everything at your disposal in here. And as we saw in our first couple of talks, memory is something which actually is dealt with horribly and it isn't
+
+01:37:42.000 --> 01:37:49.000
+Something that's talked about that widely either. It's also a wicked problem as well. So all that having been said.
+
+01:37:49.000 --> 01:38:09.000
+I'm just really excited to have Eddie here today to tell us about how he deals with memory. And let me just pull up because we… Change the title of… this talk once It was, yes. And so the title of this talk is Making LLM Memory Useful.
+
+01:38:09.000 --> 01:38:17.000
+What matters and what doesn't so Without further fondue, why don't you take it away, Eddie?
+
+01:38:17.000 --> 01:38:21.000
+Oh, thank you so much, Hugo. And I appreciate that introduction.
+
+01:38:21.000 --> 01:38:22.000
+I'll give you shit.
+
+01:38:22.000 --> 01:38:42.000
+All right. I will get started. And yeah, I definitely agree with the sentiments that you've expressed so far. There's so much noise in this ecosystem. I think it's uh It's really admirable kind of what you do teaching a course in this space that's like evolving so rapidly and also just kind of sifting through the noise of all the tools and, you know, what actually matters. And so that's
+
+01:38:42.000 --> 01:38:47.000
+That's part of what I'm going to attempt to do. So I guess, yeah, am I sharing my screen?
+
+01:38:47.000 --> 01:38:49.000
+Yeah, got it. Thanks, man.
+
+01:38:49.000 --> 01:39:09.000
+Okay, sweet. So this is my title slide. So yeah, you know, we just kind of talked through some of this, but I'm a technical co-founder and CEO. I don't really like being a CEO. I much prefer to build systems and work on long-term memory and things of that nature. In the past, I've spent most of my time as an IC.
+
+01:39:09.000 --> 01:39:24.000
+Really at the personalization or I'm sorry, at the intersection of personalization, consumer data machine learning, I kind of started in data science. Actually, I think who's very into probabilistic programming, which I think is probably the first time that I
+
+01:39:24.000 --> 01:39:39.000
+Cross paths with Hugo. But yeah, I spent some time at a great data science department at Stitch Fix. And prior to that did some pioneering work at Salesforce and uh So yeah, now then, you know, language models came along and now
+
+01:39:39.000 --> 01:39:52.000
+You know, that's all of a sudden, you know, everyone is shifting their attention there, you know, myself included um So yeah, I'll just give kind of like a super quick spiel about Fondu, the company I'm working on now.
+
+01:39:52.000 --> 01:40:11.000
+Our mission is to help consumers in this crazy revolution in AI technology to thrive and profit And not be kind of taken advantage of and to kind of understand the value of their own data and so So yeah, the product is the product
+
+01:40:11.000 --> 01:40:22.000
+Is shown here. And so kind of it looks a little bit like a chat GPT or kind of a chat bot environment. But what's really important about fun to in our environment is the long-term memory is the actual kind of data
+
+01:40:22.000 --> 01:40:33.000
+That we're able to maintain about you. And one thing that we're extremely principled and clear about is that all the data that you incorporate into our system is just completely owned by you. Nothing funny is going on behind the scenes.
+
+01:40:33.000 --> 01:40:45.000
+And so we're trying to kind of change the paradigm from the walled garden kind of web 2.0 paradigm where you get free Gmail, but then Google prints a quarter trillion dollars a year on advertising revenue.
+
+01:40:45.000 --> 01:41:12.000
+To a place where you can really personalize your internet experiences and make money off your data. And so that's kind of starting with AI personalization. We're working towards Giving you opportunities to make money from your data. And that's the website. If you're interested in long-term memory, even if you don't intend to kind of stick around or you aren't excited about that idea, I think it's, you know, I'm very proud of the long-term memory system that we've built. And I think it's a great
+
+01:41:12.000 --> 01:41:29.000
+Demonstration and inspiration for what's possible. So yeah, without further ado, I'll jump into and i guess um Yeah, Hugo mentioned that I should be checking the Discord for questions. So I kind of have a janky So maybe, yeah, if Hugo just
+
+01:41:29.000 --> 01:41:31.000
+I'm having a minute. Yeah, I'm happy to follow up.
+
+01:41:31.000 --> 01:41:41.000
+Just let me know if someone asks a question because also I hate hearing the sound of my own voice so I appreciate the interruptions. So yeah, feel free to interrupt at any point.
+
+01:41:41.000 --> 01:41:57.000
+So yeah, the first thing you know the first thing Something that I'm very passionate about is problem framing. I think that Hugo told me that I would probably have about 15 minutes to kind of talk through slides. So I'm like not even going to really scratch the surface with that. But the first thing I'll say is like, yeah, you know.
+
+01:41:57.000 --> 01:42:04.000
+The starting point is understanding what you're trying to achieve and what constitutes high quality and low quality.
+
+01:42:04.000 --> 01:42:22.000
+And that's a whole kind of can of worms and a really important part of starting any any project or building any product. And it's really a domain specific a domain specific task. So it's really something for you to think about yourself.
+
+01:42:22.000 --> 01:42:33.000
+All right, so I'm going to punt on that, but focusing on kind of the the easier parts of this problem, which are just kind of like the core technology components. Again, you know.
+
+01:42:33.000 --> 01:42:39.000
+Starting with kind of the first principles rather than like necessarily the tools or the kind of core functionality.
+
+01:42:39.000 --> 01:42:47.000
+So at its heart, good long-term memory is just about saving useful information.
+
+01:42:47.000 --> 01:42:58.000
+Processing it in a way that kind of structures it such that you don't have conflicting information such that it's available for retrieval.
+
+01:42:58.000 --> 01:43:05.000
+And consistent with kind of the retrieval system that you have and then you know some some form of retrieval system.
+
+01:43:05.000 --> 01:43:21.000
+And so I'm going to get into, so basically kind of, yeah, the structure of this talk is basically kind of presenting a very simple architecture and just kind of like practical example that like, you know, anyone with access to a database
+
+01:43:21.000 --> 01:43:25.000
+And a language model should be able to implement in fairly short order.
+
+01:43:25.000 --> 01:43:39.000
+And then kind of talking about the trade-offs and kind of the strengths and weaknesses of that approach and then Talking a little bit about how you could extend that and then providing kind of like a practical roadmap for getting started and
+
+01:43:39.000 --> 01:43:53.000
+And how to kind of walk through that process. And so, yeah, you know, an experience that I had recently was like, I went to, before giving this talk, I didn't want to embarrass myself. So I, Spend some time reading the documentation of like laying them, which
+
+01:43:53.000 --> 01:44:07.000
+Lang chin's um their solution for long-term memory and like, you know, my gliz my eyes glazed over very quickly and just kind of like lost the thread very quickly. They're just like, you know.
+
+01:44:07.000 --> 01:44:24.000
+So much jargon and kind of so much technical complexity relative to what we're actually trying to achieve with long-term memory and so um So I kind of took the opposite approach, which is to basically say that, hey, you know.
+
+01:44:24.000 --> 01:44:33.000
+In my experience and the way that we started at Fondu is that like a really great starting point for a long-term memory system is just having a single string.
+
+01:44:33.000 --> 01:44:44.000
+Whether that be for a user ID or whether that be for a session that you basically just update as you get new information.
+
+01:44:44.000 --> 01:44:55.000
+And so, yeah, so kind of like the steps associated here and kind of the architecture that I've laid out here is that You can imagine kind of a chat bot. It doesn't have to be a chat bot it could be
+
+01:44:55.000 --> 01:45:05.000
+Something that runs in UTL or something like that But this does involve an agent. So basically you have an agent that has access to some set of tools.
+
+01:45:05.000 --> 01:45:26.000
+And you let the agent decide when kind of the information coming in is valuable enough is kind of worth saving. And so, you know, you can kind of hard code it so that like you know it um it updates this long-term memory kind of with every language model call. And in my experience in most use cases like it
+
+01:45:26.000 --> 01:45:43.000
+It makes sense to you know probably not everything is worth saving. So it makes sense to kind of give the agent give the agent kind of some decision-making ability there It invokes this tool. The tool basically just writes a string
+
+01:45:43.000 --> 01:46:02.000
+That contains kind of like, hey, what new information was just provided In the last kind of language model call, right? In the language model call that was provided to the agent And so that gets sent to the language model. What the language model does is it calls a relational database for the existing string for that user
+
+01:46:02.000 --> 01:46:09.000
+And so the existing string for that user, it's just like all the kind of accumulated information up to that point in time.
+
+01:46:09.000 --> 01:46:27.000
+And so this language model call And yeah, actually, I kind of talk about it more here, you know, just kind of like getting concrete about like, hey, what does the actual prompt look like um right so you um in kind of constructing this prompt and doing the update
+
+01:46:27.000 --> 01:46:39.000
+We're reading. Reading the existing memory And so here's the existing memory piece. Here it gets read from the relational database.
+
+01:46:39.000 --> 01:46:46.000
+Here's the new information that was just passed by the agent.
+
+01:46:46.000 --> 01:47:01.000
+I think it's always good practice. This isn't the subject of the talk, but just in my experience with prompting, meta context is always very important like giving given the language model some understanding of kind of like what are the broader objectives you know what company do you work for and kind of
+
+01:47:01.000 --> 01:47:21.000
+Are you trying to maximize revenue or maximize happiness or what have you, those type of things. And then the instructions, which here involve just incorporating the new information and kind of integrating it into the existing string And then providing that update
+
+01:47:21.000 --> 01:47:32.000
+So yeah, so basically how this goes is okay so we're generating this update prompt, basically the prompt that gets passed to the language model along with the new information.
+
+01:47:32.000 --> 01:47:42.000
+And then this language takes the new information and it just updates the string. So it's, you know, basically couldn't get more simple than that.
+
+01:47:42.000 --> 01:47:51.000
+I'll pause there in case it actually is the case that it could get more simple and it's been hard to follow what I've said. So I'll just pause for a couple
+
+01:47:51.000 --> 01:47:55.000
+It all makes perfect sense to me. We have a question from Luca that I'm not sure I understand.
+
+01:47:55.000 --> 01:47:56.000
+Yeah.
+
+01:47:56.000 --> 01:48:03.000
+And the question is, do we get the final response only from the LLM as user memory to be added to the current query?
+
+01:48:03.000 --> 01:48:09.000
+I think I don't understand it because there are too many subclauses for me to grok it.
+
+01:48:09.000 --> 01:48:25.000
+Yeah, so I think maybe like just my interpretation of it, which is just like, I think I didn't do a good job of explaining is that um right so um So this prompt up here is basically what gets sent
+
+01:48:25.000 --> 01:48:40.000
+To the language model and what elicits a response from the language model. And so one of those responses is, you know, so eventually it returns like a chat response. It may call a tool. So if, yeah, let's say kind of like a new user message comes in
+
+01:48:40.000 --> 01:48:46.000
+It generates this prompt. So the user input comes from what the user enters.
+
+01:48:46.000 --> 01:48:58.000
+And then the user memory is just pulled. It's just a simple database read. So it's just a simple, very low latency API call to a relational database that just contains a string.
+
+01:48:58.000 --> 01:49:08.000
+That might just be a lookup on the basis of a user ID And so you just inject this into the prompt. And so basically every language model call is going to contain this user memory.
+
+01:49:08.000 --> 01:49:20.000
+And the agent is going to have the option of updating this string. And if it does, that's just going to get pushed to the relational database Once that's done.
+
+01:49:20.000 --> 01:49:31.000
+That'll just be available in the relational database and be provided you know be provided be kind of funneled into the prompt for the next response.
+
+01:49:31.000 --> 01:49:35.000
+Did that clarify the question or clarify the question And yeah, there's no vector DB yet, but I will get to that.
+
+01:49:35.000 --> 01:49:39.000
+What?
+
+01:49:39.000 --> 01:49:46.000
+In the next section sorry go ahead.
+
+01:49:46.000 --> 01:49:47.000
+Sure.
+
+01:49:47.000 --> 01:49:57.000
+Oh. Okay, but I need some question here because as a context one is for each LLM, it is uh limited okay so if our user memory is getting bigger Okay, there won't be some error here.
+
+01:49:57.000 --> 01:50:00.000
+Mm-hmm.
+
+01:50:00.000 --> 01:50:02.000
+And can't handle this and can they give you the response?
+
+01:50:02.000 --> 01:50:09.000
+Mm-hmm.
+
+01:50:09.000 --> 01:50:16.000
+Oh, so you're saying just like eventually you're going to hit token limits yeah so this so that's a great point. And that's exactly, you know, I mentioned I'm going to talk about kind of like the trade-offs here.
+
+01:50:16.000 --> 01:50:23.000
+But you've kind of anticipated one of the major trade-offs associated with this approach. What I will say is that in my experience.
+
+01:50:23.000 --> 01:50:42.000
+You can actually go pretty far with this approach. And it's dead simple and it's super low latency. And you can just, this is an approach that doesn't require any, I guess it does require the tool call to to decide what information gets saved, but in terms of just injecting this context into every language model response.
+
+01:50:42.000 --> 01:50:57.000
+It's an extremely efficient strategy. And just kind of from what I've seen in practice, it actually works surprisingly And so, yeah, you know, just kind of like a fun Fun analogy, I come from a data science background. So, you know, this is basically very similar to just a recurrent neural network architecture where
+
+01:50:57.000 --> 01:51:10.000
+Instead of basically the hidden state is just kind of like that string Which with every period of time, you're getting kind of like a new data plan and just updating that same that same string to provide outputs.
+
+01:51:10.000 --> 01:51:26.000
+So speaking to kind of the trade-offs that Allah, sorry if I didn't pronounce your name correctly, but I think you accurately preempted is that This is not very scalable. It's not very token efficient.
+
+01:51:26.000 --> 01:51:35.000
+It does have great latency. I would say this is a form of retrieval augmented generation. It doesn't use a vector database.
+
+01:51:35.000 --> 01:51:46.000
+It doesn't use any fancy machinery, but it's extremely fast. It's extremely simple and easy to understand and kind of intuitive to see what's going on and to develop intuition.
+
+01:51:46.000 --> 01:51:50.000
+And then, yeah, the last thing is that because it's such low latency.
+
+01:51:50.000 --> 01:52:01.000
+It can easily be kind of available all the time. You can easily just provide it kind of supplement every language model call with it.
+
+01:52:01.000 --> 01:52:16.000
+So now getting into getting into kind of like addressing some of the weaknesses of that approach and starting to make this more scalable And so, yeah, this is where kind of like retrieval starts to play a bigger role And so in this case, you're not
+
+01:52:16.000 --> 01:52:37.000
+Just um you're not just retrieving and updating a single string you're updating and retrieving a bunch of strings that live in a vector database Or you could use lexical search, which I think works very well, or some hybrid approach as well. But, you know, kind of whatever your approach is there.
+
+01:52:37.000 --> 01:53:00.000
+But yeah, the main difference here is so, you know, so here we have the same kind of like workflow, except you'll notice that we're no longer injecting this into every single prompt because we're paying a latency cost And so depending on your application, you may want to continue injecting that into every language model call. But from my experience.
+
+01:53:00.000 --> 01:53:04.000
+Once you kind of add the retrieval component, at least in kind of a consumer application.
+
+01:53:04.000 --> 01:53:18.000
+You're going to be hit with enough latency that you're probably going to want to wait to kind of retrieve the deeper knowledge Until you actually really need it. So yeah, you can still kind of have This is the same kind of consistent pool use
+
+01:53:18.000 --> 01:53:26.000
+Deciding to use the same memory tool. You have the language model call, which is basically instead of just retrieving that single string.
+
+01:53:26.000 --> 01:53:42.000
+It's able to retrieve, you know, imagine you have a vector database, you have, you know, a bunch of strings, each that represent maybe like an atomic unit of knowledge, however you decide to define that. There's a lot of kind of design decisions and kind of prompting decisions that go into that.
+
+01:53:42.000 --> 01:53:54.000
+But the main idea here is that you're retrieving the relevant strings within this collection of strings that live in your vector database or collection of documents.
+
+01:53:54.000 --> 01:54:13.000
+You're using the language model to understand, to basically make decisions about how to update them. So if you have something that If one of your preferences changes or you have a new kid or, you know, kind of a date for a meeting changes or something like that, right?
+
+01:54:13.000 --> 01:54:22.000
+You're going to want to be able to retrieve that existing information and update it. There are other times where you're just creating something that's entirely new.
+
+01:54:22.000 --> 01:54:40.000
+But there is always this really important problem of wanting to make sure that you're your memory, your knowledge store is kind of internally consistent and doesn't contradict itself And so, yeah, instead of the relational database, we're just kind of swapping this out with a vector DB instead of a single string
+
+01:54:40.000 --> 01:54:46.000
+We have a bunch of different strings. Instead of injecting this into every prompt.
+
+01:54:46.000 --> 01:55:07.000
+We have a tool that the agent can optionally reference if it's reference if it's if it's trying to answer a question or kind of perform a task that it thinks would benefit from some memory that exists within the vector database.
+
+01:55:07.000 --> 01:55:31.000
+So, you know, also trade-offs here, right? So this is a much more scalable approach it's much more token efficient. It's only efficient retrieving the strings and in context that you know according to your retrieval engine is relevant to the task that the language model is trying to solve. That said, it's
+
+01:55:31.000 --> 01:55:47.000
+It's much higher latency. What we do on in fondue is, you know, we have hybrid retrieval and then we have a re-ranker on top and so that that works really well. The quality is extremely good in terms of relevance, but it could take
+
+01:55:47.000 --> 01:55:58.000
+Two seconds to provide a response. In some cases, that latency is very well worth it, but it's definitely not something that would want to inject into every single language model call.
+
+01:55:58.000 --> 01:56:11.000
+The update logic is significantly more complicated. It's a lot of It's just kind of everything that comes with more complexity. It's harder to debug. It's harder to get kind of intuition in terms of exactly what it's doing. It's not that
+
+01:56:11.000 --> 01:56:28.000
+But it's definitely a lot harder than just kind of maintaining a single string Yeah, you're kind of subject to the quality of your retrieval and your agent decision making, something that I've experienced in Fondu is that when you have the language model making decisions about when to retrieve
+
+01:56:28.000 --> 01:56:44.000
+Retrieve memories, it's, you know, it's just like, it's pretty imperfect right and you know it's also the quality deteriorates as a function of how many tools you have and so If you can kind of be a little bit more deterministic and have something that's a little lower latency
+
+01:56:44.000 --> 01:56:50.000
+You know, that's uh You know, that's kind of the trade-off you're able to make there.
+
+01:56:50.000 --> 01:57:09.000
+So just wrapping this up, these are just kind of two architectures that I've found to be… effective one that is extremely simple and I think is like a great way to get started and I think will surprise you in terms of how far it can go.
+
+01:57:09.000 --> 01:57:16.000
+The second is a much more scalable solution. It's not without its shortcomings. At Fondu.
+
+01:57:16.000 --> 01:57:33.000
+We use kind of a combination of these two approaches. So we do want some information to be extremely low latency and kind of foundational knowledge for the user. But then we do want the ability to have kind of a deeper knowledge search that's very high quality, very high relevance but made
+
+01:57:33.000 --> 01:57:47.000
+Take longer and require kind of more scalability So yeah, anyway, kind of like a pragmatic roadmap that I would recommend for getting started with long-term memory is just start with a very simple implementation. I think, you know, what I provided, I think.
+
+01:57:47.000 --> 01:58:07.000
+Is kind of my recommendation there. I think in terms of kind of extending it, I think it's probably similar advice to to what you've heard in kind of other language model building applications which is use it yourself, look at the data, just see kind of how it's breaking
+
+01:58:07.000 --> 01:58:14.000
+Refine your prompts based on that, develop kind of ways of defining quality based on that.
+
+01:58:14.000 --> 01:58:30.000
+And then just extend as needed. Don't kind of preempt problems, you know, unless they're extremely obvious. I think, right, let the problems happen and kind of motivate changes rather than trying to build the perfect thing out of the gate.
+
+01:58:30.000 --> 01:58:46.000
+So yeah, that's my talk. And yeah, just kind of some relevant information My socials, I wrote a blog post on the semantic memory layer that we use at Pondu.
+
+01:58:46.000 --> 01:59:10.000
+So yeah, I would love to Love to chat afterward. Feel free to connect with me on LinkedIn or Or reach out in any capacity and reach out and You know, best luck with the course. And yeah, I guess I know I've definitely run over my 15 minutes, but I can hang around a little bit for some Q&A if desired.
+
+01:59:10.000 --> 01:59:11.000
+Yeah.
+
+01:59:11.000 --> 01:59:27.000
+That would be so cool so just so cool Big round of applause, man, from me i like i thank you for coming in giving us insight in not only how to think about these things, but a big round of applause from everyone, clearly, but like some seriously practical approaches that we can go and just
+
+01:59:27.000 --> 01:59:32.000
+Used today. And I really appreciate that from you, man. I am going to just…
+
+01:59:32.000 --> 01:59:51.000
+Well, you encouraged me in that direction. I'm like, I love to hang out in the theoretical space and be very abstract. And so I think you gave me very, very clear guard rails of like, hey, these people are, you know, my class is looking for practical things that they can actually implement. So I give you a large portion of the credit there.
+
+01:59:51.000 --> 01:59:55.000
+I appreciate that. I guard around my colleagues like I guard around my LLMs.
+
+01:59:55.000 --> 01:59:56.000
+Hell yeah.
+
+01:59:56.000 --> 02:00:01.000
+And if you can include the slides in Discord, that'd be cool.
+
+02:00:01.000 --> 02:00:02.000
+Yeah, sure. Absolutely.
+
+02:00:02.000 --> 02:00:22.000
+There are several questions. We have around five minutes. So I see Yass actually is on the call and she put her hand up and she um she had an interesting question around batch processing. So I don't know if you wanted to ask that live. Yes.
+
+02:00:22.000 --> 02:00:23.000
+Or maybe not. Oh, cool. Great. Sorry, and I didn't mean to put you on the spot.
+
+02:00:23.000 --> 02:00:38.000
+Yeah, sure, sorry. I'm toggling with… Yes. No, that's okay. All good. Yeah, no, thank you. That was really interesting. Yeah, I was just curious about the long-term and short-term memory because it's actually something that I'm grappling with with my
+
+02:00:38.000 --> 02:00:49.000
+Hmm.
+
+02:00:49.000 --> 02:00:50.000
+Mm-hmm.
+
+02:00:50.000 --> 02:01:02.000
+Project. And then we found that when we're dealing with users and your application is you have these long-term preferences, which is you think that's how you fragment your users. And then there's these short term preferences for the user. And when they come on board and then they re-interact with your app, then those long-term preferences are not necessarily
+
+02:01:02.000 --> 02:01:16.000
+Hmm.
+
+02:01:16.000 --> 02:01:21.000
+Mm-hmm.
+
+02:01:21.000 --> 02:01:22.000
+Yeah.
+
+02:01:22.000 --> 02:01:31.000
+Relevant anymore. On that day, they feel like doing something else. And then how do you deal with a situation like that where your prompt based on long-term memory is no longer relevant and you've got to use the short-term memory and give that a prioritization. And I give an example on my yeah and and with batching, I guess you can prepare these things as well with the long-term memory and then prepare something but then once
+
+02:01:31.000 --> 02:01:42.000
+You start re-interacting with the user, then there's a short-term memory that should have that long-term memory replace it, so to speak, if that makes sense.
+
+02:01:42.000 --> 02:01:58.000
+Yeah, it's a fantastic question. And yeah, I think now kind of getting into the abstract a little bit, like a mental model that is you know no pun intended, but a mental model that I think is very helpful for me is just thinking about kind of like how human memory works.
+
+02:01:58.000 --> 02:02:13.000
+And so, you know, kind of one thing to keep in mind there is that like, you know, our brains have some kind of like natural time decay And so there are a couple of different ways to, you know, that doesn't address all problems, but it definitely addresses some
+
+02:02:13.000 --> 02:02:29.000
+So if you're kind of like saving stuff over time, a vector data store doesn't necessarily note to kind of deprioritize things that were saved in the past Versus kind of saved more recently. So if you do have kind of conflicting information.
+
+02:02:29.000 --> 02:02:54.000
+Right. Kind of one thing you can do is provide in the prompts just to kind of like And this also gets into the kind of importance of meta context is just kind of explicitly telling the language model to prioritize more recent information over old information. So kind of instructions on how to deal with contradictory information. In terms of kind of like, I can talk about my experience with
+
+02:02:54.000 --> 02:03:13.000
+Fondue and kind of the chat bot and the way preferences are expressed there. So within the context of kind of like a chat session, you know, I think of that as like really the primary form of short-term memory is like you just have a chat thread and kind of like you've expressed preferences in that chat thread. And so kind of the way our
+
+02:03:13.000 --> 02:03:29.000
+Save knowledge tool works is like we're we really need to, you know, the user really has to express clear intent that they want to save something kind of in a long-term way.
+
+02:03:29.000 --> 02:03:41.000
+If they do kind of end up saving something that's right. They kind of intended to be short term But it ended up being long term. Yeah, I think that like kind of, you know, the system might make a mistake with that
+
+02:03:41.000 --> 02:03:55.000
+But the way our user interface works is that the person can just kind of provide a correction. And so kind of the architecture that I provide and the architecture that that Fondu has is that like it's basically able to kind of like
+
+02:03:55.000 --> 02:04:06.000
+Update the memory that kind of included contradictory information, or you could even say like, hey, that was a short-term preference and it'll just delete it.
+
+02:04:06.000 --> 02:04:23.000
+So I'm not sure. Not sure if that was the best answer to your question, but I guess there's um You know, there's a couple of different ways of handling it but I think kind of a big part of it is just the UX of like leveraging like a chat session as you know, your form of
+
+02:04:23.000 --> 02:04:36.000
+Short-term memory and kind of like thinking of that differently from long-term memory And then kind of time decay and then also just kind of like having really good meta context prompts.
+
+02:04:36.000 --> 02:04:54.000
+That just like really communicate well to the language model kind of like what your user interface is like and kind of kind of how users are likely to interact with your system and kind of what their use cases are and what they're likely to, you know, trying to be accomplished.
+
+02:04:54.000 --> 02:04:57.000
+Trying to accomplish.
+
+02:04:57.000 --> 02:04:59.000
+Great. Thank you.
+
+02:04:59.000 --> 02:05:14.000
+Thank you so much. Yes, for the great question. And thanks, Eddie, for the detailed response. It's time to wrap up, sadly. And Eddie, I don't know if you have the time, but if you have time at some point to jump in the Discord and field a few other questions, but if not, totally cool.
+
+02:05:14.000 --> 02:05:16.000
+Yeah, sure. Absolutely.
+
+02:05:16.000 --> 02:05:23.000
+And because I understand you have a new addition in your life as well. I hope it isn't too personal.
+
+02:05:23.000 --> 02:05:31.000
+I feel like you're on your second child who must be A week old?
+
+02:05:31.000 --> 02:05:32.000
+Oh, wow.
+
+02:05:32.000 --> 02:05:39.000
+Yeah, yeah, that's true. Yeah. That's it. Yeah, it's actually my third child after i've got a to an or uh a two-year-old son a two-year-old startup.
+
+02:05:39.000 --> 02:05:43.000
+And now I've got a two-week-old daughter. So yeah, yeah, plenty of babies, plenty of little kids in my life. Yeah.
+
+02:05:43.000 --> 02:05:50.000
+Yeah. Well…
+
+02:05:50.000 --> 02:05:57.000
+Incredible. And I'm sure that the startups, perhaps one of the toughest to wrangle as well.
+
+02:05:57.000 --> 02:05:58.000
+But…
+
+02:05:58.000 --> 02:06:12.000
+Yeah, you know, it's right. There's always trade-offs in software and life you know But yeah, I'm, you know, thankful for uh thankful for all the children in my life and Yeah, thankful to be here and thankful to be here
+
+02:06:12.000 --> 02:06:18.000
+It's exciting content. And yeah, let me know if I can be helpful to any of your students.
+
+02:06:18.000 --> 02:06:38.000
+Absolutely. Really appreciate it, Eddie. So everyone, let's thank Eddie one more time. I'm seeing so many people say what a great talk in the Discord as well, which is… Which is fantastic. And in the special guest channel, I posted the link to the next…
+
+02:06:38.000 --> 02:06:39.000
+Yeah, yeah. Cool.
+
+02:06:39.000 --> 02:06:44.000
+Session. And yes, people are awaiting now. So we should jump over If you'd like Eddie. It's one of my friends, Eric at Moderna, who runs R&D at Moderna, talking about agents at
+
+02:06:44.000 --> 02:06:51.000
+Awesome. Yeah, I know, Eric. I don't think he knows me, but I've definitely like seen some YouTube talks that he's given over the years. He's like.
+
+02:06:51.000 --> 02:06:55.000
+You know, I've been in the data science space a while.
+
+02:06:55.000 --> 02:06:57.000
+In the Python space. Awesome. Well, we'll see you all in the next call and see you on Discord. So thanks once again, Eddie. Appreciate you, man.
+
+02:06:57.000 --> 02:07:02.000
+Yeah.
+

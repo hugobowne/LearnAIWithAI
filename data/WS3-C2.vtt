@@ -1,0 +1,2207 @@
+WEBVTT
+
+00:02:46.000 --> 00:03:07.000
+Workshop. Hamil Hussain from Parlance Labs will be joining to talk about and answer questions around his recent post, a field guide to building AI-powered applications, AI products, and anything more than that. And Hamill, I don't know if you all know Hamill, but he's at the forefront of building LLM powered applications
+
+00:03:07.000 --> 00:03:12.000
+He did a lot of work in early data science as well.
+
+00:03:12.000 --> 00:03:18.000
+But he actually, along with Philip Carter, who's going to come here next week, he's at Honeycomb.
+
+00:03:18.000 --> 00:03:24.000
+My understanding is that they actually built the first LLM powered application in production.
+
+00:03:24.000 --> 00:03:28.000
+Outside of the big AI labs. So this was at Honeycomb and also text.
+
+00:03:28.000 --> 00:03:37.000
+To HoneyQuone query language. Generate a single turn, not a multi-tone conversation. Honeycomb query language, if you don't, it's kind of like SQL, right?
+
+00:03:37.000 --> 00:03:42.000
+But they want to enable developers who don't know the language so well to be able to query and perform analytics.
+
+00:03:42.000 --> 00:03:54.000
+So super excited for that. Now, without further ado, I'm going to… share my screen and we'll jump in.
+
+00:03:54.000 --> 00:04:09.000
+Feel free, Nathan, Jeff, William, if there are any questions in the Discord that would be good to talk about live, just feel free to stop me at any point and we can discuss them.
+
+00:04:09.000 --> 00:04:12.000
+So I'm going to share my screen. I'm actually on a different monitor.
+
+00:04:12.000 --> 00:04:27.000
+And the reason that's relevant, it's a curved monitor. And I just want to make sure um Can someone tell me whether this looks good Um.
+
+00:04:27.000 --> 00:04:31.000
+Slideshow mode. That looks good for you? Everyone can see everything Fantastic. Yeah. Very cool.
+
+00:04:31.000 --> 00:04:33.000
+Yeah, it looks good.
+
+00:04:33.000 --> 00:04:49.000
+Amazing. It is one of like these weird like gamey like curved monitors and it's so I don't know like quite what it looks like from from other people um But look, this is the type of stuff we've been building, right? We have a user interacting with a front-end UI.
+
+00:04:49.000 --> 00:05:04.000
+There's an API we're pinging. There's a model or prompt involved. We're doing some logging. We're monitoring, looking at data.
+
+00:05:04.000 --> 00:05:13.000
+So actually… I've seen what It's a fun conversation.
+
+00:05:13.000 --> 00:05:28.000
+So… Whether that translates into other languages or even
+
+00:05:28.000 --> 00:05:37.000
+Hugo, your video is breaking up.
+
+00:05:37.000 --> 00:05:42.000
+Am I still connected? We're good. Great.
+
+00:05:42.000 --> 00:05:47.000
+Just the last like minute or two, you got very choppy.
+
+00:05:47.000 --> 00:05:50.000
+Ah, my audio as well as my video or
+
+00:05:50.000 --> 00:05:51.000
+The audio and the video this time now?
+
+00:05:51.000 --> 00:06:07.000
+Okay. I'm just going to connect to another network. I hope that doesn't do something bad to this call.
+
+00:06:07.000 --> 00:06:17.000
+Sincerest apologies for this.
+
+00:06:17.000 --> 00:06:23.000
+One second.
+
+00:06:23.000 --> 00:06:40.000
+Okay, well, I'm just going to keep going. We'll see what's up and just let me know if it gets too choppy again. But essentially, we're here to talk about developing methods for more robust evaluation, but it isn't as though like you need some sophisticated
+
+00:06:40.000 --> 00:06:52.000
+Big evaluation framework. You don't go from zero to one, zero to… Zero to 100 immediately, right? When you're building an MVP, a minimum viable product that you're starting to ship.
+
+00:06:52.000 --> 00:06:59.000
+What I encourage you all to do is build an MVE, a minimum viable evaluation framework, right?
+
+00:06:59.000 --> 00:07:02.000
+And that's kind of what we're going to be getting into the nuts and bolts of.
+
+00:07:02.000 --> 00:07:07.000
+Today. A bit of housekeeping, for lack of a better term.
+
+00:07:07.000 --> 00:07:24.000
+I just want to give a shout out to Tom. Tom Gemini Cloud, who noticed that something was wrong in the README. He raised an issue and I said, I'll fix this soon. But if you want to issue a I do. He did it. And that's all to say thank you so much for that. And if other people
+
+00:07:24.000 --> 00:07:30.000
+Notice anything in the GitHub repository, feel free to raise an issue or a A pull request as well. Super helpful.
+
+00:07:30.000 --> 00:07:39.000
+Other ways to get involved. Thank you so much, everyone, for providing feedback at the end of each workshop. It's incredibly, incredibly helpful.
+
+00:07:39.000 --> 00:07:46.000
+To me, the more feedback I get. And we get, the more we can tailor the course to you all.
+
+00:07:46.000 --> 00:07:55.000
+The type of engagement we're getting in this course is beyond my wildest dreams. And so we want to make sure that we deliver material in a way that's as valuable to you all as possible.
+
+00:07:55.000 --> 00:08:02.000
+So keep giving feedback. I just do want to state, so we had the pace last session.
+
+00:08:02.000 --> 00:08:18.000
+60% thought just right. 40% thought it was a bit too slow. I just want to say we will be moving more quickly the first workshops in the first week do cover more fundamental material, but perhaps less technically and process-wise challenging
+
+00:08:18.000 --> 00:08:24.000
+I do want to say that there's a tension, right? You can see one piece of feedback said.
+
+00:08:24.000 --> 00:08:27.000
+I'd love you to move faster and cover more aspects of this.
+
+00:08:27.000 --> 00:08:38.000
+Someone else said, I would love essentially for you to have slowed down a bit and see more Python code and those types of things. So the way I approach this tension is.
+
+00:08:38.000 --> 00:08:42.000
+I try to find a middle ground and we all try to find a middle ground.
+
+00:08:42.000 --> 00:09:04.000
+And what we can't occupy in that middle ground is solved on Discord and in the Builders Club. So the Discord and the Builders Club are opportunities for you to get really, really tailored, personalized feedback. I need to, in delivering a workshop for 60 of us in the end.
+
+00:09:04.000 --> 00:09:14.000
+I need to find something in the middle and it can't be so personalized. But the rest we really want to be. So definitely keep me in check with respect to pace.
+
+00:09:14.000 --> 00:09:33.000
+And please do keep giving feedback. But I want to give you a bit more clarity around that. Great feedback on posting the recordings on YouTube would make it easier to watch them later. We'll definitely do that. We can't necessarily do that in real time. And what I'm actually going to do is I'm going to chop up the videos to put them on YouTube so that, for example.
+
+00:09:33.000 --> 00:09:39.000
+We would have the workshop and then Charles Fry's guest talk.
+
+00:09:39.000 --> 00:09:51.000
+After that, a different YouTube videos. So we're going to put a bit of production quality into it, not too much But that's why we don't have them up yet. So in the meantime, please do rewatch them on Zoom. Feel free to download them from Zoom as well and you can do
+
+00:09:51.000 --> 00:10:00.000
+What you'd like with them. Wonderful feedback here about any more recommended resources or links for deep dives on any specific pieces.
+
+00:10:00.000 --> 00:10:10.000
+I do appreciate that in Discord, a lot of links are shared. What I'm going to do in the course wiki on the website is start compiling a list of resources.
+
+00:10:10.000 --> 00:10:27.000
+And maybe I'll even, we've got a channel in the Discord called Resources that's outside this cock, but maybe we'll create a course cohort specific one. An April specific one okay Quick update on credits. Everyone.
+
+00:10:27.000 --> 00:10:44.000
+Should feel liberated to get there. But if you haven't got your base 10 modal or prodigy from spacey people credits yet um the ball is in your court, okay? All the instructions on how to do that are in there. Please ask the help channel if you can't figure it out.
+
+00:10:44.000 --> 00:10:54.000
+All the other ones should have sorted out by end of week. There were questions around how long they last and when we want you to claim them. We want you to claim all of them by the end of the course.
+
+00:10:54.000 --> 00:11:04.000
+Nearly all of them last forever, but I'm clarifying that with some vendors, but I know nearly all of them do now. And I'll report back on that soon.
+
+00:11:04.000 --> 00:11:10.000
+But yeah, we're getting the others soon. And just to be clear.
+
+00:11:10.000 --> 00:11:18.000
+I'd love to have the credit process totally automated, but it does involve you completing forms, me sending the spreadsheets to people at companies.
+
+00:11:18.000 --> 00:11:32.000
+You know, people at Google don't necessarily such bandwidth. So they batch these things. So I just want to say I really appreciate your patience on all of this and i do understand the thirst and hunger for getting your sweet, sweet compute credits.
+
+00:11:32.000 --> 00:11:51.000
+Finally, Builders Clubs this week. So we've got US Eastern. At 7 p.m. On April 17. Us Pacific… I think, Nathan, you're going to do it around the same time as Eastern now, is that correct?
+
+00:11:51.000 --> 00:12:04.000
+No, so I don't want to… US Eastern, I kind of want to join that. So we're going to do pacific time Builders Club on Friday. And then I'll set another poll. We can do it 4 p.m. Or 5 p.m. On Friday.
+
+00:12:04.000 --> 00:12:09.000
+Because I want to join on the Eastern and hang out with everybody there too.
+
+00:12:09.000 --> 00:12:10.000
+Okay. Amazing.
+
+00:12:10.000 --> 00:12:16.000
+So Pacific Time Builders Club is on Friday.
+
+00:12:16.000 --> 00:12:25.000
+And I think what we're going to do all our builders in residence clearly incredibly generous with their time and expertise. Nathan would never say this.
+
+00:12:25.000 --> 00:12:32.000
+He did put a poll out and people responded with a certain time And so he did that time and no one turned up.
+
+00:12:32.000 --> 00:12:41.000
+So we're trying to figure out ways around that. So one idea we're having is maybe 24 hours before they'll post in the channel, give me a thumb up if you're going to join.
+
+00:12:41.000 --> 00:12:58.000
+And if people do so, then it will be hosted. But any ideas for, you know, this is the first time we're doing something, this much fun. And we want to give freedom. We don't necessarily want to send calendar invites to everyone and have commitments and that type of stuff. But it'd be nice to get a litmus test.
+
+00:12:58.000 --> 00:13:14.000
+For who's going to turn up where. So all that having been said, I do want to give a quick recap of where we're up to now. So in workshop one, we introduced the generative AI software development lifecycle. We built an MVP.
+
+00:13:14.000 --> 00:13:27.000
+With Gradio, Lama Index, OpenAI, Gemini APIs, SQLite, and Dataset, right? We discussed escaping proof of concept purgatory and laid the foundation for building robust LLM powered applications.
+
+00:13:27.000 --> 00:13:43.000
+Then in workshop two, we deployed the MVP on Modal. Don't forget to claim your credits if you haven't already, we explored prompt engineering, API tuning, and multi-vendor APIs, Gemini, OpenAI, Anthropy. We didn't actually do Grok. I do a bit of Grok today.
+
+00:13:43.000 --> 00:14:04.000
+Oh, well, no, I do. Grok is super interesting Although they didn't reply to my outreach about potential sponsorship of this course. Half joking. They didn't, but that's chill as well. They have a beautiful free tier where you can access a lot of different large language models.
+
+00:14:04.000 --> 00:14:27.000
+And I do suggest checking it out. But then we had a guest lecture from Charles Fry about how to do all the magic on modal. And it's been super fun seeing in the Discord everyone gets stuff up and running on Modal, have some of the the questions I've had, have some of the concerns like Stefan and I did when initially deploying things on Modal as to like how to get volumes working and database access and that type of stuff. So that's really fun.
+
+00:14:27.000 --> 00:14:40.000
+To see you all, those people jumping in there. The other thing, you know, we set homework or project And I'm like, you know, try different prompts and blah, blah, blah, blah, blah, and try a different API. Needless to say.
+
+00:14:40.000 --> 00:14:57.000
+Or actually maybe needed to say… I haven't said at any point, why don't you switch it out for an open weight model on base 10? You've got $1,000 of base 10 credit right so Feel free to do that. Leverage all the tools we're giving you within the time constraints you have.
+
+00:14:57.000 --> 00:15:18.000
+As well. That's another thing to say. I know I'm jumping around a bit, as is my want occasionally, but The time constraints are totally hectic. I think that's we need to like Almost do like impact-driven prioritization of what we're working on and what we're trying at the moment because
+
+00:15:18.000 --> 00:15:24.000
+In the limit of infinite time. You could just try all these amazing tools, right?
+
+00:15:24.000 --> 00:15:35.000
+But we really need to keep our eye on the prize as well. So do I have a tendency to sprawl, which is why we're We've got a lot of guest talks and that type of stuff in the course, but why I'm encouraging you to
+
+00:15:35.000 --> 00:15:40.000
+To go down the center path and then branch out. When necessary.
+
+00:15:40.000 --> 00:15:50.000
+The project of kind of changing the word homework. I just don't like the word homework. It like triggers trauma in me essentially from a young age.
+
+00:15:50.000 --> 00:15:59.000
+Was to update the MVP from workshop one to rip out llama index and iterate on prompts essentially and do your logging and monitoring and that type of stuff.
+
+00:15:59.000 --> 00:16:08.000
+And I just did want to jump in and show you very briefly i did um I did my homework.
+
+00:16:08.000 --> 00:16:16.000
+My parents would be so proud and let me show you.
+
+00:16:16.000 --> 00:16:35.000
+Can you say GitHub now? Is that the window showing? So what I did was, and I don't want to speak about this too much, but I put In workshop one, I put A notebook called experiments Okay.
+
+00:16:35.000 --> 00:16:48.000
+I just want to talk you through. Kind of how this relates to the homework. And maybe I'll just go back to this slide one more time. I'm sorry. But what we actually see is I tried a variety of different models and remember we're trying to get out json
+
+00:16:48.000 --> 00:16:54.000
+And then I saw like, was the JSON valid? And I saw for Gemini and OpenAI.
+
+00:16:54.000 --> 00:17:05.000
+I got valid JSON 100% of the time. For Claude, I got it 40% of the time. For Llama 3, I got it 0% of the time. And maybe that was my fault, but I'm like, whatever, this is working. Let's move on.
+
+00:17:05.000 --> 00:17:19.000
+Then looking at latency. These are the latencies I got, right? So I started doing kind of a bunch of things that you'd want to think about with respect to evaluation, not just correctness or whether the model, like the vibe of the system is good
+
+00:17:19.000 --> 00:17:25.000
+The other thing I did was I started going through and running the same prompts several times.
+
+00:17:25.000 --> 00:17:34.000
+Now, no, you can do this in a for loop. Know that API costs, you will… Even if you're careful, you will get burnt, I guarantee you.
+
+00:17:34.000 --> 00:17:49.000
+So just be super careful. But what we can see here is that my friend Chris Wiggins, who… He's at Columbia. I met him through biology actually, but he's chief data scientist at the New York Times as well. And you'll see…
+
+00:17:49.000 --> 00:17:55.000
+That I ran the same query on his name twice, 10 times, and it came out lowercase c lowercase W.
+
+00:17:55.000 --> 00:18:08.000
+Seven times an uppercase c and w seven Three times. So we're seeing this like flip-floppy behavior, right? And in the system's defense, Chris actually classically spells his name lowercase. He's one of those dudes.
+
+00:18:08.000 --> 00:18:12.000
+Which I approve of. I don't mean that like he's one of those dudes, right?
+
+00:18:12.000 --> 00:18:18.000
+Can't believe those dudes. And LinkedIn will capitalize sometimes. So that's part of the issue there.
+
+00:18:18.000 --> 00:18:42.000
+But I did just want to give you a sense of how I thought about this okay so I designed some prompts to try and optimize for model accuracy, validated JSON, Because we want JSON for consistency. Then I iteratively iteratively refine prompts to improve performance. Then I started comparing multiple LLMs based on correctness, latency, adherence to the schema.
+
+00:18:42.000 --> 00:18:46.000
+That we want. I did my imports there.
+
+00:18:46.000 --> 00:18:57.000
+Then I created a prompt, okay? And notice that I actually created a pretty detailed prompt Where I said, extract the following structured information from the profile in JSON format.
+
+00:18:57.000 --> 00:18:58.000
+Sorry, Hugo. Very quickly, can you zoom it in a little bit so we can see it?
+
+00:18:58.000 --> 00:19:03.000
+And I said, yeah. Oh, yeah, absolutely.
+
+00:19:03.000 --> 00:19:08.000
+For sure. Awesome.
+
+00:19:08.000 --> 00:19:19.000
+And you can see I've been pretty specific. And in all honesty, you might say, Hugo, why did you do that? And I would say, because I tried lots of other prompts that sucked, okay? So I kept working on it. And in fact.
+
+00:19:19.000 --> 00:19:33.000
+I iterated on this prompt with Claude. I said, these are the problems I'm seeing. Can you help me come up with a prompt, right? And I just did that in the chord desktop app now As we've talked about before, you shouldn't have to tell
+
+00:19:33.000 --> 00:19:39.000
+An LLM to create JSON for you. We have JSON mode, we have structured outputs now.
+
+00:19:39.000 --> 00:19:48.000
+Having said that, the reason I'm doing this is to show you the types of trouble you can get in when trying to prompt engineer. And look what I did here. So I refused to use JSON mode.
+
+00:19:48.000 --> 00:19:56.000
+And I literally said to it, do not include any back ticks in the response. You remember, instead of giving me JSON, it gave me like markdown versions of JSON.
+
+00:19:56.000 --> 00:20:04.000
+This didn't work. It said, okay, I won't give you that. And so then I said, you may think you're including, you're not including them.
+
+00:20:04.000 --> 00:20:21.000
+But you often do. Treat the output as raw JSON text and ensure it's valid. So those three sentences in a row resulted in higher accuracy for most models except Llama 3 for what that's worth. Like, this is what we're talking about, right? Like, this isn't science.
+
+00:20:21.000 --> 00:20:42.000
+I mean… you know even using science in the same breath as this makes my former scientist self Shiver. So then what I did was, and I encourage you all to use this type of boilerplate Essentially, I created chat functions for each LLM I wanted to use. So OpenAI
+
+00:20:42.000 --> 00:20:48.000
+Llama 3. And yeah, I'm using Grok for Llama 3. Anthropic, then Gemini.
+
+00:20:48.000 --> 00:20:55.000
+I tried it with… Gemini, the Gemini model.
+
+00:20:55.000 --> 00:20:58.000
+I got this result for Andrew Ng, which actually looks pretty good.
+
+00:20:58.000 --> 00:21:02.000
+So that's just doing a bit of experimentation to see what's up.
+
+00:21:02.000 --> 00:21:15.000
+And then I did some model selection and output generation. I ran all of these, then I validated the output. I'm figuring out if it's valid JSON or not, okay?
+
+00:21:15.000 --> 00:21:21.000
+Then I integrated with logging in order to get the results.
+
+00:21:21.000 --> 00:21:31.000
+Stored so that I can start to analyze them, right? So the code here doesn't really matter. Then we get into this evaluation. And this once again isn't like developing a harness yet.
+
+00:21:31.000 --> 00:21:46.000
+But I want you to think about kind of what you want here so So the steps are process the profile execute the model, then we want to know, is it JSON, right? Then we want to know a bit about
+
+00:21:46.000 --> 00:22:03.000
+Latency, right? Then we compile the results and do some sort of manual evaluation where we export the results to a CSV in order to say, give it human annotation okay So that's everything we're doing here.
+
+00:22:03.000 --> 00:22:08.000
+Then there's preparation for manual evaluation where I add columns and that type of stuff.
+
+00:22:08.000 --> 00:22:15.000
+And then what I do is I literally look at the spreadsheet and where is this?
+
+00:22:15.000 --> 00:22:24.000
+Spreadsheet Can you see a Google Sheet?
+
+00:22:24.000 --> 00:22:41.000
+Great. And like, for real, getting people to look in a spreadsheet is pretty gnarly in all honesty. But you can see I literally have the profile the model, the raw output latency, is it valid JSON, then I go through and say, is it correct or not?
+
+00:22:41.000 --> 00:22:48.000
+I haven't put notes in. I should, in all honesty, but for the purposes of this demo, I didn't.
+
+00:22:48.000 --> 00:22:53.000
+And I'm just trying to get a sense of which model works the best. So I'm hand labeling everything.
+
+00:22:53.000 --> 00:22:58.000
+You can also spin up custom JSON viewers to allow you to do that. Oops, sorry.
+
+00:22:58.000 --> 00:23:15.000
+And… Once I have all that information in a spreadsheet, I can actually load it and then look at the results, right? So what we see here is I load my annotated spreadsheet in. I've got the name of the profile, the model.
+
+00:23:15.000 --> 00:23:23.000
+All the things. And then I've got my hand annotation. And I did have a note here, has some current positions under previous role.
+
+00:23:23.000 --> 00:23:26.000
+I gave it, I said true because it seemed good enough, but that was a no.
+
+00:23:26.000 --> 00:23:32.000
+And then what you can do is analyze key metrics. So now I've got some hand labeled data.
+
+00:23:32.000 --> 00:23:38.000
+I analyze correctness as a function of model. And when you're choosing your first model, once again.
+
+00:23:38.000 --> 00:23:52.000
+Like you could build like a sophisticated eval harness now, but I don't suggest you do it. I'd be like okay Llama threes like not doing it. I could try to diagnose that, but if Gemini and OpenAI are working well and their latency is okay.
+
+00:23:52.000 --> 00:24:00.000
+Why not, huh? Then looking at JSON validity, we see Gemini and OpenAI, 100% JSON validity as well.
+
+00:24:00.000 --> 00:24:10.000
+Then latency analysis. For some reason, Claude was wigging out on me. Don't know why. Don't even care right now because Gemini and OpenAI were working pretty well, right?
+
+00:24:10.000 --> 00:24:17.000
+And then you want to think about all of these metrics holistically At a first approximation.
+
+00:24:17.000 --> 00:24:26.000
+You know, looking at them all, JSON and, sorry, Gemini and JSON must be JSON. Gemini and OpenAI.
+
+00:24:26.000 --> 00:24:36.000
+We're doing pretty well on all metrics um so And I said that i said that Why did I choose Gemini?
+
+00:24:36.000 --> 00:24:43.000
+Oh, yeah. Firstly, Gemini offers a free tier with 15 requests per minute, making it more cost-effective option for experimentation.
+
+00:24:43.000 --> 00:24:59.000
+I also, I have this weird That's totally nonsensical. But I have this weird view of like Gemini being the underdog against OpenAI. And of course, clearly it's Google, right? So clearly I'm I'm being absolutely silly. But part of me kind of
+
+00:24:59.000 --> 00:25:09.000
+Once Gemini to win. I actually think their product development and LM development is far more exciting as well personally.
+
+00:25:09.000 --> 00:25:14.000
+They have hired a lot of my friends as well, though, so I want to say that could be the case also.
+
+00:25:14.000 --> 00:25:20.000
+But once we choose Gemini, which we chose for high correctness, consistent validity.
+
+00:25:20.000 --> 00:25:46.000
+Json, low latency, cost effective The next steps are to refine the prompt test at scale, document results. And that's actually what I then continue to do. I start refining the prompt And then iterate on it to capture detailed dates of start dates and end dates for people's roles and these types of things.
+
+00:25:46.000 --> 00:25:59.000
+And you do that on small subsets of the data set and then kind of move to the full data set. And that's really how to start thinking about evaluation. And that wasn't like a huge part of the homework, but it was to start thinking through these things.
+
+00:25:59.000 --> 00:26:06.000
+And then you can start reviewing the results. And once again, hand labeling, thinking about potential flip-floppy behavior.
+
+00:26:06.000 --> 00:26:22.000
+And that's really the next section of the notebook, which I spoke to and I would encourage you all to do. But it's really this point that you start to run the same prompt several times and you start to see The different types of replies it can give you. I'm not going to talk a lot about testing today.
+
+00:26:22.000 --> 00:26:39.000
+Because we're here really to talk about evaluation today. But what I will say in Stefan's workshop in 48 hours, he's going to dive deep into testing In development and production and give you a sense of how you can even use basic
+
+00:26:39.000 --> 00:26:55.000
+Frameworks like PyTest, right? In order to test the output of responses before serving them to users and maybe have a fallback plan if they don't meet your requirements. You could imagine that we actually have a test which says.
+
+00:26:55.000 --> 00:27:04.000
+If the name in the output doesn't satisfy certain characteristics, we're going to have to do it again. Or if it's too inconsistent, we then need to iterate on the prompt.
+
+00:27:04.000 --> 00:27:14.000
+To ensure more consistency in these types of things. So that's really the way I've been thinking about a lot of what we've been doing so far.
+
+00:27:14.000 --> 00:27:20.000
+And I think that leads nicely.
+
+00:27:20.000 --> 00:27:31.000
+A soft landing into thinking about evaluation. We've all seen now that you can get a vibe, you can think about certain characteristics, but let's say I do switch out my model.
+
+00:27:31.000 --> 00:27:42.000
+From GPT 4.0 to Gemini, whatever. How do I even know besides getting a vibe, whether it's good or not?
+
+00:27:42.000 --> 00:27:59.000
+Which brings us to evaluation. And I'm going to say three things about evaluation We'll show you three slides. You need to look at your data and results and quantify performance. You need to do this before using multi-agentic frameworks. You need to do this before trying to build multi-turn systems.
+
+00:27:59.000 --> 00:28:06.000
+You look at your data and results, quantify performance, which is a combination of domain expertise and binary classification.
+
+00:28:06.000 --> 00:28:12.000
+Once again, who would have thought getting a domain expert involved would be a good idea?
+
+00:28:12.000 --> 00:28:20.000
+And you're logging inputs and outputs in Devon prod. You're using domain specific expertise to evaluate outputs in both.
+
+00:28:20.000 --> 00:28:30.000
+You're starting to build systems. Such as unit tests, data sets and product feedback hooks to help you in this process. Now, when I say data set, you may say, what data set, Hugo?
+
+00:28:30.000 --> 00:28:38.000
+The hand labeled annotations I just showed you actually are a wonderful place to start. And for those who build machine learning products, you might say.
+
+00:28:38.000 --> 00:28:52.000
+That kind of looks like a test set, right? And I'd say, you're absolutely right. And modulo certain details A lot of this process is eerily similar to what building machine learning power products has been like for years and data powered products.
+
+00:28:52.000 --> 00:28:58.000
+Funny, though. I've shown this screenshot before. I just send this to everyone though.
+
+00:28:58.000 --> 00:29:05.000
+People reach out to me for consulting and I'm just like, can you just read Hamill's post and tell me if you still want to work with me?
+
+00:29:05.000 --> 00:29:14.000
+To be honest. And because everyone focuses on changing the behavior of the system Very few focus on evaluating quality and then debugging.
+
+00:29:14.000 --> 00:29:23.000
+How do you evaluate quality? Tests in one way. There are others, CICD, these things Debugging issues, how do you do this?
+
+00:29:23.000 --> 00:29:29.000
+You log and inspect your data and it It almost sounds silly.
+
+00:29:29.000 --> 00:29:46.000
+To say that's the process. Because it seems almost obvious, but very few people want to do it and want to do it well. And something we'll see today is If you figure out what the failure modes are, if you look at 100 traces of your app.
+
+00:29:46.000 --> 00:29:56.000
+And start writing down the failure modes and then do a pivot table with respect to failure mode, you'll see like 30% of the failures are due to one thing, right?
+
+00:29:56.000 --> 00:30:03.000
+And then you start working on that thing as opposed to the thing that results in 2% of the failures, right?
+
+00:30:03.000 --> 00:30:09.000
+Kind of semi rigorous data analysis can get you a long way in product development.
+
+00:30:09.000 --> 00:30:19.000
+So what are we doing? We're going to be talking about an MVP needing an MVE, okay? How to get to this before product launch.
+
+00:30:19.000 --> 00:30:25.000
+Defining good outputs, learn how to evaluate the quality of outputs based on correctness, relevance, clarity.
+
+00:30:25.000 --> 00:30:39.000
+Annotation metrics, then thinking about scaling to LLM as a judge. So all that means, this is one of those terms that people like people think is super sophisticated But essentially all this means is this giving an LLM some heuristics
+
+00:30:39.000 --> 00:30:56.000
+To judge the output of your system. And perhaps some perhaps examples from your annotated data saying this is a positive example for this reason. This is a negative example for this reason.
+
+00:30:56.000 --> 00:31:08.000
+And then allowing it to be a judge. And after that, and this is something that Maybe Philip Carter will talk about next week at Honeycomb, but I think I mentioned this. What they did there is Hamill got them to
+
+00:31:08.000 --> 00:31:16.000
+Look at the LM as a judge results and then write a judgment of the LLM as a judge and then iterate on the judge there.
+
+00:31:16.000 --> 00:31:28.000
+Essentially. So this speaks to one of the most important challenges is You have an LLM as a judge and you want to align it with your own human evaluations. Because remember, all we're doing here is scaling human behavior, right?
+
+00:31:28.000 --> 00:31:41.000
+And human tasks. To that point, one of the most fascinating aspects of building an LLM as a judge is having to write down what you want it to do.
+
+00:31:41.000 --> 00:31:46.000
+Which is incredible because you may think you know what you want to be judged.
+
+00:31:46.000 --> 00:31:52.000
+The process of writing it down is incredibly clarifying for oneself as a builder.
+
+00:31:52.000 --> 00:32:02.000
+Then we're going to get into iterative improvement. And then I'm going to show you a hands-on task. And then, of course, in the project and homework and Builders Club, you'll jump in and then Hamill will be joining in an hour.
+
+00:32:02.000 --> 00:32:07.000
+To talk about a field guide to rapidly improving AI products.
+
+00:32:07.000 --> 00:32:13.000
+So firstly, I just want to say this is the direction we'll be moving in in the second half.
+
+00:32:13.000 --> 00:32:22.000
+But I just want to say that like it's up to you and your team on any product you're working on to figure out what's important, right?
+
+00:32:22.000 --> 00:32:29.000
+In summarization is correctness important is being concise.
+
+00:32:29.000 --> 00:32:40.000
+Important is being complete important and conciseness correctness and completeness are three very different things, right? They're related.
+
+00:32:40.000 --> 00:32:50.000
+But thinking about what dimensions you're really interested in and what's important to you to optimize for initially. And I think I said this last time.
+
+00:32:50.000 --> 00:33:09.000
+I can't reiterate enough that we're still figuring out summarization with LLMs, okay? This is so exciting. It's incredibly early days. It's electricity before the light bulb, okay? So we're really really like getting to basics.
+
+00:33:09.000 --> 00:33:19.000
+Other things such as format and structure, style, tone, length appropriateness, safety. We even saw how prompt engineering can help with these things as well.
+
+00:33:19.000 --> 00:33:26.000
+Having said that, guardrails are incredibly important there. And that's something Stefan will be talking about more later this week.
+
+00:33:26.000 --> 00:33:33.000
+So I want to give kind of a subtalk here for the next half hour or so.
+
+00:33:33.000 --> 00:33:42.000
+About… What I mean by a minimum viable evaluation framework and how we can even build one before we launch a product.
+
+00:33:42.000 --> 00:33:55.000
+So what I've done is I've built a simple RAG app using workshop transcripts, which I've shared with all of you. And let me just um go to it.
+
+00:33:55.000 --> 00:34:00.000
+So Let me ask.
+
+00:34:00.000 --> 00:34:10.000
+Who were the instructors in this workshop?
+
+00:34:10.000 --> 00:34:20.000
+And any of you can query this. Please don't all do it right now because it it will do them in sequence, not in parallel.
+
+00:34:20.000 --> 00:34:26.000
+And I think I've got a bit of a cold start problem because it hasn't run in a tick.
+
+00:34:26.000 --> 00:34:41.000
+But the proof is in the pudding. It's funny that I haven't done this in front of anyone yet and every other time it's worked.
+
+00:34:41.000 --> 00:34:48.000
+The instructions were Peter Van Anderson and Stefan Kroczyk. Fantastic. I'm giving it a pass.
+
+00:34:48.000 --> 00:35:01.000
+Now, any of you who interact with this, I'd really like you to write it because that's what's going to help us iterate, right? And now I'm going to say um reason for writing.
+
+00:35:01.000 --> 00:35:19.000
+It's correct and concise and no extraneous material. You could imagine that if it said the instructors in this workshop are Hugo and Stefan and the sky is blue today um And lunatics are getting into power all over the Western world. That would be
+
+00:35:19.000 --> 00:35:37.000
+Perhaps correct, but it contains information I didn't ask for. And my name is Hugo and i'm just getting you all to do that. So now it's submitted. I just want to show you These are just the basic logs I have.
+
+00:35:37.000 --> 00:35:42.000
+And you'll see. Here.
+
+00:35:42.000 --> 00:35:46.000
+That's the log now. This is stored directly to a modal volume.
+
+00:35:46.000 --> 00:35:52.000
+And I get all the logs. So this is one way to get real.
+
+00:35:52.000 --> 00:35:57.000
+Product feedback is to ask the user for product feedback, essentially.
+
+00:35:57.000 --> 00:36:03.000
+But I've launched this app internally to you all, right? But let's say I wanted to build something.
+
+00:36:03.000 --> 00:36:13.000
+I wanted to get a sense of how a product works before launching it, which I actually did because I didn't want to I didn't want to give you all something that was really bad. Okay.
+
+00:36:13.000 --> 00:36:25.000
+Because I fear embarrassment and shame deep down um but What do you do before you launch something you will generally… Just test it out yourself, right?
+
+00:36:25.000 --> 00:36:30.000
+Like, give it a query. Who are the instructors? Who is this? Who is that, right? What do they talk about?
+
+00:36:30.000 --> 00:36:39.000
+You can also start defining personas and realistic scenarios to simulate user needs and generate synthetic questions based around them.
+
+00:36:39.000 --> 00:36:48.000
+So you can use LLMs to generate responses. Then you can label outputs manually to define correctness and failure modes. You can build an evaluation harness using those labels.
+
+00:36:48.000 --> 00:36:57.000
+Once again, we'll see how this plays out. Then you can start to compare outputs from multiple models And then you can use failure analysis to drive iteration and improvement.
+
+00:36:57.000 --> 00:37:04.000
+Fight of your analysis. All I'm saying here is a pivot table based on failure modes and then prioritizing what you work on, right?
+
+00:37:04.000 --> 00:37:11.000
+An MVE is a fast, transparent loop for testing and improving LLM apps even before you have real users.
+
+00:37:11.000 --> 00:37:19.000
+So let's get into the details here. Firstly, why do you need evaluation even without users? Then what EDD looks like?
+
+00:37:19.000 --> 00:37:27.000
+Then building the loop and then a bit about observability and instrumentation in DevonProd, which Steph will go more into later this week.
+
+00:37:27.000 --> 00:37:32.000
+So what do you need evaluation, even without users? So this is an all too common story.
+
+00:37:32.000 --> 00:37:38.000
+I have documentation. Let's build a retrieval system, maybe add an agent.
+
+00:37:38.000 --> 00:37:44.000
+Then it's like, oh, we shipped an MVP. Does it work? Or it's like Gemini just dropped 2.5. Let's switch.
+
+00:37:44.000 --> 00:37:55.000
+And then the question is, wait, how do i even know like if it's any good like what do I even do now like i built something exciting Not only do I see this story all the time.
+
+00:37:55.000 --> 00:38:02.000
+It's the story I had with the app that I shipped to you all last week. I was like, we have workshop transcripts.
+
+00:38:02.000 --> 00:38:11.000
+Let's build a retrieval system. If something's not in there, I want to add an ancient later. I shipped it to you all and I was like, does it work? And I was like, well, kind of, but I don't know.
+
+00:38:11.000 --> 00:38:23.000
+And then I want to switch out a model so this isn't a story in the abstract or one I only see out there. It's literally what's just happened with me and
+
+00:38:23.000 --> 00:38:39.000
+I do want to say it's important that this is a common story because so many organizations and people and so many organizations and people Institutions have so many things in docs which aren't leveraged. So it is actually an incredible moment to realize that maybe we can surface
+
+00:38:39.000 --> 00:38:50.000
+Institutional knowledge and personal knowledge in ways never before imagined. But it's can we build systems that do it reliably And usefully.
+
+00:38:50.000 --> 00:38:55.000
+So when people say to me, how do I test it?
+
+00:38:55.000 --> 00:38:58.000
+I say to them, what is the goal of the product?
+
+00:38:58.000 --> 00:39:15.000
+Who will be the user? In what scenarios will they use it. And most of the time they say, oh, we just want people to be able to get anything they want from the docs. And they say, oh, any user is a customer, internal, anyone. And they'll use it in any scenario when they interact with our company.
+
+00:39:15.000 --> 00:39:25.000
+And I say that's not good enough. I'd say that may be something we want at the end, perhaps, but it's not well defined. Give me a one-page product doc.
+
+00:39:25.000 --> 00:39:28.000
+Who would have thought that product thinking could be helpful when shipping product?
+
+00:39:28.000 --> 00:39:36.000
+Because on top of that, when you answer these, you can actually start a data flywheel and build your NVE before you launch.
+
+00:39:36.000 --> 00:39:52.000
+So let's see what that looks like. So what we do is we build an MVP like the system I shipped to you all and generate some synthetic user queries. Then you label responses by hand in a spreadsheet or in a JSON view or whatever it is.
+
+00:39:52.000 --> 00:39:58.000
+Then you use the label data to build a basic evaluation harness, okay?
+
+00:39:58.000 --> 00:40:09.000
+Such as, and we'll get into what this looks like. A test set plus LLM as a judge. Maybe you have some fuzzy matching or stringing matching or testing for structured output as well. Regex, some classic techniques.
+
+00:40:09.000 --> 00:40:14.000
+Then you use this MVE to evaluate and improve your MVP.
+
+00:40:14.000 --> 00:40:23.000
+Now let's step back for a second. I want to make very clear, this is not you. We've been doing it in ML for years. Where you have an MVP and you collect data.
+
+00:40:23.000 --> 00:40:35.000
+This collecting data used to be a lot more expensive right But now we can synthetically generate it. Now, of course, we want to make sure As soon as we launch at that.
+
+00:40:35.000 --> 00:40:43.000
+You want to kind of monitor the drift from real user questions from your own synthetically generated questions and evolve the product as it goes on.
+
+00:40:43.000 --> 00:40:48.000
+But in ML, you'd have an MVP collect data, label responses by hand.
+
+00:40:48.000 --> 00:40:54.000
+Use labeled data to build a basic evaluation system. And that's a test set, right?
+
+00:40:54.000 --> 00:41:07.000
+And then you use this NVE to evaluate and improve your MVP. So when you try a new model or try different hyperparameters, you have a test set where you can Well, it should actually be your validation set.
+
+00:41:07.000 --> 00:41:21.000
+Probably. But you have a holdout set which you use to evaluate the performance of any changes to your model So what's different and familiar about evaluating LLM apps in an ML workflow, you collect real world examples.
+
+00:41:21.000 --> 00:41:26.000
+Llm, you synthesize realistic queries from personas pre-launch.
+
+00:41:26.000 --> 00:41:32.000
+And then once you launch, you can get feedback from users, right?
+
+00:41:32.000 --> 00:41:38.000
+In ML workflow, you label outputs by hand. Ml. In LLM, you label outputs by hand. Once again, I'm getting you all.
+
+00:41:38.000 --> 00:41:46.000
+To do some labeling for me, actually, which I think is really important. I'm not merely outsourcing the work to you, but as the users.
+
+00:41:46.000 --> 00:41:49.000
+Who may find the product useful, who I'm building it for.
+
+00:41:49.000 --> 00:42:03.000
+You know bringing you in the loop there is important. And finally, I actually just recorded a podcast VP of data science at Meta, at Instagram. And we were talking about one of the, you know Product innovations early on and a lot of these
+
+00:42:03.000 --> 00:42:24.000
+Companies was getting humans, getting users to little bit of labeling themselves and using that to bootstrap product development, right? That data flywheel early on. The best example And… aspects of morality and ethics aside, which I think is a very important conversation when talking about these things facebook
+
+00:42:24.000 --> 00:42:44.000
+I didn't push them. The VP of data science that matter too hard about this though, sadly but um Facebook early on got us to label ourselves in photos, right? And you may have noticed after six to 12 months, it was very good at saying, is this you? And then it gets you to verify. And then afterwards it just, it doesn't even need that, right?
+
+00:42:44.000 --> 00:42:49.000
+So in an ML workflow, then you train the model and label data.
+
+00:42:49.000 --> 00:42:54.000
+In an element workflow, you prompt the model. And tune and prompt the system setup.
+
+00:42:54.000 --> 00:43:07.000
+Ml workflow, you evaluate on the held out data set LMAP, you evaluate using your MVE, which may be a test set, auto eval some So that's illness judged, some hand labeling yourself.
+
+00:43:07.000 --> 00:43:30.000
+And the reason I wrote AutoEval, and this is thanks to Nathan actually who pushed me hard to just really recognize How much of the auto eval stuff can be just is this JSON? Is this valid? The evaluation can be around latency. It isn't just LLM as a judge stuff. Do these strings match? Those types of things.
+
+00:43:30.000 --> 00:43:35.000
+And then in an ML workflow. You iterate based on performance.
+
+00:43:35.000 --> 00:43:46.000
+Element workflow. You iterate based on performance. You use the eval harness to guide improvement. So both workflows are grounded in Three things. Test sets.
+
+00:43:46.000 --> 00:43:52.000
+Hand labeled data, iteration and failure analysis. And that's what we'll be getting into now. So let's build.
+
+00:43:52.000 --> 00:43:58.000
+Go through the building of such a loop. So you build an MVP.
+
+00:43:58.000 --> 00:44:06.000
+Then you do some evaluations such as vibes, error analysis, build a harness Then you iterate, keep going.
+
+00:44:06.000 --> 00:44:14.000
+At the start for this valuation to get this synthetic data flywheel going You want to say who your user is. You want to talk about the scenario. How do they use your app?
+
+00:44:14.000 --> 00:44:19.000
+You want to create as realistic a test set as possible, okay?
+
+00:44:19.000 --> 00:44:25.000
+So why do we want to do this? And I've talked about this before.
+
+00:44:25.000 --> 00:44:33.000
+When we do eval by vibes, it's subjective. It's like, this seems better. Inconsistent, difficult to repeat reliably. No historical baseline.
+
+00:44:33.000 --> 00:44:46.000
+Hard to communicate results and impossible to maintain consistency. Maintain consistency whereas once you have a basic harness, you can have objective, measurable results. And you may look at it and go, wait, these aren't the things we quite want to measure. And then you iterate on your harness.
+
+00:44:46.000 --> 00:44:56.000
+You have repeatable structured evaluation processes. On top of that, as Stefan will show you later this week, you can implement these in CICD. So when you open like a new branch.
+
+00:44:56.000 --> 00:45:09.000
+With a challenger system, a challenger app, a challenger model, you can then get the evaluation harness running automatically on that, right? So it can all be automated. You can clearly track improvements.
+
+00:45:09.000 --> 00:45:16.000
+Document results, easy to share and analyze, and it's standardized and reproducible across team members. And as I always say.
+
+00:45:16.000 --> 00:45:25.000
+Your most important team member. Is you on a Monday morning after you done a bunch of really dumb things on a Friday afternoon to get to the pub quickly.
+
+00:45:25.000 --> 00:45:28.000
+Clearly, I've moved back to Australia because we're going to the pub.
+
+00:45:28.000 --> 00:45:32.000
+After work or at lunchtime, aren't we, Jeff? No, half kidding.
+
+00:45:32.000 --> 00:45:47.000
+Um so The core loop really involves. Tracking things that are just bloody important to you right like cost and accuracy and latency time and money, people.
+
+00:45:47.000 --> 00:45:56.000
+Time and money and then user and business metrics, tying it to your business metrics so We have an AI system response. How do we compare it?
+
+00:45:56.000 --> 00:46:02.000
+To see whether we like it. You want ground truth. You want realistic samples.
+
+00:46:02.000 --> 00:46:08.000
+That have been hand labelled. And then you can use an automated system where you have an LLM as a judge, for example.
+
+00:46:08.000 --> 00:46:18.000
+Or you're also seeing, are they structured outputs You're doing string fuzzy matching. So if you know that you So actually.
+
+00:46:18.000 --> 00:46:27.000
+Great example, right? And I think this is one that Nathan… Reminded me of. For the example Who are the instructors in this course?
+
+00:46:27.000 --> 00:46:39.000
+Do I want to create an LLM as a judge to help me with that? Or do I want to make sure that it's a sentence that makes sense that contains the strings Hudo van Anderson and Stefan Krawchik.
+
+00:46:39.000 --> 00:46:48.000
+Okay, so maybe you want to use some generative stuff for that. But the really important thing is actually contained in string matching in that particular case, okay?
+
+00:46:48.000 --> 00:47:04.000
+So, and once again what i'm doing mentally there. And in terms of this process i Like it isn't highfalutin tech like it's really like just first principle thinking right So before I get into this, I do want to show you
+
+00:47:04.000 --> 00:47:10.000
+In the repository, and I'm sorry for jumping around. I appreciate that it can be um give a bit of whiplash.
+
+00:47:10.000 --> 00:47:23.000
+You can say, I have this directory called synthetic data EDD and all the files I'm showing you are in here. So let me, I think it's under data.
+
+00:47:23.000 --> 00:47:31.000
+I have a personas.json, right? And you can see I have the student persona, I have the data scientist persona, I have the ML engineer persona, okay?
+
+00:47:31.000 --> 00:47:43.000
+So that's all to say that all carbon generated code chunks and YAML stuff I show you here is in the repository.
+
+00:47:43.000 --> 00:47:52.000
+So the first thing I did was I was like, who do I want to use the app? Okay. For example, my mother is a semi-retired lawyer, okay?
+
+00:47:52.000 --> 00:47:56.000
+Now, I don't want the app to really be helpful to her.
+
+00:47:56.000 --> 00:48:07.000
+Okay, so I don't necessarily want non-technical people. I don't think it would be useful at the moment to have Is that developed for non-technical people. So I want to narrow down. I have a data scientist.
+
+00:48:07.000 --> 00:48:16.000
+I have a description and some of their goals here. And you can do this kind of at any level of granularity. I've done it at a medium level. You could just say a data scientist and describe them.
+
+00:48:16.000 --> 00:48:24.000
+I also have an ML engineer and they have slightly different goals, right? And different technical levels in, I mean.
+
+00:48:24.000 --> 00:48:39.000
+Far out i almost as someone who's more scientist and less engineer, I balk at the fact that I chose technical level intermediate, but really I think what I was speaking to was like more infrastructural, like software engineering, technical stuff there.
+
+00:48:39.000 --> 00:48:45.000
+Okay, so you define a persona And then I'm going to define some scenarios, right?
+
+00:48:45.000 --> 00:48:59.000
+So cohort students this is cohort a student in the second cohort trying to evaluate their own implementations and understand what makes a good response, right?
+
+00:48:59.000 --> 00:49:07.000
+Then we have different types of questions. We have general questions, we have technical questions, we have factual questions.
+
+00:49:07.000 --> 00:49:27.000
+Now, you don't need to do this to start. The reason I did this is… How you often see this play out is that If you factor your failure modes by types of questions, you'll often see that it's pretty good at factual ones. It isn't good at technical ones yet, that type of stuff. So it can help you analyze your failure modes.
+
+00:49:27.000 --> 00:49:32.000
+Once again, have a play around with the types of scenarios you can create.
+
+00:49:32.000 --> 00:49:41.000
+I've done this in one way but there's no way you know golden rule here full transparency. I worked on this with Claude, okay? I got it to help me.
+
+00:49:41.000 --> 00:49:48.000
+Leverage the tools you have. And then what do you do? This is embedded in a for loop.
+
+00:49:48.000 --> 00:50:03.000
+I literally just had my completion endpoint and I'm giving it a system prompt and then I'm saying the content is generate realistic user questions about a workshop based on persona scenario. Okay. And I do that in a for loop and
+
+00:50:03.000 --> 00:50:09.000
+I get out all these questions. This is, I love this.
+
+00:50:09.000 --> 00:50:28.000
+I love that I've been able to synthetically generate 20, 50, however many questions, right? So we can see This one is, can you provide insights? Of course, it says insights because it's an LLM into None of you use the word insights, just to be clear. So we've already seen some data driven right in terms of inputs.
+
+00:50:28.000 --> 00:50:33.000
+Can you provide insights into how to generate synthetic data for training LLMs?
+
+00:50:33.000 --> 00:50:37.000
+What are the best practices for evaluating the performance of LM applications in a production environment?
+
+00:50:37.000 --> 00:50:53.000
+Could you like you can see, it's generated some reasonably sounding questions based on the types of things we may ask. It may not be quite the type of language we use, but LLMs are actually incredibly good at like not being language specific, although in their responses, they will often mimic you.
+
+00:50:53.000 --> 00:51:07.000
+Which is important to which is important To point out, what metrics should I focus on when evaluating the performance? Great question. I mean, that's what this is all about. And I didn't even ask it to give this question So once we have all of these questions.
+
+00:51:07.000 --> 00:51:22.000
+What do we do, right? And I showed you that we can hand label them in a spreadsheet. Now, I did something cheekier than that. And what I did was I actually used
+
+00:51:22.000 --> 00:51:36.000
+Some form of vibe coding. And I think not everyone has heard that term. Greg Cicerelli from… I think I mentioned he used to run product, BCPO product at Pluraside and then director of data science at GitHub. He's going to come and give a talk on vibe coding.
+
+00:51:36.000 --> 00:51:52.000
+Next week. And the premise is using LLMs as AI assistants where you don't necessarily quite understand all the code that it's giving you. And the reason I mention that now is because I vibe coded using cursor in agent mode.
+
+00:51:52.000 --> 00:51:59.000
+Not YOLO mode. There's a YOLO mode. I very much… advise against that if you're giving it your API keys as well.
+
+00:51:59.000 --> 00:52:07.000
+But I used a cursor Claude 3.7 Sonnet max in agent mode.
+
+00:52:07.000 --> 00:52:15.000
+And I got it to just build a JSON viewer for me where I could give pass and fails to responses.
+
+00:52:15.000 --> 00:52:28.000
+To the synthetically generated responses, right? And then give a reason as well. Now, I just side note, this is a wonderful use case for vibe code. And people are like, oh, vibe coding sucks like no one's going to blah, blah, blah, blah, blah, right?
+
+00:52:28.000 --> 00:52:36.000
+To be clear, on one side, there are grifters saying SaaS is dead because of vibe coding and on the other, there's like old men screaming at clouds.
+
+00:52:36.000 --> 00:52:46.000
+But this is an example where I didn't understand all the like like JavaScript, React, HTML stuff, this was doing, but I could validate that it worked for my use cases and gave me what I wanted.
+
+00:52:46.000 --> 00:52:51.000
+It worked, right? And I was able to hand label these rapidly.
+
+00:52:51.000 --> 00:53:02.000
+Once again, don't jump for like big tools. I mean, like Phoenix Arise can be used for this type of stuff. Brain trust. All of these things are great. But when you're doing an MVP, an MVE, start off small.
+
+00:53:02.000 --> 00:53:10.000
+Only go to larger tools that that have a higher abstraction level and more complexity when you need to.
+
+00:53:10.000 --> 00:53:20.000
+I ran the queries, I hand labeled the responses. What do we do then? We log the traces in a spreadsheet, right?
+
+00:53:20.000 --> 00:53:25.000
+Or a JSON viewer like I did there. We accept or reject a response.
+
+00:53:25.000 --> 00:53:35.000
+We add columns for reason for accept, reject. We classify the failure mode. Was it a hallucination? Was it a retrieval issue? Was it a structured output issue? Was it a format issue?
+
+00:53:35.000 --> 00:53:40.000
+Then we do a pivot table. So we get failure modes ranked by frequency.
+
+00:53:40.000 --> 00:53:45.000
+And we'll see how this plays out in a second. And then we get actionable fixes. It's like, oh.
+
+00:53:45.000 --> 00:53:56.000
+It's hallucinating too much. Now I need to iterate on my prompt or perhaps ground it in my information retrieval system more, which we'll get to next week or do some fine tuning.
+
+00:53:56.000 --> 00:54:02.000
+These types of things, right? Doesn't matter what the actions are yet. It's the diagnosis and then we start to prescribe.
+
+00:54:02.000 --> 00:54:21.000
+The action. So this is an example, a toy example where we have you know we have The input is summarize the doc. The output is dogs are cool Who can argue with that? But the ground truth was it was a company summary report. So that's a fail.
+
+00:54:21.000 --> 00:54:27.000
+What's the failure mode? It's hallucination. Input, get CEO name.
+
+00:54:27.000 --> 00:54:38.000
+It was supposed to be john it said john doe supposed to be jane smith file. In this case, maybe you'd classify it as a hallucination, but if you're doing information retrieval.
+
+00:54:38.000 --> 00:54:42.000
+You might want to classify it as a retrieval error because these will have different solutions, right?
+
+00:54:42.000 --> 00:54:47.000
+These two were accepted. These were correct. This one is summarized doc.
+
+00:54:47.000 --> 00:54:54.000
+The report discusses sales. This is a great example actually of something I mentioned earlier, which is this is correct.
+
+00:54:54.000 --> 00:55:00.000
+But it's not complete. It's concise and correct and not complete. Big fail for an incomplete response.
+
+00:55:00.000 --> 00:55:05.000
+Now, let's say I do 20 to 50 of these. Then I can do a pivot table.
+
+00:55:05.000 --> 00:55:14.000
+And I'm so sorry for the amount of times I've said pivot table today, but it is so important. Suddenly.
+
+00:55:14.000 --> 00:55:24.000
+I see that hallucinations are 30% retrieval errors 25% incomplete response 20, formatting issues, 15. So funnily.
+
+00:55:24.000 --> 00:55:43.000
+Some formatting issues are sometimes the easiest to see, right? And you may go, oh, I'll try to fix those But now we've done this in like a few hours, whatever it is, we actually see that formatting issues will only give us 15 fixing them will only give us 15% lift on our model. I mean, we do want to prioritize them at some point.
+
+00:55:43.000 --> 00:55:49.000
+But perhaps working on these higher impact ones we should be doing first, okay?
+
+00:55:49.000 --> 00:55:55.000
+Then. Yes, then, Hugo.
+
+00:55:55.000 --> 00:56:11.000
+How do we build our evaluation harness? Leveraging the idea of LLM as a judge So… This is a minimal example. This is a minimum viable LLM as judge, okay? And this is the type of thing I want you to get a lot of practice with is just doing
+
+00:56:11.000 --> 00:56:25.000
+As you iterate, building small, you've got your minimum viable product You've got your minimum viable test set with hand annotations. Now it's your minimum viable evaluation harness.
+
+00:56:25.000 --> 00:56:29.000
+What I'm telling it here is I'm giving it good examples and saying why they're good.
+
+00:56:29.000 --> 00:56:45.000
+And once again, this is in the GitHub repository. Do I need to zoom in at all or is that We go… Okay, great. So I'm giving you some good examples, giving it some bad examples, right?
+
+00:56:45.000 --> 00:56:55.000
+Now, sometimes it will over index on the good examples and the bad examples. So you want to iterate and align your elements judge. But essentially what I'm saying it to here, saying to it here.
+
+00:56:55.000 --> 00:57:11.000
+I give it the good examples and bad examples and now i say I give it evaluation criteria. A response is acceptable if it directly answers the question with specific details. It is factually correct based on the workshop content. It avoids hallucinations or made up information.
+
+00:57:11.000 --> 00:57:17.000
+A response is unacceptable if. Now, as I said before.
+
+00:57:17.000 --> 00:57:28.000
+I was giving plus one and minus one like a random do, you know? And in fact, and this is something I mentioned when I shipped the app to you um The first evaluation, we weren't even checking whether it's grounded in
+
+00:57:28.000 --> 00:57:35.000
+In the workshop it's like, did this feel good or bad, right? And that's fine at the start but in the end.
+
+00:57:35.000 --> 00:57:39.000
+You want it to be grounded in the docs if it's an information retrieval system.
+
+00:57:39.000 --> 00:58:01.000
+Funnily, this is a really bad idea in this case. I think this second point here Because I don't think I've given this LLM as a judge, the workshop transcript. So it's going to hallucinate things around that. So once again, I'm discovering things out about my MVP as an MV, as I run it and use it.
+
+00:58:01.000 --> 00:58:15.000
+But I think one point remains here, and this is something that I find so exciting is It's kind of like when you hire an intern or something and you start telling them like how you do a task you do and you're like, oh, wait, that's actually how I do it.
+
+00:58:15.000 --> 00:58:21.000
+Let's write it down. And you're like, oh, that's my process. And this is the criteria I use.
+
+00:58:21.000 --> 00:58:26.000
+Writing things down, communication helps you clarify what you're actually doing yourself.
+
+00:58:26.000 --> 00:58:34.000
+So even if you don't use like a large scale LM as a judge, writing down this type of thing can be incredibly useful.
+
+00:58:34.000 --> 00:58:46.000
+So when I did the LM as a judge, you can see the JSON viewer messed up a bit for me, but And I'll explain that in a second. But this is a question from the synthetic data set.
+
+00:58:46.000 --> 00:59:04.000
+This isn't an open AI evaluation and a Gemini evaluation. That's where the JSON the vibe coding JSON viewer messed up. What it is, is it's a model, it's an AI system, a rag system with open ai and a rag system with Gemini and I'm getting OpenAI to evaluate both of them, okay?
+
+00:59:04.000 --> 00:59:12.000
+So this was a fail. According to workshop one, prompt engineering can be approached by logging inputs and outputs, evaluating logs and so on.
+
+00:59:12.000 --> 00:59:21.000
+It is important to leverage domain expertise to evaluate additionally involving the person who used to write the emails in the case of generating emails can help in evaluating the quality of the output.
+
+00:59:21.000 --> 00:59:30.000
+I love this. This response. And it actually says the response does not directly answer the question with specific details from workshop one.
+
+00:59:30.000 --> 00:59:44.000
+Once again, I don't think this has access to workshop one. So I want to then The problem is with the judge there, not the response. And just to be clear, it isn't judges all the way down. We use human evaluation to align the judge.
+
+00:59:44.000 --> 00:59:57.000
+With ourselves. You can see that the Gemini model It passed. And it was quite good. So this is somewhere maybe we want to improve on the judge.
+
+00:59:57.000 --> 01:00:03.000
+Now here we can see what is the difference between LM fine-tuning prompt engineering. Pretty nice response here.
+
+01:00:03.000 --> 01:00:09.000
+Directly answers the question, great. The Gemini response, I messed up with my rate limiting. I didn't do it.
+
+01:00:09.000 --> 01:00:18.000
+Quite right. And so I got an error and I actually love that I did this. This is a teachable moment um So I'm glad that I messed this up.
+
+01:00:18.000 --> 01:00:29.000
+You can see the judge said this response does not address the question at all. Instead, it provides an error message related to API rate limits, which is irrelevant to the question. It's totally right.
+
+01:00:29.000 --> 01:00:36.000
+Perhaps I'd like my judge there to say, hey, yo, it looks like you erred out. You need to fix this.
+
+01:00:36.000 --> 01:00:45.000
+Um like it doesn't seem to be interpreting this as an issue with the system really like an an era, but it says enough there.
+
+01:00:45.000 --> 01:00:57.000
+So this is out of scope for now. But it's something that's incredibly important. I'll link with resources to it and perhaps we can have a session Later on, but I don't want to put the cart before the horse.
+
+01:00:57.000 --> 01:01:16.000
+Aligning LLM judge with your own evaluations is important. And you can even see as a figure like plotting over time, you know, alignment between LLN Judge and human. After a few iterations of this type of thing You get relatively close a lot of the time.
+
+01:01:16.000 --> 01:01:43.000
+And I'll actually link to one of Eugene Yad. If somebody wants to find Eugene Yan's blog post a line eval. It's A-L-I-G-n- E-V-A-L and put in the workshop three chat, he actually built um so he's this dude at Amazon. And he, oh, sorry, I'm just looking at workshop three channel now. So I haven't been looking at it. So people who are tagging me
+
+01:01:43.000 --> 01:01:48.000
+If there are serious issues, someone can turn their mic on and chat.
+
+01:01:48.000 --> 01:01:57.000
+But Eugene has built a small thing which gamifies aligning evals, essentially, which is pretty cool.
+
+01:01:57.000 --> 01:02:04.000
+So then to wrap up this section, I just want to talk about observability and instrumentation in Devon prod.
+
+01:02:04.000 --> 01:02:19.000
+So we've talked about the core loop of evaluation of cost, accuracy, latency user business metrics and using automated evaluation to do these scalable evaluations.
+
+01:02:19.000 --> 01:02:24.000
+And how does this work? We want to log it like a system, right?
+
+01:02:24.000 --> 01:02:32.000
+We want to have logging on the user side. So system prompts, user prompts, tool calls, function calls. There was a great question.
+
+01:02:32.000 --> 01:02:44.000
+That hopefully we get to talk about with Hamill, that Vishrut asked in workshop three in my Hamill thread with his post about
+
+01:02:44.000 --> 01:03:03.000
+What if you can't log user prompts? I actually wonder… William, because you work in a highly regulated space if you've had any products you've had to build where you can't log some user prompts and that type of stuff.
+
+01:03:03.000 --> 01:03:12.000
+Yeah, I mean, I have a couple of thoughts on this. I think like I have had use cases where we absolutely weren't Actually, no, that's not true.
+
+01:03:12.000 --> 01:03:27.000
+There was a use case for internal. I built an internal like chat system that I owned and people didn't want that data getting exported to the data warehouse because you can imagine like managers using it to write reviews and then like
+
+01:03:27.000 --> 01:03:34.000
+That ends up in the data warehouse and all of a sudden someone's going through data and sees like their draft review.
+
+01:03:34.000 --> 01:03:44.000
+I've had to handle company sensitive stuff. What I was going to say to the question about healthcare is that
+
+01:03:44.000 --> 01:03:50.000
+In my experience, the company has already had to be handling sensitive data. Like at the company I worked at.
+
+01:03:50.000 --> 01:04:03.000
+Most recently, we already had the user's healthcare claims So like we already needed infrastructure in place to be able to handle things according to the requirements of hipa and so it wasn't really an issue to then be able to
+
+01:04:03.000 --> 01:04:23.000
+Also like log chats because we already had like the infrastructure in place It's slightly more challenging because it's unstructured data. Like if it's a claim you know what fields to mask in order to make it not like THI because it's structured data structured data
+
+01:04:23.000 --> 01:04:35.000
+Whereas if it's text. How exactly to redact the text to meet the requirements of Privacy, that is, I think, a very complex topic and we definitely ran into challenges there
+
+01:04:35.000 --> 01:04:39.000
+Fascinating. Well, hopefully we get to discuss that a bit more with Hamill.
+
+01:04:39.000 --> 01:04:43.000
+As well. But in the limit where you're able to log things, which is a lot of the case.
+
+01:04:43.000 --> 01:04:56.000
+You log things on the user side, including tool calls, function calls, if any. And that's with the LM as well. Then you want to log The LLM response, the outputs, token usage, errors, latency, cost.
+
+01:04:56.000 --> 01:05:11.000
+The things that are important to you, right? And from the logging, you want to have some form of actual monitoring and observability. So you want to be able to track and optimize costs and inspect accuracy and errors, visualize latency trends.
+
+01:05:11.000 --> 01:05:27.000
+User and business metrics. And I think in our tool focused and model focused Community. It's easy to be distracted by the new and sexiest and shiniest tools definitely use them in the end but I want you to understand the power of just spinning up, you know.
+
+01:05:27.000 --> 01:05:34.000
+Json viewers yourself are using spreadsheets and that type of stuff and how far you can actually get there.
+
+01:05:34.000 --> 01:05:43.000
+So what we've just done is with a simple RAG app, which I built with defined personas and realistic scenarios. We've generated synthetic questions.
+
+01:05:43.000 --> 01:05:50.000
+Use LLMs to generate responses, labeled outputs, built a harness using them, compared outputs.
+
+01:05:50.000 --> 01:06:00.000
+Talked about using failure analysis to drive iteration improvement. And this is an NVE, minimum viable evaluation framework, a fast transparent loop for testing and improving LLM apps.
+
+01:06:00.000 --> 01:06:07.000
+Even before you have real users. And once again Um.
+
+01:06:07.000 --> 01:06:14.000
+Everything I've just shown you is in here from the synthetic data generator.
+
+01:06:14.000 --> 01:06:27.000
+Well, you can see I'm yeah looping over personas and scenarios Whoa, to the simple LLM as a judge Which is exactly what I screenshotted before.
+
+01:06:27.000 --> 01:06:31.000
+And I have a readme, which I quite like. So feel free to check that out.
+
+01:06:31.000 --> 01:06:39.000
+I worked on the Read Me Within LLM also. For what that's worth.
+
+01:06:39.000 --> 01:06:52.000
+I do want to just show you So… Okay, several things. The logs um In the app, the course transcript app.
+
+01:06:52.000 --> 01:07:06.000
+I showed you what these look like before. You can see there are some passes some fails. This one I find quite interesting. I said, what were the tools discussed in the workshop and It says the tools discussed were zoom
+
+01:07:06.000 --> 01:07:18.000
+Discord, Google Drive, GitHub and Codespaces. And of course, those were the… First things I said, these are the tools I'm using. And I gave it a fail. And I wrote as a reason, technically this is correct, but I was really thinking technical.
+
+01:07:18.000 --> 01:07:26.000
+Cool's tools like to build LM powered apps. And then I said to her, what were the tools discussed in the workshop for building LLM powered applications?
+
+01:07:26.000 --> 01:07:36.000
+And it still says Google Drive, GitHub, and Codespaces and so on, right? So I'm finding out a bit about what I need to improve there.
+
+01:07:36.000 --> 01:07:41.000
+I also… Yeah, there are some fails, there are a bunch of passes.
+
+01:07:41.000 --> 01:07:48.000
+I also, I don't know who did this but Someone, yeah.
+
+01:07:48.000 --> 01:07:57.000
+What is the news that Stefan doesn't want people to share? Great question. Stefan mentions that his company has been absorbed by a large public company, but he cannot talk about it.
+
+01:07:57.000 --> 01:08:08.000
+Love that. And before that, they'd asked, what is Stefan's secret? And I… That's a question I've asked myself ever since I've started working with Stefan and I don't have a good answer.
+
+01:08:08.000 --> 01:08:28.000
+To that but you know it's a wonderful, well-kept secret behind that cheeky smile of his so It's really interesting to start looking at these logs, okay? Now you'll see Pastor, great question. List the sections of the workshop And keep it under 100 words.
+
+01:08:28.000 --> 01:08:32.000
+And he gave it a fail, which I love because it missed important information.
+
+01:08:32.000 --> 01:08:51.000
+Like base 10. Section. And now I just want to think through whether I want to build an app that users should feel they'll get correct responses when they ask for constraints like keep it under 100 words. Because maybe that isn't the most important use case in my app. Maybe it is.
+
+01:08:51.000 --> 01:09:05.000
+But maybe I want to prioritize other things first. Now, of course, dealing with them in this viewer No bueno, okay? And what I want is them in a spreadsheet. And in fact.
+
+01:09:05.000 --> 01:09:13.000
+Oh, yeah, look, this was unintentional, but the first row is pastors there Which is great.
+
+01:09:13.000 --> 01:09:25.000
+Um. The great thing is what I can do. So do I have a filter
+
+01:09:25.000 --> 01:09:43.000
+On this let me… Let me just um My… My spreadsheet, my Google sheet skills are not. So I'm sorry. First thing I did, instead of scrolling down, I just counted how many rows I had.
+
+01:09:43.000 --> 01:10:01.000
+So we can see I've got 47. Responses, which is pretty cool. Like I sent it to you all. I did some myself Got 47 responses. What you can see Under feedback rating I apologize because I'm actually going to change
+
+01:10:01.000 --> 01:10:16.000
+The repping so we can see most things feedback rating you can see summer fail Some are past, some are empty, right? And maybe I could go in and hand label the empty ones, but in all honesty I want feedback from potential users and
+
+01:10:16.000 --> 01:10:22.000
+As participants in this course, this is incredible that you are like the users I want, right?
+
+01:10:22.000 --> 01:10:33.000
+Let me just sort short sort A to Z. So I had 47 and you can actually see I only had seven or eight fail.
+
+01:10:33.000 --> 01:10:40.000
+And one of them was me messing it up. I said fail, but then my note was correct.
+
+01:10:40.000 --> 01:10:57.000
+Not like some were empty, but have a quick look. We've got from row nine to… to row 38. We got like 38 passes, which I'm not… I'm kind of happy with, to be honest, as like a first first approximation.
+
+01:10:57.000 --> 01:11:07.000
+Now, what I'm going to do And of course, what you can do is you can, how do I filter White.
+
+01:11:07.000 --> 01:11:13.000
+Okay, I'm not going to waste any time on this, but you can filter to just look at the fails, do your pivot tables, all of that type of stuff.
+
+01:11:13.000 --> 01:11:35.000
+But what I'm going to do, I think, is set up a new repo with the transcripts and perhaps like for those who are doing the projects and have extra time after that or want to do it in parallel We can play around with building out this kind of workshop transcript query as well, which could be super fun, actually.
+
+01:11:35.000 --> 01:11:41.000
+Side note, anyone who wants to and this is This is almost an absurd thing to suggest right now.
+
+01:11:41.000 --> 01:12:04.000
+But, you know, we have this website that I built using Notion that's like a course wiki Where I'm like, we did this thing on prompt engineering. And then I put a link in workshop two to Let me actually bring it up.
+
+01:12:04.000 --> 01:12:10.000
+So you'll see in workshop two
+
+01:12:10.000 --> 01:12:20.000
+We've got these videos, we've got all our slides, et cetera. And then I say for extra credit, check out Sander Shulhoff's talk from cohort One on Prompt Engineering, the SDLC. Really cool talk.
+
+01:12:20.000 --> 01:12:28.000
+The reason I'm I'm speaking about this now is this is kind of embedded in this page, but I am interested. And if anyone's interested in building something like this with me or all of us, like.
+
+01:12:28.000 --> 01:12:51.000
+Different ways to interact with course material. I mean, one potential future music end game could be like Minority Report style like VR stuff where you're like bringing up videos and courses and transcripts and that type of stuff. And that may sound ridiculous, but it isn't actually as ridiculous as it would have sounded to me a year ago. So you could imagine we end up building like a rag system where
+
+01:12:51.000 --> 01:13:11.000
+It says, check out this clip from this workshop and instead of answering it, it gives you the clip of me and Nathan talking or, you know, someone asking a question and Hamill responding or that type of stuff so future music about potential product development, but these could be fun ways to interact with course content
+
+01:13:11.000 --> 01:13:12.000
+So… Oh, please.
+
+01:13:12.000 --> 01:13:31.000
+So I just want to, sorry to interrupt, but I want to call attention toward someone, I think Jeffrey made an excellent meme about the secret about Stefan and how our ragbot is not keeping secrets in the course so I just wanted to call that up. Might be a great eval if somebody wanted to
+
+01:13:31.000 --> 01:13:39.000
+Figure out a way to figure out a way Make sure that our rag bot is not spilling secrets out to whoever's hosting it.
+
+01:13:39.000 --> 01:13:42.000
+Just calling it out. Sorry for interrupting Hugo. We've got a very active Discord in workshop three three
+
+01:13:42.000 --> 01:13:58.000
+Yeah. Yeah. That's a great point. And that's another question i mean um So the workshop transcript is actually in a public GitHub repository.
+
+01:13:58.000 --> 01:14:04.000
+So it isn't only the rag bot, it's actually the data is there.
+
+01:14:04.000 --> 01:14:10.000
+Well, that's what I need to think through. So look.
+
+01:14:10.000 --> 01:14:18.000
+I'm trying to figure out, I've got these two notebooks
+
+01:14:18.000 --> 01:14:22.000
+That I want to go through. And we have around 15 minutes.
+
+01:14:22.000 --> 01:14:32.000
+I think in the interest of time. I'm going to go through one and then I'll record myself going through another to to share later.
+
+01:14:32.000 --> 01:14:45.000
+And this one doesn't involve any coding per se. The evaluating factual consistency in summarization, one does.
+
+01:14:45.000 --> 01:15:02.000
+And it also does some… We do some LLM as a judge stuff there as well so I will record a video of doing that one later because I think… We've gone into a lot of process stuff now, but I just want to step back
+
+01:15:02.000 --> 01:15:21.000
+And talk about how we think about evaluation and an iteration. And the goals are really to understanding approaches to evaluating LLMs, because we've talked about the process if you know that you want correctness and conciseness and that type of stuff. But how do we even think about these things?
+
+01:15:21.000 --> 01:15:31.000
+So firstly. We've talked about this before. How do you evaluate a system, right? You've got micro LLM calls is the information it extracts from LinkedIn correct?
+
+01:15:31.000 --> 01:15:47.000
+Do they e-mails? For example, the ones sent, but then the macro system calls. Do we actually hire good candidates. So we want to think about tying these two things together So in terms of evaluating output, and all I want to do is a zoom, zoom, zoom.
+
+01:15:47.000 --> 01:15:51.000
+And what we're going… What's good?
+
+01:15:51.000 --> 01:16:12.000
+Seriously, I don't know. And in fact, I want to link to William. William gave a guest lecture in The first cohort of this course in January about how tough it is to even There's a paradox that you don't even know quite what you want to measure until you start launching something as well, which the synthetic data generation gets us around slightly.
+
+01:16:12.000 --> 01:16:17.000
+But once you have real users, you iterate pretty quickly, right?
+
+01:16:17.000 --> 01:16:29.000
+So what is good? In summarization. Sorry, in extraction, what is good? Does the output accurately extract all required information In summarization.
+
+01:16:29.000 --> 01:16:41.000
+Does it concisely capture the key points? You could have it be comprehensive and it's longer than the original text. That seems like bad summarization In generative tasks, perhaps we want it to be clear, polite and helpful.
+
+01:16:41.000 --> 01:16:49.000
+I'd love it if LLMs were optimized for being helpful as opposed to appearing to be helpful. That would actually help me a lot.
+
+01:16:49.000 --> 01:16:57.000
+In information retrieval. Tasks does he output provide accurate, relevant and complete answers to the query.
+
+01:16:57.000 --> 01:17:02.000
+And I should add that a grounded the document, the docs as well, right?
+
+01:17:02.000 --> 01:17:07.000
+So something to think about and a discussion we can have on our Discord is.
+
+01:17:07.000 --> 01:17:13.000
+Choose one of the above and define what good means. Consider what characteristics would matter most to you.
+
+01:17:13.000 --> 01:17:19.000
+Okay. So let's just look at an example of summarization.
+
+01:17:19.000 --> 01:17:29.000
+So the original text, I need this. I'm bored looking at the first three words of this, to be honest. The annual financial report details the company's performance over the past year.
+
+01:17:29.000 --> 01:17:41.000
+Highlighting a 20% increase. In terms of potential outputs, the annual report highlights growth in sales revenue and customer acquisition.
+
+01:17:41.000 --> 01:17:45.000
+Includes several financial details. It discusses profit margins and revenue growth.
+
+01:17:45.000 --> 01:17:53.000
+The company experienced a successful year, but the details are vague in the report.
+
+01:17:53.000 --> 01:18:09.000
+So I think one is… is better and less vague, to be honest. But once again, these are tasks that you need to think about with respect to your particular use cases. So feel free to discuss that in Discord as well.
+
+01:18:09.000 --> 01:18:17.000
+With rag if the document was the Eiffel Tower was completed in 1889 for the World's Fair in Paris.
+
+01:18:17.000 --> 01:18:22.000
+It stands 324 meters high. The query is, when was the Eiffel Tower built?
+
+01:18:22.000 --> 01:18:28.000
+And why? And you'll notice, like, even when I built this first app to share with you all.
+
+01:18:28.000 --> 01:18:42.000
+Like, I tried to give it simple questions. I try not to. So I interview a lot of people for podcasts and stuff, right? And I always break the interviewer's number one rule with Which is don't ask two questions at once.
+
+01:18:42.000 --> 01:18:48.000
+Right. Also, like when you're emailing someone for someone and you've got two requests.
+
+01:18:48.000 --> 01:18:53.000
+Send different emails because people love to reply to one request.
+
+01:18:53.000 --> 01:19:04.000
+When there are several. But so asking two questions may not be the smartest idea, but the outputs, the Eiffel Tower was built in 1889, correct, as part of the world's Fair.
+
+01:19:04.000 --> 01:19:13.000
+I think that is concise and comprehensive, actually. Eiffel Tower was constructed for the world's Fair extraneous information.
+
+01:19:13.000 --> 01:19:18.000
+Number three doesn't even answer the question, okay? So we're really navigating the different dimensions possible here.
+
+01:19:18.000 --> 01:19:23.000
+These types of responses you may want to give to an LLM as a judge as well.
+
+01:19:23.000 --> 01:19:29.000
+Then thinking about generative tasks. I want to return a product I bought last week, but I lost the receipt.
+
+01:19:29.000 --> 01:19:35.000
+Thank you for reaching out. Unfortunately, we can't process. Thank you for contacting us.
+
+01:19:35.000 --> 01:19:53.000
+Please provide more details. We cannot help you with the return, okay? So it's actually interesting to think through which of these is the best. And I actually think the best without any more information, I would go with number two
+
+01:19:53.000 --> 01:20:05.000
+Having said that, number three might be the best if that's the truth, right? What I would prefer is we cannot help you with your return. Any further questions?
+
+01:20:05.000 --> 01:20:23.000
+Give us your email address or customer service can reach out to you okay These are just general kind of ways of recognizing what may be important to you and then what you want to prioritize when you're building out your products.
+
+01:20:23.000 --> 01:20:35.000
+Now thinking through different types of evaluation methods. There are academic ones which can be useful and are used a lot in industry that I just wanted to Bring your attention to if you haven't seen them.
+
+01:20:35.000 --> 01:20:54.000
+Their nop metrics such as blur for bilingual evaluation understudy which was originally designed for translation but is used for translation for when you have Australia hardship outputs and when you have clear reference texts.
+
+01:20:54.000 --> 01:20:59.000
+Rouge is something that's used a lot for summarization and it measures overlap between output.
+
+01:20:59.000 --> 01:21:12.000
+An input, and there are multiple variants And it's best for summarization tasks, content comparison, and when you really need to preserve key information.
+
+01:21:12.000 --> 01:21:20.000
+So those are academic. How does this play out in practice okay
+
+01:21:20.000 --> 01:21:28.000
+Thinking about correctness and thinking about Accuracy. Consider this product description for new wireless headphones.
+
+01:21:28.000 --> 01:21:37.000
+So generating this product description. Our wireless headphones feature 20 hour battery life, Bluetooth connectivity and active noise cancellation compatible with iOS and Android.
+
+01:21:37.000 --> 01:21:43.000
+Then, which seems like a good product description to me. Output 2 seems like a marketing.
+
+01:21:43.000 --> 01:21:55.000
+Product description. So our revolutionary headphones use quantum technology to provide infinite battery life and telepathic. Clearly, I'm taking… taking the quote unquote mickey Mickey there.
+
+01:21:55.000 --> 01:22:05.000
+But these are the types of things you can think about giving to your LLM as judge for positive and a few shot examples as well.
+
+01:22:05.000 --> 01:22:13.000
+And similarly, I think. We don't need to go through all of these, but thinking through what task completion would look like and what would be important to you there.
+
+01:22:13.000 --> 01:22:19.000
+Thinking about format and structure. And once again, when you scale this to an evaluation harness.
+
+01:22:19.000 --> 01:22:24.000
+With format and structure, maybe you don't want the sophistication of an LLM as a judge and the costs you incur.
+
+01:22:24.000 --> 01:22:36.000
+With LLM as a judge, but you actually want to make sure your structured output, that you actually get the structured output you wanted using you know some some form of testing.
+
+01:22:36.000 --> 01:22:42.000
+Style and tone can be a lot tougher. And as we know.
+
+01:22:42.000 --> 01:22:51.000
+You can prompt in a system prompt or a user prompt the type of style and tone you would want.
+
+01:22:51.000 --> 01:23:09.000
+But that doesn't necessarily catch everything. So perhaps you do want to have guardrails after the fact to make sure no cuffs or swear words were used, right? As we talked about at the end of Last workshop. And as Stefan will go further into later this week.
+
+01:23:09.000 --> 01:23:18.000
+And then as you build out more sophisticated products and pipelines, you perhaps really want to think about it across several dimensions. And there are trade-offs there.
+
+01:23:18.000 --> 01:23:29.000
+But make sure you have like your North Star and your North metric. But keep in mind what's happening across all the other different aspects.
+
+01:23:29.000 --> 01:23:43.000
+That may be of interest. So… Yeah, there are a lot more things to keep in mind and I won't go through all of these now, but this notebook, please do keep on hand.
+
+01:23:43.000 --> 01:23:53.000
+But yeah, length analysis. You want to monitor present usage of required terminology, forbidden words. And when we go into guardrails and testing later this week, we'll see a bit more of that.
+
+01:23:53.000 --> 01:24:23.000
+There are business requirements. So as we've been talking about the whole time, once you have a human judgment What I'd love is for… me and Jeff to have the same rubric So that if we're human annotating the same responses that we give the same response, right? And if we don't, then we can align on what and it'll be fascinating to see why we have different responses there because there's a mismatch between
+
+01:24:26.000 --> 01:24:34.000
+Communicate then, right? And that will help us when starting um to scale to LM as a judge.
+
+01:24:34.000 --> 01:24:49.000
+What type of criteria we want it to give. Once again, feel free to create like these types of granular evaluations. But in the end, you want a plus one minus one. You don't want a dashboard full of, you know.
+
+01:24:49.000 --> 01:25:02.000
+One to five responses, okay? You want to calibrate with human evaluations And then you want to monitor performance. So track agreement with humans, watch for drift.
+
+01:25:02.000 --> 01:25:06.000
+Check for biases and then start to do validation on on edge cases, okay?
+
+01:25:06.000 --> 01:25:11.000
+So…
+
+01:25:11.000 --> 01:25:24.000
+Yeah, I do want to just quickly before we, Hamill joins to to go to the next notebook, which, as I said, I'll record a video on but When thinking about scaling evaluation.
+
+01:25:24.000 --> 01:25:35.000
+Don't do it at the start. Start small. Begin with human evaluation, establish baselines, create clear criteria that if Jeff implemented and I did.
+
+01:25:35.000 --> 01:25:43.000
+Almost get the same result. Then you scale gradually. Start with low risk evaluations. Maintain human oversight, monitor performance.
+
+01:25:43.000 --> 01:25:48.000
+When my former colleagues rolled out new recommendation systems at Netflix.
+
+01:25:48.000 --> 01:26:00.000
+I'm not saying you shouldn't sleep for days. They didn't, right? They were also getting paid Netflix salaries. So they were arguably paid to not sleep.
+
+01:26:00.000 --> 01:26:15.000
+But when you first launch something You need to build trust with your system, right? And how do you do that? You look at it, you observe it, you maintain oversight and monitor performance. And then you have regular calibration. So you check your system against human judgments.
+
+01:26:15.000 --> 01:26:21.000
+Update the criteria as needed. And you document the changes, okay?
+
+01:26:21.000 --> 01:26:27.000
+Like in the first days of launching a product, your eyes are glued to the dashboard or whatever, the traces the whole time.
+
+01:26:27.000 --> 01:26:34.000
+Then perhaps it's once every few hours. Then weeks later, it's once a day and so on as you build trust with this system.
+
+01:26:34.000 --> 01:26:54.000
+Now, remember, this isn't classic software. This is software that takes in the entropy of the real world and real world data. It's actually, I know we think of computation and models as cold and computational but there is something somewhat organic about these systems as well in that they take in a lot of kind of
+
+01:26:54.000 --> 01:27:01.000
+Organic information about the world and incorporated within them. So we do need to keep an eye on them, right?
+
+01:27:01.000 --> 01:27:12.000
+So I do want to just quickly go to the next notebook to notebook I have a brief summary of this before, but to give a high level summary.
+
+01:27:12.000 --> 01:27:32.000
+Of what we're doing here. I wanted to give you an introduction to actually summarization is something that isn't that we're still working on here, right? So think about how to evaluate factual consistency in in in summarization. So in this, what we do is we load and preprocess a data set containing source text.
+
+01:27:32.000 --> 01:27:44.000
+Correct summaries and incorrect summaries. So distractor summaries, right? Then we hand label, we annotate summaries for factual consistency using pass fail and then calculate metrics like accuracy, precision, and recall.
+
+01:27:44.000 --> 01:27:49.000
+We identify common failure modes in incorrect summaries to better understand the model behavior.
+
+01:27:49.000 --> 01:27:58.000
+Then we train an LLM as a judge to evaluate summaries based on the human annotations, providing scalability for larger data sets.
+
+01:27:58.000 --> 01:28:11.000
+And then we monitor the LLM judgments over time by validating against human labeled samples to ensure alignment and consistency Okay. So that's what we do here.
+
+01:28:11.000 --> 01:28:30.000
+If you're super excited to jump in sooner, but I'll put a video in this channel, in the channel Later today. And you can see like I use Gemini to do a whole bunch of summarization, okay? And then I export it to a spreadsheet and annotate it.
+
+01:28:30.000 --> 01:28:39.000
+And then we look at pass rates and fail rates and we can see like how different prompts perform based around my human annotation. Once we have that.
+
+01:28:39.000 --> 01:28:53.000
+We can define evaluation criteria Do we want consistency, relevance, clarity? Then we prepared a few shot examples where we have a few label examples to give an LLM as a judge.
+
+01:28:53.000 --> 01:29:03.000
+Then we write our few shot prompt saying, you are an expert evaluator of tech summaries. For each summary, evaluate its quality based on these three things.
+
+01:29:03.000 --> 01:29:10.000
+And Bob's your uncle, so to speak. We can generate LLM judgments, compare them with human annotations.
+
+01:29:10.000 --> 01:29:15.000
+And then we can automate the scalable evaluation and monitor and iterate and move from there.
+
+01:29:15.000 --> 01:29:32.000
+So I know I kind of, that was a whirlwind tour through that notebook but And I appreciate that that's a lot to take in. I do want to say everything in this notebook is what we've been talking about for an hour and a half now as well and foreshadowed last week also so
+
+01:29:32.000 --> 01:29:42.000
+All of these things, this process essentially is under the rubric of evaluation-driven development. So if there's one takeaway I want you to have.
+
+01:29:42.000 --> 01:29:48.000
+It's here. It's on one of my first slides.
+
+01:29:48.000 --> 01:30:03.000
+The one takeaway. Of course, once you have one takeaway, you can't find it, right?
+
+01:30:03.000 --> 01:30:09.000
+Yes. The one takeaway is that
+
+01:30:09.000 --> 01:30:22.000
+As you build out an MVP, build out an MVE. With any minimal viable product, build out a minimum viable evaluation harness that moves beyond vibes as quickly as possible. It doesn't have to be anything super robust.
+
+01:30:22.000 --> 01:30:31.000
+And it's not that different to ML powered software, right? This process. There are some details that are, but both workflows are grounded in test sets.
+
+01:30:31.000 --> 01:30:49.000
+Iteration and failure analysis. So… um what Do I want to say i've already shown you the app I built that I'd love you all to contribute to and we'll share a repo later with respect.
+
+01:30:49.000 --> 01:31:02.000
+To that. And we already had a look at the logs together um so What I'd like you to do is update the MVP from workshop two and start building out some evaluations.
+
+01:31:02.000 --> 01:31:15.000
+Use everything that I've given you today in order to do this. And I'm really excited to see in the homework channel What you will do with this type of thing and what happens in Builders Club with respect to that.
+
+01:31:15.000 --> 01:31:39.000
+The next workshop, I'm beyond excited for. It will be Stefan. It's my favorite talk in workshop in this course except for this one. No, I'm kidding. But I do love this workshop and we have A lot of guest speakers on Thursday, we've got Innes Montani from Spacey, Pavitra from Quansite.
+
+01:31:39.000 --> 01:31:56.000
+Vincent from Marimo and Catherine Jarmel from KJ Amistan talking a lot about all the work they do with LLMs from human in the loop development to building applications with open source tools. And a lot of Pavitra's work at QuanSight. She works with Travis Oliphant, who created NumPy back in the day, right?
+
+01:31:56.000 --> 01:32:11.000
+But there, you know, I've said we've had like the rug pulled out from under us with respect to open source tooling and they're working on a lot of interesting tooling for building AI powered applications using open source Vinsome's just a
+
+01:32:11.000 --> 01:32:22.000
+An absolute joy who has so many cool tricks and tips And… Catherine does a lot of work on adversarial threats, so very excited for that.
+
+01:32:22.000 --> 01:32:36.000
+And I'll be getting up at 4.30 a.m. Local time for Innices Talk. I'm very excited to do that, actually. I would love you all to fill out the the survey.
+
+01:32:36.000 --> 01:32:49.000
+As I said… I'm putting this in the chat. The more feedback we get
+
+01:32:49.000 --> 01:33:07.000
+The better. So please do complete that. And maybe even if you're able to complete in the next few minutes as we get Hamill online But without further ado, I wonder, is Hamill on the call yet?
+
+01:33:07.000 --> 01:33:10.000
+Yeah, I'm on the call. I didn't realize you can just talk on this thing.
+
+01:33:10.000 --> 01:33:11.000
+Sorry, Britain.
+
+01:33:11.000 --> 01:33:21.000
+Oh, yeah. Welcome. No, everyone has microphone privileges and privileges and You know, oh, hey, what's up, man? Sorry, I didn't see your video.
+
+01:33:21.000 --> 01:33:22.000
+Oh, yeah. I'm here.
+
+01:33:22.000 --> 01:33:32.000
+Dude. It is with great pleasure that I introduced here to chat with Hamil Hussein.
+
+01:33:32.000 --> 01:33:37.000
+I usually have notes to give an intro, but I think I can do this. Hamill.
+
+01:33:37.000 --> 01:33:58.000
+Correct me if I'm wrong. Hamill, you… started off a lot of your career like doing consulting and helping people with like business problems and realized you know in trips to you know las vegas how how important actually understanding business problems can like people like data this data that data what and you're like, hey, what are you doing? What are you trying to solve?
+
+01:33:58.000 --> 01:34:16.000
+So Hamill has been like an incredible force for like me to like just reset what problems I'm actually trying to solve um And then I can't quite remember what happened after that, but we first met a decade ago when you were working at Data Robot, working on some real cool like automated machine learning tools.
+
+01:34:16.000 --> 01:34:29.000
+That allowed people to really, you know, a lot of the drudgery of data science and like data cleaning and data munging and that type of stuff solve some of that, but also really solve DataRobot automates a lot of like um
+
+01:34:29.000 --> 01:34:39.000
+The hyperparameter tuning and model selection, like there's a big button right where you can press and it does a lot of the stuff that Will did in spreadsheets back in the day, right?
+
+01:34:39.000 --> 01:34:49.000
+And so I'm at Hamilton. Beautiful city of Boston about a decade ago. Then Hamill went to Airbnb and moved to the West Coast.
+
+01:34:49.000 --> 01:35:04.000
+Speaking of spreadsheets, I think you've said this publicly Hamill was excited to get in the weeds with like big tech like hardcore global scale machine learning. And he said to someone, hey, can you send me like.
+
+01:35:04.000 --> 01:35:15.000
+The details of this model and they like sent him a non-version spreadsheet via email or something like that. And so I think that was a shock to the system that knowing, you know, even at places like Airbnb.
+
+01:35:15.000 --> 01:35:37.000
+These types of things happened. After that, how much was it GitHub where he worked on… Among many other things Essentially, one of the first coding assistants, right? Did I get that right?
+
+01:35:37.000 --> 01:35:38.000
+Yep.
+
+01:35:38.000 --> 01:35:44.000
+It was actually, no, I worked on semantic code search. But then it was like some research that kind of precursor to the co-pilot work.
+
+01:35:44.000 --> 01:35:53.000
+Awesome. And after that, we work briefly together at Out of Bounds, but then Hamill, like myself, Hamill's part of the inspiration for going freelance.
+
+01:35:53.000 --> 01:36:06.000
+I mean, I was really, you know, had a lot of concerns about going freelance, but seeing what Hamill did and And he really liked encouraged me to, for lack of a better term.
+
+01:36:06.000 --> 01:36:25.000
+Sorry, I just remembered one thing you said to me, which isn't safe for work. But since then, Hamel has been helping people build LLM powered AI powered software and really thinking through first principles and helping people like adopt the tools necessary and that type of stuff, but stepping back and thinking through
+
+01:36:25.000 --> 01:36:42.000
+What are we doing and why and i think The reason I wanted to frame it like this is that's one of the things I love about your recent post Hamel, which we're here to talk about, which is a field guide to rapidly improving AI products. And I wonder.
+
+01:36:42.000 --> 01:36:50.000
+If to open, could you just tell us why you wrote this post?
+
+01:36:50.000 --> 01:36:51.000
+Yeah.
+
+01:36:51.000 --> 01:37:00.000
+Yeah, the field guide. Yeah, so I think like a lot of people get caught up in, I don't know, like agent frameworks you know, um.
+
+01:37:00.000 --> 01:37:07.000
+Prompting strategies RAG databases, all kinds of stuff.
+
+01:37:07.000 --> 01:37:12.000
+And they kind of like focus all of their attention on that?
+
+01:37:12.000 --> 01:37:18.000
+But it turns out like you know a lot of fundamentals are always missed.
+
+01:37:18.000 --> 01:37:37.000
+In those fundamentals, I think, are more important than those Because of tools like, you know, it's good to know what the tools are but you know essentially what people miss a lot is like, hey, how do you look at data? How do you think about evals?
+
+01:37:37.000 --> 01:37:43.000
+You can get stuck really fast. I think Hugo has been teaching that in this course. I even saw when I joined the call, he was talking about that.
+
+01:37:43.000 --> 01:37:57.000
+So, you know, it's probably no surprise, but you would be surprised. Most people don't go about things that way. They go about, hey, did me just put the tools together And that's it.
+
+01:37:57.000 --> 01:37:58.000
+And on…
+
+01:37:58.000 --> 01:38:07.000
+And it takes a fair amount of skill actually to analyze data. There's a lot of data science like just from a science from Not, you know.
+
+01:38:07.000 --> 01:38:21.000
+There's a lot of value in being able to look at LLM logs and telemetry and analyze that data and dig through it and sort of you know have a good nose where to poke?
+
+01:38:21.000 --> 01:38:28.000
+And that you can do, you know, that happens with practice But I think that's like a really key skill.
+
+01:38:28.000 --> 01:38:29.000
+Absolutely.
+
+01:38:29.000 --> 01:38:40.000
+So that's why I wrote the guide really is to think about those things and think about some other things. Basically highlight a lot of the stuff that I think is very important that people tend not to focus on.
+
+01:38:40.000 --> 01:38:57.000
+I appreciate that context and in fact. I'll link to this and put it in our course wiki, but Hamill also had… Hamill was doing office hours. I was about to tell you what you were doing and there's no need for that. Hamill was doing a series of office hours where he just invited people to come and chat about what they were building
+
+01:38:57.000 --> 01:39:15.000
+On the condition that Hamill could share them publicly essentially And every conversation went exactly the same way. It was modular data. It was like, I'm building this agentic thing. I'm doing this multi-turn yada, yada, yada.
+
+01:39:15.000 --> 01:39:25.000
+What do I do next? And Hamill said, have you been looking at your traces? You've been doing this, this and that? And most people just weren't weren't doing those things, right? And that's actually why you stopped doing the office hours, if I recall.
+
+01:39:25.000 --> 01:39:28.000
+Correctly, because it was just the same.
+
+01:39:28.000 --> 01:39:33.000
+Yeah, yeah. No one was doing error analysis. No one was looking at traces.
+
+01:39:33.000 --> 01:39:40.000
+Everyone was pretty like universally, they were lost like what do i do What do I do next? I have my prototype.
+
+01:39:40.000 --> 01:39:43.000
+How do I make it better?
+
+01:39:43.000 --> 01:40:02.000
+One thing I'm interested in that we haven't talked much about in the course and we can get to Yeah, we can get to different points. I mean, you've got some wonderful High level summary, how air analysis consistently reveals the highest ROI improvements, which we have talked about. Why a simple data viewer is your most important AI investment and i actually
+
+01:40:02.000 --> 01:40:24.000
+Showed people how I was, you know, a lot you know a lot stuff Greg was doing just spinning up no vibe coding custom JSON viewers where I could do like pass fail reason etc logging, boom um And also in spreadsheets. But you have a wonderful section on how to empower domain experts, not just engineers to improve AI. And I just love
+
+01:40:24.000 --> 01:40:30.000
+If you could give us kind of like the greatest hits of that, how do we do that in an organization?
+
+01:40:30.000 --> 01:40:49.000
+Yeah, so like, okay, instead of like So one key failure mode that I always see is always The prompt engineering is is the tools that people build And the infrastructure people build are done in such a way that only engineers can change props.
+
+01:40:49.000 --> 01:40:56.000
+And in most cases, that's a really bad idea. Because your engineers are not the domain experts.
+
+01:40:56.000 --> 01:41:01.000
+Unlike GitHub Copilot or developer tools here, we've got developer tools. Okay, fine, doesn't matter.
+
+01:41:01.000 --> 01:41:04.000
+But if you're working on things that are not developer tools.
+
+01:41:04.000 --> 01:41:15.000
+Then, you know, hiding the prompts from the domain expert is is going to slow you down tremendously. And it's actually a really bad idea.
+
+01:41:15.000 --> 01:41:36.000
+And so one of the ways I talk about in the post that's really popular is this idea of integrated prompt environments where it's like can think of your UI in your app But you just have an admin view that allows you to change the prompt.
+
+01:41:36.000 --> 01:41:47.000
+Perhaps with templating, perhaps with other settings whatever But that's really important so that your people on your team can change the prompt.
+
+01:41:47.000 --> 01:41:57.000
+So yeah, the field guide is full of stuff like this. When you read it i think What I've heard and the way I felt when I was writing it actually is like, it's all common sense.
+
+01:41:57.000 --> 01:42:08.000
+But it doesn't. Maybe he's not a parent. If you haven't done this before And so it just hopefully saves people time.
+
+01:42:08.000 --> 01:42:10.000
+By doing things this way.
+
+01:42:10.000 --> 01:42:28.000
+Totally. And you'll recall that in the first When we taught this course in January, you and I did a live stream about a lot of these things. And there was actually one wonderful participant in the court, Alona from from hamburg, who she tuned in at like 2am local time every time. And she was like, wait, what?
+
+01:42:28.000 --> 01:42:45.000
+She was like, but I do this. That's what we do. And she couldn't grok that people didn't do this because she comes from a very like data analyst, data centric background. So to her, of course, this, but now seeing we have so many people coming in into the space and
+
+01:42:45.000 --> 01:42:52.000
+Linkedin, or as you all know, I like to call TikTok for adults, shows us like model and tool focus stuff all the time, which is fun and shiny.
+
+01:42:52.000 --> 01:42:57.000
+But getting back to basics is incredibly important.
+
+01:42:57.000 --> 01:43:02.000
+There are some great questions in the chat. Natalia actually had a great question for me.
+
+01:43:02.000 --> 01:43:26.000
+Which is when doing evaluation-driven development. How do we iterate? What are we changing in the iteration process? So let's say So I've framed it like this, Hamill, that when you build out an MVP, you also want an MVE, a minimum viable evaluation framework, like just a little harness that when you switch out the model, you can get results and you iterate on that as well.
+
+01:43:26.000 --> 01:43:32.000
+But when, how do we… When you iterate on your AI system.
+
+01:43:32.000 --> 01:43:36.000
+How do you stop thinking about iteration? What knobs are you turning?
+
+01:43:36.000 --> 01:43:41.000
+And you're versioning everything as well, to be very clear.
+
+01:43:41.000 --> 01:43:47.000
+Yeah, I mean, like, okay, so to be clear, okay, first it's okay to start with vibe checks.
+
+01:43:47.000 --> 01:43:52.000
+Just for a little bit. You got to build something you know the mve or what do you call it? Mve? I forgot what we call it.
+
+01:43:52.000 --> 01:43:53.000
+Yeah, NBA, yeah. So the P is the product and the V, the E is the evaluation.
+
+01:43:53.000 --> 01:44:00.000
+What's the difference between MVE and MVP? What's the E?
+
+01:44:00.000 --> 01:44:08.000
+Oh, E is about, oh, okay, E is valuation. Okay, so like, yeah, if you have like a minimal product, you should totally vibe code your way to minimal product.
+
+01:44:08.000 --> 01:44:13.000
+Like like you need something. You need to understand what you want.
+
+01:44:13.000 --> 01:44:19.000
+And then like. When you first start doing air analysis.
+
+01:44:19.000 --> 01:44:30.000
+Like this is like after you have like some minimal product and you kind of like have an idea sort of kind of works You don't necessarily want to be dogmatic about evaluations either.
+
+01:44:30.000 --> 01:44:35.000
+But when you first do your analysis, you'll see a lot of stuff that's obviously broken.
+
+01:44:35.000 --> 01:44:49.000
+Like, hey, like my rag is you know not has like syntax errors like and it's not uh or not like, you know, other errors that are not like pulling documents at the time are
+
+01:44:49.000 --> 01:44:59.000
+I have these other like errors as engineering problems of some kind Should you write… Evals for that? No. Go fix it.
+
+01:44:59.000 --> 01:45:14.000
+So like in the beginning, just fix stuff You don't want to just like You don't want to write evals for things that you know exactly how to fix and you're pretty confident that you can just fix like right off the bat
+
+01:45:14.000 --> 01:45:29.000
+You want to write evals for things that maybe it's like, well, something like You're not quite sure yet how to definitively get rid of and you know Okay, like… you know, you need to iterate on.
+
+01:45:29.000 --> 01:45:32.000
+Then you might want to think about an eval for that.
+
+01:45:32.000 --> 01:45:47.000
+And there's some tension. I'm just trying to There's some intuition like you know, it's not exactly, I would say it's not exactly like code tests like hey like write tests. If you see an error, just write a test LM evaluations tend to have some overhead.
+
+01:45:47.000 --> 01:46:00.000
+You have to think about the cost benefit of doing that. Even a unit test even if it's not It has cost benefit analysis that you should do but like more so with like AI, I would say And so you just have to be a little bit thoughtful.
+
+01:46:00.000 --> 01:46:04.000
+And like when to write evals and when that eval is going to have a payoff.
+
+01:46:04.000 --> 01:46:25.000
+But if you are looking at your data, you're doing data analysis, I think you know, you will find things that you should eval So like example is like hey like if you're… If you're finding that, hey, like dates are being interpreted incorrectly all the time
+
+01:46:25.000 --> 01:46:31.000
+You know, you're trying to make appointments, users are trying to make appointments and dates are being interpreted incorrectly. That's what I talk about in the field guide.
+
+01:46:31.000 --> 01:46:45.000
+Like an example like that's a good example of like an eval You know, because… Unless it's like some stupid thing that you know how to fix like if it's like more of like, hey, that's like a prompt engineering problem or rank problem.
+
+01:46:45.000 --> 01:47:05.000
+You know, that's a good, like something to make an eval for You should also try, yeah, and you should make sure your eval is not like super trivial and like easy Try to choose like hard hard evals or evals a year
+
+01:47:05.000 --> 01:47:10.000
+Yeah, you don't quite know the answer to. Yeah, that's my rough heuristic.
+
+01:47:10.000 --> 01:47:21.000
+You can write evals. But you don't want to… you don't want to like, you know, paralyze yourself with them.
+
+01:47:21.000 --> 01:47:36.000
+Because you can do that. I've seen people go in the opposite direction like too much too. It's like, oh, let me write evals Let me write evals prospectively about every single conceivable problem I can brainstorm in my mind.
+
+01:47:36.000 --> 01:47:44.000
+You don't want to do that. I would say, you know, you want to respond to the error analysis And kind of let that guide you?
+
+01:47:44.000 --> 01:47:51.000
+Because like, yeah, there's an infinite surface area for you to test and for you to eval.
+
+01:47:51.000 --> 01:48:00.000
+And so you need to sort of Yeah, kind of like kind of let the error analysis help you prioritize.
+
+01:48:00.000 --> 01:48:11.000
+So like, for example, if it's like you know, even things like RAG, I would say Let the error analysis show you that RAG is a problem.
+
+01:48:11.000 --> 01:48:24.000
+And then specifically retrieval is a problem You know, before you go in depth with trying to evaluate like set up eval hardnesses for your retrieval.
+
+01:48:24.000 --> 01:48:35.000
+You might get to it anyways. You know you need to prioritize and focus And so again, the error analysis helps you do that and you can respond to the error analysis.
+
+01:48:35.000 --> 01:48:37.000
+I don't know if that's clear. I'm just trying to give some intuition.
+
+01:48:37.000 --> 01:48:52.000
+That's super clear. And well, for me, and it is, you really are speaking and I see a lot of people nodding. You're speaking to the iterative nature of it. And I'd be interested in your thoughts on so I built a basic retrieval app on workshop transcripts that I've shared with the class here.
+
+01:48:52.000 --> 01:49:06.000
+And I get them to label them Apostle Faio give a reason and that type of stuff. And in the first In the first iteration, I'm not even getting them to give pass or fail based on groundedness, actually.
+
+01:49:06.000 --> 01:49:11.000
+The question isn't even, is it a retrieval problem or not? That might come out in the wash.
+
+01:49:11.000 --> 01:49:20.000
+But so my question is, when first even evaluating stuff, you don't necessarily want to think across all dimensions, right?
+
+01:49:20.000 --> 01:49:27.000
+So when evaluating stuff focus on what is the most upstream failure I see.
+
+01:49:27.000 --> 01:49:39.000
+So basically, if you imagine a chain of events or even a multi-turn conversation or whatever Whenever I notice like the first failure, I just stop and I take note of that failure.
+
+01:49:39.000 --> 01:49:48.000
+That's a heuristic that helps you simplify things, right? Um and like basically you fix the upstream failures before you fix the downstream failures.
+
+01:49:48.000 --> 01:50:05.000
+That's what kind of that results in. So that's like a simplifying way to go about things that tends to tends to work. And like, yeah. And then when you're first doing air analysis, I wouldn't I would just focus on
+
+01:50:05.000 --> 01:50:16.000
+You know… I wouldn't even try to categorize it off the bat. I would just say like, yeah, just… observe and learn.
+
+01:50:16.000 --> 01:50:22.000
+About what's going on. Build some intuition and then maybe start categorizing later.
+
+01:50:22.000 --> 01:50:37.000
+Love it. It's diagnostic, right? And not prescriptive at this point. We've got a lot of great questions in here. Could people give a plus or a thumb to questions that they would like answered as well? Because we may not have time for all of them. So have a quick look.
+
+01:50:37.000 --> 01:50:53.000
+In Discord, there is a good question from David about, you mentioned the costs of additional evals and he says we're not just talking monetary costs. I actually think we're not monetary can, but There are complexity costs in terms of having more evals, but what do you think about the space of costs for
+
+01:50:53.000 --> 01:50:54.000
+Increased evaluations, haven't it?
+
+01:50:54.000 --> 01:51:03.000
+Yeah, I mean, there's like, you know, there's definitely Depending on the kind of eval, there's compute APR costs. But the most important one is your attention.
+
+01:51:03.000 --> 01:51:15.000
+You have a limited attention bandwidth. And about what you are going to pay attention to. You need to be very careful like not to completely overwhelm that and have it be high signal.
+
+01:51:15.000 --> 01:51:37.000
+As possible which means like constantly thinking about your evals curating them removing some things that shouldn't be making sure the tests if you have like… there's, you know, there's There's advice that goes around all the time. It's like.
+
+01:51:37.000 --> 01:51:44.000
+I just saw one that I wrote about one recently a YC company called YC.
+
+01:51:44.000 --> 01:51:54.000
+Case text. Um you know kind of went on this podcast and said hey you should have You should try to get to 100%.
+
+01:51:54.000 --> 01:51:58.000
+Pass rate on your evals. And that is bad.
+
+01:51:58.000 --> 01:52:03.000
+Because if you get 100% pass rate means your eval is not telling you anything.
+
+01:52:03.000 --> 01:52:19.000
+So you should not saturate your evals. You should have them be sufficiently difficult enough so that, hey, like they don't they're telling you something. They're just passing all the time. Might as well not have them.
+
+01:52:19.000 --> 01:52:21.000
+I don't know if that answered the question.
+
+01:52:21.000 --> 01:52:30.000
+Definitely does. We have a question from Namit, which a lot of people would love more insight into. If possible, could you share any examples of quote unquote difficult evals?
+
+01:52:30.000 --> 01:52:45.000
+Difficult emails. Okay, let me see. Let me think of this.
+
+01:52:45.000 --> 01:52:51.000
+Yeah, like more difficult evals would be like
+
+01:52:51.000 --> 01:53:10.000
+It's not about difficulty in the sense like Is difficulty like more than like you're not sure how to fix it like okay so like right off the bat it's not like some obvious engineering error that you're like, oh, like, I definitely know why that's happening and like it's so stupid. Like I should fix it.
+
+01:53:10.000 --> 01:53:28.000
+So, and a lot of these are like tend to be more like LLM as a judge based, but they don't have to be so like you know one so let me just give you some examples like Hey, like the user wants to go to the next step
+
+01:53:28.000 --> 01:53:38.000
+But then the model then the you know the lm is like repeating parodying back to the user unnecessarily, would you like to okay so would you like to go to the next step?
+
+01:53:38.000 --> 01:53:54.000
+Or, you know, like things from the system prompt are being repeated into the output that aren't supposed to like user ids Things like that. And you're like, well, why is the, you know, I wish the model wasn't like putting that into the answer?
+
+01:53:54.000 --> 01:54:10.000
+It shouldn't be. You know the latter one, you could test with code. You don't need LM as a judge. So it's not necessarily about either LM as a judge is a code base But it's like, hey, the model is doing something. It's not really a syntax or engineering error.
+
+01:54:10.000 --> 01:54:15.000
+And I'm not 100% sure how would just like get rid of it right off the bat.
+
+01:54:15.000 --> 01:54:28.000
+I need to do some experiments. Then that's a good sign that it might be an eval like that you might want to have an eval so you can iterate on it.
+
+01:54:28.000 --> 01:54:34.000
+Awesome. Natalia has an interesting question. I fundamentally disagree with her premise.
+
+01:54:34.000 --> 01:54:39.000
+She says evaluation is easy. And I just don't agree with that.
+
+01:54:39.000 --> 01:54:46.000
+But she asked, how do you make it the LLM better? I'll generalize the question slightly and say, how do you make your AI system?
+
+01:54:46.000 --> 01:55:00.000
+Better what type of, and we've talked about this briefly but And I do think you've said, let the error analysis guide you, essentially. But do you have any more Firstly, do you think evals are easy?
+
+01:55:00.000 --> 01:55:10.000
+No, it's not about, okay. It's really funny that this is a great comment. How do you make it better?
+
+01:55:10.000 --> 01:55:17.000
+What is better? Can you describe what is better? The struggle is Can you… articulate what is better.
+
+01:55:17.000 --> 01:55:23.000
+The process of you articulating what is better is the main focus.
+
+01:55:23.000 --> 01:55:39.000
+Of AI engineering. And like the uh it's pretty clear that humans aren't great especially like for non-trivial products describing exactly what they want.
+
+01:55:39.000 --> 01:55:59.000
+Without seeing LLM output and responding to it. And that helps external sort of what sort of what what you want in the process of going through evals is just kind of a… a way that we describe it, but really it's like
+
+01:55:59.000 --> 01:56:13.000
+There's evals, but there's looking at data. And it's like you have to give the LLM your requirements somehow and you know that like knowing what you want is hard.
+
+01:56:13.000 --> 01:56:26.000
+Discovering what you want takes work. Discovering what your users want That takes work. So evals in that is wrapped up so tightly together I just don't have a better word.
+
+01:56:26.000 --> 01:56:31.000
+Than evals. It's not exactly eval driven development. It's just development.
+
+01:56:31.000 --> 01:56:50.000
+I just, you know. Don't have the terminology, maybe someone will coin something or coin something one day i'm not in the business of coining terminology but sort of drive home it's like Yeah, it's the process of looking at data and sort of refining
+
+01:56:50.000 --> 01:56:56.000
+You know, your sort of
+
+01:56:56.000 --> 01:57:01.000
+Require like your vision of what the AI should do. And making it happen.
+
+01:57:01.000 --> 01:57:11.000
+You know, that's the hard part. And so, you know, you can't really make the LLM better if you don't give it, if you don't have a precise definition of what that is.
+
+01:57:11.000 --> 01:57:28.000
+And, you know, evaluation is like okay So that's like the top level. Now, if you go a little bit beneath that into like less you know more tactical You do need metrics that you trust.
+
+01:57:28.000 --> 01:57:33.000
+To iterate and make it better. Otherwise, you're just guessing.
+
+01:57:33.000 --> 01:57:45.000
+And the more complex your system becomes like you know you might change a prompt to fix one thing, but you'll break something else. And without evals like you won't know.
+
+01:57:45.000 --> 01:57:55.000
+And so it's that constant process of you need metrics, but the metrics have to be aligned very closely with what you want.
+
+01:57:55.000 --> 01:58:03.000
+With what like what your users want. And it's really, it's impossible to do that by going through this process.
+
+01:58:03.000 --> 01:58:04.000
+Does that help? Is anyone not commenced? I want to hear if someone doesn't feel like that is true.
+
+01:58:04.000 --> 01:58:10.000
+That helps a lot. And I do want to say
+
+01:58:10.000 --> 01:58:11.000
+Oh, great.
+
+01:58:11.000 --> 01:58:18.000
+Like, because I want to show you something.
+
+01:58:18.000 --> 01:58:19.000
+I want… Show us, please.
+
+01:58:19.000 --> 01:58:23.000
+Because I can show you something that can help you convince you.
+
+01:58:23.000 --> 01:58:26.000
+Yeah, I was about to say no, just so it would show us it.
+
+01:58:26.000 --> 01:58:27.000
+All right, have fun.
+
+01:58:27.000 --> 01:58:47.000
+I do want to say a link to this blog post, but this is another answer to part of Natalia's question is, you know, we have this loop and this is something we actually did a podcast on that this blog post came out of but What can you tune you can like change your system in some ways with prompt engineering, fine tuning with curated data
+
+01:58:47.000 --> 01:59:02.000
+Like changing other aspects of your retrieval. It's what levers you have in your system um And I mean, start with prompt engineering, few shot examples, then fine tuning perhaps or improving your chunking strategies, whatever it is in your system.
+
+01:59:02.000 --> 01:59:11.000
+That you have access to, but let it be driven by your error analysis.
+
+01:59:11.000 --> 01:59:22.000
+All right, so this paper here by Shreya Shankar and her colleagues If you don't know who Treya Shankar is, I highly recommend following her or getting to know who she is.
+
+01:59:22.000 --> 01:59:27.000
+This is I'm teaching a course on evals. This is who I'm teaching it with, Treya.
+
+01:59:27.000 --> 01:59:42.000
+Just so you know. But when you read this paper, there's a lot of good stuff in this paper. And I've highlighted it, but we won't go through all the highlights. You could actually go through all the highlights and they would all be very interesting presentations.
+
+01:59:42.000 --> 01:59:53.000
+There is one, I'm actually was looking into this because I'm doing a presentation on this topic of this Well, we don't have time to get into it, but I'm doing a presentation on something.
+
+01:59:53.000 --> 02:00:03.000
+And sort of read this part to you. So, you know, the subheading is alignment is iterative criteria and implementation specific.
+
+02:00:03.000 --> 02:00:08.000
+So participants needed to externalize criteria in order to grade outputs.
+
+02:00:08.000 --> 02:00:14.000
+But they also needed to grade outputs, providing feedback on why bad outputs were bad.
+
+02:00:14.000 --> 02:00:23.000
+In order to externalize their criteria. This is systematic analysis done across many engineers working on AI.
+
+02:00:23.000 --> 02:00:28.000
+So this is not just like me like have an anecdote or whatever. This is like a large scale study.
+
+02:00:28.000 --> 02:00:34.000
+Of AI engineering.
+
+02:00:34.000 --> 02:00:52.000
+I think it's pretty clear. So, I mean, like what's hard is not like you know i mean i don't know this all kind of takes work, I guess. But like, you know, you need to look at the data and go through this error analysis process.
+
+02:00:52.000 --> 02:00:59.000
+If in your mind, if evals is just a metric then you're thinking about eval is wrong.
+
+02:00:59.000 --> 02:01:05.000
+It's not a metric. It's an entire process.
+
+02:01:05.000 --> 02:01:10.000
+We have a related question from Yes, who's in Melbourne, Australia?
+
+02:01:10.000 --> 02:01:29.000
+She has a wonderful question about how Do you balance quantitative and qualitative qualitative and quantitative heuristics while evaluating. Because in normal ML evaluations, a lot of the time it's fairly quantitative. So do you have any recommendations about qualitative versus quantitative heuristics when designing
+
+02:01:29.000 --> 02:01:36.000
+Evaluations based on the type of evaluation, for example, RAG.
+
+02:01:36.000 --> 02:01:44.000
+Yeah, that's a deep topic. Qualitative valuations are more suited for LLM as a judge.
+
+02:01:44.000 --> 02:01:51.000
+Quantitative is more, you know, sometimes code-based
+
+02:01:51.000 --> 02:01:59.000
+Rag specifically is unique in nature because you can there's kind of like a very standardized way of evaluating reg.
+
+02:01:59.000 --> 02:02:08.000
+You can use like, you know, information retrieval metrics And we've really like narrowed down to the, especially because RAG, a lot of it has to do with retrieval.
+
+02:02:08.000 --> 02:02:22.000
+So the R in RAG. And so there's systematic ways of, you know, kind of like standard approaches to evaluating retrieval.
+
+02:02:22.000 --> 02:02:25.000
+Yeah, that's kind of high level. It's a neat topic. It's, you know, probably.
+
+02:02:25.000 --> 02:02:36.000
+Absolutely. And I can link actually to some of Jason has some nice, Jason Liu has some nice resources on this as well that I'll link to. Hamill, I appreciate we're past time and I know how busy your schedule is.
+
+02:02:36.000 --> 02:02:49.000
+Thank you so much for joining us. Hamill may not have time to respond much in Discord, but we've got other ways to connect with him, including joining his course if you like, which I'm going to give a brief plug for now. But you please do
+
+02:02:49.000 --> 02:02:53.000
+Leave if you need to right now, Hamill and we We appreciate your time.
+
+02:02:53.000 --> 02:02:56.000
+Yeah, thank you for having me. Appreciate it.
+
+02:02:56.000 --> 02:03:02.000
+Such a pleasure, man. Appreciate your time and expertise and friendship as always, dude.
+
+02:03:02.000 --> 02:03:03.000
+Yeah, likewise. Thank you.
+
+02:03:03.000 --> 02:03:22.000
+Awesome. So I appreciate Hamill had to leave everyone, but I do just want to he might be able to answer a few questions in the Discord. In all honesty though, I can't afford Hamel's time, like I've asked him for and I was like, I'll pay you and he was like
+
+02:03:22.000 --> 02:03:28.000
+He told me his Ali, right? And I, um. I jumped out the window.
+
+02:03:28.000 --> 02:03:46.000
+What I can tell you is if I actually mean this very seriously If after this course you want to take like evals to the next level and everything we've discussed today um I'm going to take Hamill's course as a student. Hamill and Schreier and
+
+02:03:46.000 --> 02:03:55.000
+Hamill's impressive. I personally think Shreya is even more impressive, but I don't know her as well. I know her pretty well. But I think I'm a bit desensitized to Hamill.
+
+02:03:55.000 --> 02:04:11.000
+I've also he very kindly gave me a code which Look, it's not a cheap course. I want to be the first to say that. But he gave me a code which gives everyone 100 bucks off The code looks like it's go hugoor.
+
+02:04:11.000 --> 02:04:33.000
+Or go home. Um but um if If you're interested in doing a lot more around evaluation and kind of seeing um kind of what state of the art is looking like now. And Schreier builds tools around this, but she researches it like in industry academic collaborations uh at uc berkeley.
+
+02:04:33.000 --> 02:04:50.000
+And she's someone who went back to school to do a PhD UC Berkeley after working at Google Brain and Meta and Facebook and all of these things. So they're super sharp people. And I'll actually share a link to a lot of their resources as well. But I'm having a chat about what I want to get out of this course as well if you're interested.
+
+02:04:50.000 --> 02:05:14.000
+As I said, we are at time, so I will… record a video of me going through the final eval's notebook What I would love, once again, I'll paste it in the discord channel um if you're able to give feedback seriously if you can even take three minutes now if you haven't already to do so that will help us
+
+02:05:14.000 --> 02:05:25.000
+Just make this course as cool as possible for you all um but I think that's probably it for today. Thank you all for sticking just past the hour.
+
+02:05:25.000 --> 02:05:42.000
+And I'll see you on Discord and we'll see you for Workshop four in a couple of days to get into the wonderful world of observability and debugging in development and production as well. And thank you for all the great engagement and great questions.
+
+02:05:42.000 --> 02:05:44.000
+All right. Thanks, everyone.
+
+02:05:44.000 --> 02:05:49.000
+Thank you, Hik
+

@@ -1,0 +1,1124 @@
+WEBVTT
+
+01:07:55.000 --> 01:08:07.000
+Like, look. I'm someone who'd say maybe when you're building software, you don't want super creative responses. But maybe I'm totally wrong as well. And there are several accounts. Let's say that, um.
+
+01:08:07.000 --> 01:08:16.000
+You want to build some bespoke software for your marketing team to generate interesting ideas for copies and campaigns and that type of stuff.
+
+01:08:16.000 --> 01:08:27.000
+Now, they may just go to ChatGPT to do that, but in all honesty, ChatGPT may not satisfy all the needs you have in your organization.
+
+01:08:27.000 --> 01:08:39.000
+And so building a bespoke app may be quite useful. So you may want to increase the temperature Or even have a parameter that someone in your marketing team can, you know, a slider that can go up.
+
+01:08:39.000 --> 01:08:44.000
+Up and down in order for them to experiment with the type of creativity they're using.
+
+01:08:44.000 --> 01:08:52.000
+Once again, working in finance or healthcare, highly regulated industries. Maybe you want low temperature. I don't know. Just an idea.
+
+01:08:52.000 --> 01:08:59.000
+But in other places, you may actually want more creativity. So we have a quick Abdavalik.
+
+01:08:59.000 --> 01:09:19.000
+Said, can we have parameters at the same time and the answer is absolutely yes. And what we're going to see a bit later in this notebook is using both simultaneously. And I do, in all honesty, encourage you all to play around with it. And what you can do is essentially
+
+01:09:19.000 --> 01:09:25.000
+Do the equivalent of a grid search. Now, beware API token costs.
+
+01:09:25.000 --> 01:09:37.000
+To be very clear, but you can create a list of lists or an array. I think maybe we do this later in this notebook where you have different values for each and see the responses for High temperature, low top P, low temperature, high top P, you know, all parts of
+
+01:09:37.000 --> 01:09:48.000
+Your like hbr two by two or whatever you want there I'm just kidding, HBI would never be interested in temperature and top P, but I'm saying, tell me about your day now.
+
+01:09:48.000 --> 01:10:08.000
+And I'm still asking Super Mario. Super Mario Brothers. In a previous iteration of this notebook i actually had it as Elon Musk and then elon musk and then you know he went where he went so that's that's not happening. I'm sorry for saying the name in all honesty.
+
+01:10:08.000 --> 01:10:22.000
+My intention isn't to get, but that has nothing to do with politics. That has to do with someone being an absolute fool in public, the wealthiest man in the world being an absolute fool, okay?
+
+01:10:22.000 --> 01:10:28.000
+Tell me about your day, Mario. It's me, Mario. Today was very exciting.
+
+01:10:28.000 --> 01:10:38.000
+I went on an adventure through the mushroom Kingdoms um You shall not be named. I love it. Okay, that's cool. Jumping on and okay.
+
+01:10:38.000 --> 01:10:45.000
+So point one and point five Not much difference. 1.5.
+
+01:10:45.000 --> 01:10:54.000
+He opens with a Mamma Mia. Okay, my day has been exciting. I spent the morning practicing my jumps and collecting coins. I've been also also being, and of course I like to watch out for Bowser.
+
+01:10:54.000 --> 01:11:03.000
+Two, Mamma Mia, what a curious question. My day is always busy. I wake up, start an adventure, defeating, woo. Sometimes we might jump and so on.
+
+01:11:03.000 --> 01:11:09.000
+So look, I'm getting a sense of there being more creativity in these responses, in all honesty.
+
+01:11:09.000 --> 01:11:29.000
+It isn't 100% obvious to me that they're getting more curious. I encourage you to try Other examples such as such as give me um a recipe for an interesting pizza or something like that and see the creativity that ensues then. But I can tell you that this
+
+01:11:29.000 --> 01:11:37.000
+I went on a venture through the mushroom Kingdom is very common. And so we really are seeing a bit more creativity there.
+
+01:11:37.000 --> 01:12:00.000
+So, um. Now looking at top P, which manages the diversity of responses. Remember, low top p will constrain choices to the most likely words. And Priya has just mentioned Oh, Benjamin, fantastic. This is actually, this did not happen to me, but maybe I'll run it again.
+
+01:12:00.000 --> 01:12:06.000
+Benjamin, would you put the response you received in? Benjamin said it fell apart.
+
+01:12:06.000 --> 01:12:17.000
+Yeah, exactly. Benjamin's just put that in discord You can see this quite often with high temperatures, and I'll see whether I get it this time.
+
+01:12:17.000 --> 01:12:37.000
+Oh, yeah. Okay. Look at Benjamin's where it ends up with every deja vu deja vu inadequate schomba I mean, this is That is cool. I mean, this is almost like I don't know in like 1920s poetry in Zurich or something like that
+
+01:12:37.000 --> 01:12:53.000
+To pull a random, I mean, that's where Tristan Zahra lived in the 20s i think but And you can see here that I've done temperature two and we get my proven skills that starts writing in Cyrillic and then maybe Spanish.
+
+01:12:53.000 --> 01:13:08.000
+Loin lows, squash nicks. Okay. Wow. Super wild. Arabic and primary.keyboard I mean, cool stuff. One other thing I just want to Notice that happened.
+
+01:13:08.000 --> 01:13:16.000
+I didn't get an like it looked the temperature two response looked fine the first time, right?
+
+01:13:16.000 --> 01:13:41.000
+So and that's what we that's a that's what Wonderful illustration of the non-determinism. I literally gave it the same prompt same temperature and it's about something not only different, but totally different characteristics And it's what Stefan and I like to refer to as the flip-floppy nature of LLMs, but it is the stochasticity. And this is something that we really need to get a handle on, right? But this is a wonderful example of the fact that
+
+01:13:41.000 --> 01:13:47.000
+Give it the same prompt. Give it everything the same and it does something wildly different.
+
+01:13:47.000 --> 01:14:05.000
+So, um. What we're going to do um So Amy has a great question. Why do they allow high temperature if the results are nonsensical? Most people building these things in production do not. But I suppose your question is, why does OpenAI allow
+
+01:14:05.000 --> 01:14:11.000
+High temperature if the results aren't sensible.
+
+01:14:11.000 --> 01:14:35.000
+If I knew why OpenAI did things. I'd retire, I think. I'd sell that knowledge on the deep web and retire on it. No, I'm half joking. Openai I don't have a good answer to your question, but I honestly think OpenAI makes a whole bunch of horrible design choices as well.
+
+01:14:35.000 --> 01:14:44.000
+Wait, is that John Cena, Vignesh? Or just the, it can't be but it's just a lookalike.
+
+01:14:44.000 --> 01:15:00.000
+A very brief side note, when I lived in New York City, someone convinced me to go to Monday Night Raw once at the Barclays Center, which is the WWE. And John Cena was there and he walked out and 20,000 people started chanting John Cena sucks and it was one of the most electric experiences I've ever had.
+
+01:15:00.000 --> 01:15:08.000
+A convert to WWE. I'm sorry for that digression.
+
+01:15:08.000 --> 01:15:14.000
+I'm sorry for all the digressions, but in this example, we're going to create some adventure book titles and utilize varying top P settings.
+
+01:15:14.000 --> 01:15:33.000
+To illustrate how this parameter can influence kind of diversity and originality. And to do this, I've actually asked it to give me a list of 10 so I can see the potential diversity among 10 different ones okay So we've got adventure book titles
+
+01:15:33.000 --> 01:15:47.000
+Okay, so for point one, we get the lost city of Oh, it's Tom Brady, of course, of El Doria, Quest for the Crystal Compass, The Secrets of the… Forgotten Jungle.
+
+01:15:47.000 --> 01:15:51.000
+And because of our max tokens limit, it's cutting off there.
+
+01:15:51.000 --> 01:16:12.000
+Expedition of the Midnight, sorry. And then here we get… Secret to the Ancient Ruins, Chasing Shadows of the jungle Now let's view as a scrollable element
+
+01:16:12.000 --> 01:16:25.000
+Great. So once again, it isn't necessarily immediately obvious to me but like how diverse these are. But if you do this enough, what you'll see is that you get more variance in your responses.
+
+01:16:25.000 --> 01:16:33.000
+And one way to test that, and that could be fun for another workshop sometime, is actually to generate a lot of these. And don't forget, we're pinging the API several times now.
+
+01:16:33.000 --> 01:16:41.000
+You know, individual calls are cheap They don't scale um per se.
+
+01:16:41.000 --> 01:17:02.000
+And… Oh, so that's Vishworth and Benjamin have made a great point that with top P 0.1, we all got the same response okay but with top P.9 different. So that's super cool. And that kind of speaks to what I was saying is that if we actually want to do this robustly i mean
+
+01:17:02.000 --> 01:17:07.000
+My inner statistician is saying let's just doing like a simulation and generate a lot of them and then look at the variance.
+
+01:17:07.000 --> 01:17:13.000
+Of responses. And that would be super cool. Actually, that might be something I'll vibe code later today as well.
+
+01:17:13.000 --> 01:17:31.000
+No. So now we had a question about combining these two right So, and it's incredibly important to think about the different types of combinations In terms of getting different types of software, right? So high temperature, high top P.
+
+01:17:31.000 --> 01:17:41.000
+Generally, you'll get creative and diverse output. Low temperature, low top P, predictable and safe. As predictable and safe as possible.
+
+01:17:41.000 --> 01:17:56.000
+It can be. And then high top P, low temperature balanced and coherent, then low top P, but high temperature, you get quirkiness and some randomness. So, I mean, these are ways to to think about it, essentially. I mean, you know.
+
+01:17:56.000 --> 01:18:08.000
+For one definition of quirky, that's right. For one definition of safe That's right. But of course, these words mean different things in different contexts. So I'm just trying to get a sense of how give a sense of how to think about these things.
+
+01:18:08.000 --> 01:18:21.000
+And then you can even kind of get in the middle, right? I won't go through this table here But this is thinking about moderate temperatures and moderate top P as well.
+
+01:18:21.000 --> 01:18:34.000
+So let's now… Combine all of these so we can see Yeah, I mentioned the pizza before, but here we invent an unusual ice cream flavor inspired by nature.
+
+01:18:34.000 --> 01:18:39.000
+So we've got our… Temperature 0.5 and top P 0.7.
+
+01:18:39.000 --> 01:18:52.000
+So that's medium both and then we have medium Is that what Yep. Then we've got… somewhat high temperature And medium top P.
+
+01:18:52.000 --> 01:19:05.000
+And then we've got higher temperature and higher top P as well let's now… execute that. Sorry for skipping around a bit much.
+
+01:19:05.000 --> 01:19:20.000
+Oh, Claudius, you're asking the trillion dollar question or one of them. Is there a difference in best top P temperature for different LLMs like Gemini or Anthropic? As I said before, I'm OpenAI allows a temperature of Two, and most LLMs
+
+01:19:20.000 --> 01:19:25.000
+Like go up to one. So the short answer is absolutely.
+
+01:19:25.000 --> 01:19:35.000
+The real answer is you do need to test these things and experiment with them. And so once again, you'd start by doing like vibe checks and seeing what happens.
+
+01:19:35.000 --> 01:19:42.000
+But then you do want to build some sort of evaluation harness, which we'll get into next week to quantify performance here.
+
+01:19:42.000 --> 01:19:57.000
+And having said, I do want to say, and we'll go into this next week, but Also, maybe some products it's okay to do on vibes In some sense, like just to get a sense that it's working pretty well. I wouldn't necessarily
+
+01:19:57.000 --> 01:20:10.000
+Deploy one for deploy one a company or doing that type of stuff but This is a slightly different story, but William Horton, our builder in residence, one of our builders in residence here He vibe coded.
+
+01:20:10.000 --> 01:20:15.000
+So with an AI agent where he didn't necessarily understand all the code, an app that was a chess tutor, tutor, sorry.
+
+01:20:15.000 --> 01:20:20.000
+In Australia, we say tutor. Tudor. Like a tutorial, right?
+
+01:20:20.000 --> 01:20:34.000
+And shipped it to like 20 of his friends. And a lot of people, and we had this conversation in In a podcast with Joe Reese, actually, a lot of people say you can't vibe code things to production but william's point was
+
+01:20:34.000 --> 01:20:40.000
+It's hard to argue that if you ship it to 20 friends, it isn't in production in some sense. I mean, it's not in production in the way Google searches.
+
+01:20:40.000 --> 01:20:46.000
+But it's still kind of in production. And in fact, I'm chatting with William right now. I mean, not right now.
+
+01:20:46.000 --> 01:20:59.000
+But at the moment. About giving a talk later in this course about what it means to be in production and the fact that production is Not a binary.
+
+01:20:59.000 --> 01:21:07.000
+You know, it's not even… a spectrum. It's a multidimensional space with a lot of different options, right?
+
+01:21:07.000 --> 01:21:19.000
+So we'll go there. So let's have a look at ice creams with ice cream medium temperature so and top P.
+
+01:21:19.000 --> 01:21:28.000
+This unique ice cream. So what was my prompt actually I said, be creative. Inspired by nature. This unique ice cream flavor captures the essence of a lush forest ecosystem.
+
+01:21:28.000 --> 01:21:32.000
+Great combines. Earthy and aromatic elements.
+
+01:21:32.000 --> 01:21:42.000
+And so on. Ingredients, a creamy blend of coconut milk and almond milk. Did I… Yeah, I said invent. I didn't necessarily ask for the recipe.
+
+01:21:42.000 --> 01:22:00.000
+But… But they gave it. And then main flavor Okay, cool. And then we're increasing it and look Yeah, this is cool. So we do see increased creativity. Like it mentioned chanterelles or Porcini. Firstly, great choice of mushroom.
+
+01:22:00.000 --> 01:22:05.000
+But how could you go wrong? I'm a mushroom lover myself.
+
+01:22:05.000 --> 01:22:23.000
+But then we increase the creativity and it's like mushroom essence a subtle infusion of morel mushrooms providing an um so there's something uh happening there And then delicate pieces of candied shiitake mushrooms So we're definitely getting more creative there.
+
+01:22:23.000 --> 01:22:30.000
+And I do have the pizza example here. So we're going to have low temperature and high top P.
+
+01:22:30.000 --> 01:22:51.000
+Which will generate outputs that are coherent And we have sort of some thematic thematic relevance, but there'll be increased diversity in responses, right? Then high temperature and low top P will more erratic and less structured, but it's limited to the high probability choices.
+
+01:22:51.000 --> 01:23:03.000
+This is low temperature and high top P.
+
+01:23:03.000 --> 01:23:16.000
+Great. So it looks pretty standard, to be honest. And similarly, there were decreasing top P, what I'm interested in is
+
+01:23:16.000 --> 01:23:23.000
+Yeah, interesting. We went up to temperature 1.5 and it didn't get that out there, to be honest. But we saw that. Oh, yeah, here we go.
+
+01:23:23.000 --> 01:23:42.000
+This unique smoky maple bacon jam. This unique topping combines the sweetness of pure maple syrup with the savory I mean, that's a classic, right? But essentially, we're seeing increased creativity here. I do want to see what happens if I…
+
+01:23:42.000 --> 01:23:50.000
+Just go up to two here.
+
+01:23:50.000 --> 01:24:02.000
+Once again, because of the non-determinism who knows But…
+
+01:24:02.000 --> 01:24:11.000
+Sorry about that.
+
+01:24:11.000 --> 01:24:20.000
+Take a second more.
+
+01:24:20.000 --> 01:24:41.000
+Wow, fascinating. It's still you know It didn't get that out there. Having said that, we didn't see stuff like arugula for a peppery bite, sprinkle of toasted pine nuts so I mean… You'd think the system prompt was like be jamie Oliver or something like that now, right? But we are seeing increased creativity
+
+01:24:41.000 --> 01:25:08.000
+So we have four minutes left and I just want to, before… before we get to… Charles's talk, which we may start a few minutes after But, and we won't do our breakup room but What I do want to talk about is structured output, okay? Extracting and formatting data. It's so important. And for many reasons, but a lot of the time.
+
+01:25:08.000 --> 01:25:23.000
+Actually, nearly all the time. Actually, all the time we're building modular systems where we're connecting um In essence, we're connecting microservices a lot of the time, to be honest. Priya, I love your example of a heat map of temperature and top P.
+
+01:25:23.000 --> 01:25:34.000
+As well. And when we're creating microservices. Or different… different little computational units that connect in a variety of ways.
+
+01:25:34.000 --> 01:25:50.000
+We want to make sure that the output of one can be feedable as an input to another right so that's One incredibly important rationale for having structured outputs The other one is a lot of the time we want to extract structured output from
+
+01:25:50.000 --> 01:26:01.000
+Quote unquote unstructured data in the form of natural language now that you know we've called in data science for decades, we've called natural language unstructured data. Of course, it has structure. So I know there are like flame wars about that, which I'm not particularly
+
+01:26:01.000 --> 01:26:16.000
+Interested in, but essentially structured output matters because it's automation ready It's consistent and it's scalable, okay? So when we want to extract, as we saw before.
+
+01:26:16.000 --> 01:26:20.000
+Something from a LinkedIn profile. We can.
+
+01:26:20.000 --> 01:26:27.000
+Let's see. We're just saying extract these as JSON, okay?
+
+01:26:27.000 --> 01:26:34.000
+And I know I'm not using JSON mode, and that's for good purpose. You definitely should or use structured output. And as we saw the other day, a lot of the time.
+
+01:26:34.000 --> 01:26:40.000
+They'll return essentially markdown that has JSON. So you can then extract JSON from this if you want.
+
+01:26:40.000 --> 01:26:56.000
+But you can go in circles, right? Saying, please don't include the three back ticks at the start and the end and all of this. And it will eventually, most of the time work But not always, okay?
+
+01:26:56.000 --> 01:27:03.000
+So as we go deeper You'll see perhaps we want to say.
+
+01:27:03.000 --> 01:27:10.000
+If any field is missing, return null values. And these types of things. Then, and I'm not going to execute all of these in the interest of time.
+
+01:27:10.000 --> 01:27:19.000
+We may give it. A system prompt, which is format so we don't have to do it in every user prompt. So these are a few ways to think about this.
+
+01:27:19.000 --> 01:27:32.000
+Now, when dealing with LinkedIn data, for example. As I said, if you get one LLM call and getting it to extract four fields, there are four places it can go wrong, okay?
+
+01:27:32.000 --> 01:27:36.000
+It can hallucinate, it can forget, it can just not return something.
+
+01:27:36.000 --> 01:27:41.000
+Um. That's a wonderful figure. Is that Ethan Mollock? Oh, yeah. You've said that. Great.
+
+01:27:41.000 --> 01:27:55.000
+He's quite wonderful. I… If you're trying to extract, get things into structured output where certain things are super important, maybe you want to have an individual LLM call to do that for you.
+
+01:27:55.000 --> 01:28:09.000
+Right? If something else is super important, you have another individual call and you parallelize these, then use business logic to bring it together in a JSON. Now, that's more expensive as we've discussed.
+
+01:28:09.000 --> 01:28:20.000
+But if it improves your software enough to justify that cost, it's definitely something to think about. So definitely keep that in mind if you're going through the project as well.
+
+01:28:20.000 --> 01:28:26.000
+So look We'll get to more of this next week.
+
+01:28:26.000 --> 01:28:30.000
+It will rarely give you JSON when you when you tell it to, right? And you will use JSON mode.
+
+01:28:30.000 --> 01:28:44.000
+And that was the third example. You can use strict output control by using temperature equals zero and specifying respondent json only all of these these types of things And you can test the output, essentially.
+
+01:28:44.000 --> 01:28:58.000
+You'd start with a search. You can use a basic framework like PyTest. And that's, we'll be going to that into a lot next into that a lot more next week. Stefan and I have a lightning lesson that we did for Maven on
+
+01:28:58.000 --> 01:29:16.000
+Testing these types of things with pytests, and I'll link to that if you want to check it out beforehand. But that's some of the early stuff we'll be covering next week. And it's an amazing lightning lesson. And the reason I feel okay saying that is because it's Stefan's lightning lesson. I was there in support
+
+01:29:16.000 --> 01:29:21.000
+But big ups to Stefan for the wonderful lightning lesson. Lightning lesson there.
+
+01:29:21.000 --> 01:29:27.000
+Got some homework for you all for those interested. I'm going to call it like project time or something. Maybe not homework going forward.
+
+01:29:27.000 --> 01:29:32.000
+Rip out the frameworks. Well, we've already ripped out the frameworks, refine the prompt engineering, okay?
+
+01:29:32.000 --> 01:29:59.000
+So I'm sorry. I shouldn't have that there. I'll edit that afterwards but use everything that we've done today from system prompts to tuning these knobs to refining the prompts In order to see what happens in the system you're building, to Priya's point, what we'll do next week is take these types of things, log it if you'd like, and then store it in a spreadsheet or build a bespoke JSON viewer, that type of stuff.
+
+01:29:59.000 --> 01:30:14.000
+In order to start looking at your data and what's performing well and what's not. You don't need a reproducible evaluation script yet, right? You can do this and get a vibe for what's working and what isn't. So at the moment, we're doing things by vibes.
+
+01:30:14.000 --> 01:30:18.000
+And later, we'll be doing things. By real.
+
+01:30:18.000 --> 01:30:29.000
+Just a quick note on guardrails and what's coming up. A lot of people say like, oh, what guardrails this, guardrails that? I think it's some fancy thing. Kind of like LLM is a judge.
+
+01:30:29.000 --> 01:30:40.000
+It's a relatively simple thing that has a name that people have interpreted it as something more complex than it is or eval harness, which is just a script to do evaluation, right? So what are guardrails?
+
+01:30:40.000 --> 01:30:44.000
+They're just checks that happen before an LLM call or after a response from an LLM call.
+
+01:30:44.000 --> 01:30:50.000
+You can make many forms, regular expressions, check for a specific format or specific words.
+
+01:30:50.000 --> 01:30:59.000
+Using an LM to check the output of another LLM. And we do this below. And we have a variety of categories that we don't want.
+
+01:30:59.000 --> 01:31:09.000
+Responses from in order to get compliance there. So let me just
+
+01:31:09.000 --> 01:31:25.000
+Great. So the user input was how do I prepare for a job interview and what we're getting the model to do is determine if it inputs Specific guidelines and explains if they do. And the guidelines around violence, whether it was not safe for work, sexual in any way or self-harm and
+
+01:31:25.000 --> 01:31:32.000
+It's… Yeah, it is not violating any of them.
+
+01:31:32.000 --> 01:31:42.000
+So we're at time and I wonder whether Charles is in the house.
+
+01:31:42.000 --> 01:31:43.000
+Do and are you and are you also in your house?
+
+01:31:43.000 --> 01:31:47.000
+You. I'm here. I'm in the house.
+
+01:31:47.000 --> 01:31:48.000
+Autumn double house. What's up, Charles?
+
+01:31:48.000 --> 01:31:52.000
+I'm in my house, yes. Yeah.
+
+01:31:52.000 --> 01:31:55.000
+Not much. Thanks for having me, Hugo. Nice to be back in the class.
+
+01:31:55.000 --> 01:32:10.000
+Dude, it is such a pleasure. And let me, where are these silly little emoji. Let me… I just want to give… Charles and team a big clap and thank you for their wonderful sponsorship.
+
+01:32:10.000 --> 01:32:23.000
+Of this course and just giving us the credits to build stuff and experiment with stuff um and modal has always been incredibly generous. It's actually Oh, Ben, who just joined the course. I don't know if you're in the call.
+
+01:32:23.000 --> 01:32:30.000
+But Ben pinged us. Oh yeah, there he is. He was at our workshop in Austin, Texas last year.
+
+01:32:30.000 --> 01:32:42.000
+And Charles was there as well. And Charles was like, hey, do you want to use some modal credits to teach people this stuff before we did this? And we started chatting chatting there and sorted it out. So Charles, as you know.
+
+01:32:42.000 --> 01:33:05.000
+I showed people how to get the MVP app that we're building up and running on modal at the start of the this workshop which um Super well, but you're here to talk about all the wonders of… building AI applications on Modal as well.
+
+01:33:05.000 --> 01:33:12.000
+So maybe I could… introduce you.
+
+01:33:12.000 --> 01:33:30.000
+University of Chicago. Uc Berkeley, PhD in neuroscience educator galore has always been super interested in helping people build, helping developers do what they do best. You're at weights and biases. Then you're a deep learning educator at the full stack.
+
+01:33:30.000 --> 01:33:43.000
+Then maybe a year or two years ago, you joined Modal as a developer advocate And I showed everyone all the examples pages and the QWERTY example as well. And everyone.
+
+01:33:43.000 --> 01:33:53.000
+A lot of those examples, Charles built himself in addition with his team, but a lot of the wonderful stuff there has actually built been built by Charles.
+
+01:33:53.000 --> 01:33:57.000
+Is there anything I've left out there, Charles, of relevance?
+
+01:33:57.000 --> 01:34:03.000
+No, that's great. Yeah. Yeah, maybe, yeah, I can just dive right in.
+
+01:34:03.000 --> 01:34:04.000
+Do it. Let's go.
+
+01:34:04.000 --> 01:34:14.000
+Yeah. Cool. So yeah, the slides for this are at that link. They're also available at that QR code.
+
+01:34:14.000 --> 01:34:30.000
+There. And I guess before diving into like my slides, I want to maybe show you some things that I've built on Modal, starting with This QR code generator. So let me uh switch tabs here.
+
+01:34:30.000 --> 01:34:46.000
+So this QR code generator, this was like before I joined Modal, when people got really excited about control mitts for diffusion models, people were like, oh, you can make a picture and then force it has a certain pattern in it. Oh, that means you can force it to be a QR code.
+
+01:34:46.000 --> 01:34:52.000
+So I put that together after people discovered this workflow, put it together, hosted it on Modal.
+
+01:34:52.000 --> 01:35:04.000
+And then since then, I've actually come back to it a couple of times and continued to kind of build on it. If you've seen inference time compute scaling come up either in this class or elsewhere.
+
+01:35:04.000 --> 01:35:11.000
+It's the idea that you like you take a model, you have it generate a bunch of answers, and then you take only the ones that are right.
+
+01:35:11.000 --> 01:35:27.000
+So I applied that in this one as well. So I generate a bunch of QR codes and then I take only the ones that scan. So only the ones that I'm able to actually scan By running like a little QR code scanner on also running on Modal.
+
+01:35:27.000 --> 01:35:37.000
+Little Python library that scans QR codes and then take those and then find the one that looks best according to like a little aesthetic judge and show that.
+
+01:35:37.000 --> 01:35:56.000
+So that's uh this thing here. This QR code, by the way, should… get you to the form to fill out to get your $1,000 in modal credits. So… You can head to that bit.ly slash modal dash credits to get your thousand bucks in credits.
+
+01:35:56.000 --> 01:36:10.000
+So yeah, so this guy here, it's like it's a diffusion model. I think I actually also host See, the front end actually is, I think, hosted on Vercel probably, but the back end, all that stuff runs on modal.
+
+01:36:10.000 --> 01:36:25.000
+Generation QR code evaluation and um And like a little job queue. So that's one project. Another one, another fun little thing built on Moto you can check out. This is Twitter-95.com.
+
+01:36:25.000 --> 01:36:37.000
+So this is a little fake version of Twitter, like as if It was around in 1995, or I guess 1996, because it's been up for a year. So we've moved forward a year.
+
+01:36:37.000 --> 01:36:51.000
+So it's got a bunch of celebrities and people from the 90s like Francis Collins here. What did he do? He did like… Oh yeah, Human Genome Project. So we got some famous people from the 90s, Tim Berners-Lee.
+
+01:36:51.000 --> 01:37:00.000
+And others. And these are all language models pretending to be celebrities from the 90s to make like a little fake social media experience from the past.
+
+01:37:00.000 --> 01:37:18.000
+So you can find the code for this online as well. And it's like, you know, you got… extracting information from the past and then posting it putting it into the language models context and then having the models run, all that's done off of
+
+01:37:18.000 --> 01:37:39.000
+Off of modal. So that's kind of like the, you know, the sorts of stuff that I've been that uh Like Moodle makes possible these like sort of more, you know, complex applications, more like custom uses of a diffusion model or a language model that are a little off the beaten path.
+
+01:37:39.000 --> 01:37:53.000
+So yeah, I guess maybe… Um… Oh yeah, since this is building LLM apps in particular.
+
+01:37:53.000 --> 01:38:16.000
+I also wanted to show real quick, just like we put up one of the examples we put up Most recently is this latency sensitive latency sensitive serving. So like to serve yourself like a little chat bot This just got added recently and is probably going to be useful for things you want to build in this class if you're thinking about building.
+
+01:38:16.000 --> 01:38:26.000
+Agent or a little chat bot. And… So let me just run the thing.
+
+01:38:26.000 --> 01:38:54.000
+Show you what you get. So this… This is all running on modal. It's a single file Python to deploy this thing, build a tensorRTLM engine from scratch And that's… Uh… you get this nice, very fast and snappy Interaction. Oh, you go out and answer this renowned professor of data science and statistics at uc berkeley.
+
+01:38:54.000 --> 01:38:58.000
+That's approximately correct. It's a small model, so it doesn't get… It doesn't get everything right.
+
+01:38:58.000 --> 01:39:02.000
+I also don't mind that lie or that hallucination. I'm sorry. I'm sorry to call you. Yeah, I prefer that to other types of hallucinations it could give.
+
+01:39:02.000 --> 01:39:08.000
+Yeah.
+
+01:39:08.000 --> 01:39:16.000
+Yeah, really a professor at Berkeley? That sounds wrong. Yeah.
+
+01:39:16.000 --> 01:39:19.000
+I'm a large language model and I sometimes make errors. Yeah.
+
+01:39:19.000 --> 01:39:40.000
+Um anyway so that they're like the main thing there is like the model starts like starts responding once it's live in about you know 250 milliseconds or so if you have like short chat prompts, which is enough to feel nice and interactive.
+
+01:39:40.000 --> 01:39:51.000
+All the code to figure out how to do that and serve that on modal is on is in the examples there.
+
+01:39:51.000 --> 01:40:01.000
+Yeah, so the modal is this like very generic infrastructure platform designed to make building those things possible. So I want to talk about like.
+
+01:40:01.000 --> 01:40:15.000
+What this infrastructure platform is and why it matters, like more broadly even than just thinking about like building LLM apps I think the main thing once you go, once you get past the point where you're initially like.
+
+01:40:15.000 --> 01:40:23.000
+You know, trying things out, working in a notebook to figure out like what the model does… in response to different inputs, do your evaluations.
+
+01:40:23.000 --> 01:40:52.000
+You end up needing to build like a some kind of service, something that can be interacted with from elsewhere, something that's not just like running on your laptop or running in a notebook or somebody needs to install a bunch of packages to use it, but like a service that people can interact with. And Modal is all about kind of like building these scalable services and the kind of the there's a lot of things that come together to make like an actually useful scalable service.
+
+01:40:52.000 --> 01:40:58.000
+It's you need to store information to preserve it from, you know, from iteration to iteration.
+
+01:40:58.000 --> 01:41:08.000
+You need to like, obviously, you're manipulating that information, you're running computations to generate new, you know, new tokens from old tokens.
+
+01:41:08.000 --> 01:41:24.000
+So that's a pretty important component. And that's the one I think gets the most attention that people think about the most. But, you know, it's just one of a couple. Maybe the one that gets the least love relative to its importance is like input and output, connecting
+
+01:41:24.000 --> 01:41:51.000
+Like the outside world to your application, like piping stuff in, getting stuff out. All these pieces like together build like an actual like an actual usable service. And I think the doing all of this on your own laptop is not so hard, but then the thing that's tough now is that the expectations are really high for the scale that you can handle.
+
+01:41:51.000 --> 01:42:18.000
+Like people are going to thousands or hundreds of thousands or millions of users in like days or weeks, thanks to social media, thanks to how quickly like apps and ideas spread And… then even with like if you're building internal applications or dashboards, people will frequently be like, oh yeah, I want to run a chat bot with this thing. I want to like crank through a billion rows of data.
+
+01:42:18.000 --> 01:42:32.000
+The standards are like rapidly get very high. And so you need this sort of like scalability and flexibility That, you know, using cloud resources can provide. Like very quickly you get to that level.
+
+01:42:32.000 --> 01:42:58.000
+And so the like putting together like the cloud service providers have all of these like like core primitives, like you got your Amazon gateways and Route 53. You've got scalable and elastic compute services and you've got Kubernetes to manage all that stuff. You've got S3, like seventh wonder of the world or eighth wonder of the world.
+
+01:42:58.000 --> 01:43:13.000
+For your storage, the core stuff is there. But all of it is like super low level. So… like what we're trying to do at Modal is to like take those primitives that are offered by Amazon, Oracle, Google.
+
+01:43:13.000 --> 01:43:35.000
+And turn them into this much friendlier, simpler layer On top of that, abstract in the way like an operating system abstracts hardware So that you can build these kinds of like high performance scalable services in the like comfortable happy land of Python.
+
+01:43:35.000 --> 01:43:42.000
+So there's a bunch of different like kind of pieces that come together to make, like, you know, fill each of those slots.
+
+01:43:42.000 --> 01:44:00.000
+Storage with like volumes for holding on to your model weights your data sets Then like sort of smaller storage primitives like a dictionary that you can, you know, like kind of like a Python dictionary, but now it's like up in the cloud and you can access it from anywhere.
+
+01:44:00.000 --> 01:44:12.000
+That's sort of on the storage side. On the compute side, like GPU acceleration, kind of the biggest thing people got excited about on the platform, but also just like scheduling. It's like surprisingly hard.
+
+01:44:12.000 --> 01:44:16.000
+To get a computer to do a thing like at the same time every week.
+
+01:44:16.000 --> 01:44:25.000
+Because like you have to keep the computer on all the time. And that turns out to be like a pain. And with modal, it's, you know, like one decorator to add that.
+
+01:44:25.000 --> 01:44:38.000
+And then like sort of more recent thing, sandboxes. So just like creating this like totally isolated little compute environment to run something in, completely unpermissioned, completely unconnected to everything else.
+
+01:44:38.000 --> 01:44:49.000
+The kind of use case we see is like running LLM generated code. You don't trust it. It might do something weird. You want to like isolate its effects. So we got that.
+
+01:44:49.000 --> 01:44:59.000
+On the networking side, it's like we will hook you up with web endpoints and web servers, turn your Python code into something that can be accessed over the internet.
+
+01:44:59.000 --> 01:45:13.000
+Buy anybody or buy anybody with the right credentials handling all the like HTTPS nonsense and routing and giving you a URL and all these kinds of things.
+
+01:45:13.000 --> 01:45:22.000
+So like double clicking on a couple of these. So just this is like looking around in the modal platform.
+
+01:45:22.000 --> 01:45:33.000
+For some function execution. So up here, you know, it's like I'm running and I'm running application. Now let's see. Let me spin up a GPU, allocate a bunch of memory in it.
+
+01:45:33.000 --> 01:45:44.000
+Crank through, like crank through a bunch of prompts with a language model. You check in on the state. Okay, we got many, many separate containers running, so many sort of copies or replicas.
+
+01:45:44.000 --> 01:46:00.000
+Of this service, this language model. So we got 47 separate calls, each of them doing, I think, 200 200 prompts a piece. And we're running that on one, two, three, four, five, six, seven.
+
+01:46:00.000 --> 01:46:12.000
+Separate H100 accelerated containers. So you can see those are like spinning up dynamically as requests are coming in.
+
+01:46:12.000 --> 01:46:17.000
+And you can get up to some pretty impressive performance with open source software for language model inference these days.
+
+01:46:17.000 --> 01:46:22.000
+Down here, we can see that we're getting about 12,000 tokens per second.
+
+01:46:22.000 --> 01:46:40.000
+Of throughput. And that's like per for each one of these guys is doing 12,000. If we're doing almost 100,000 tokens per second on this. And this is all, you know, this dynamic auto scaling infrastructure That's maybe a good one for me to like quickly show. I think I can… Oop.
+
+01:46:40.000 --> 01:46:49.000
+Slip this guy up. And show that to you. So this is another example that I've got. This is running the Mistral model.
+
+01:46:49.000 --> 01:46:54.000
+On a bunch of Python coding problems called the human eval data set.
+
+01:46:54.000 --> 01:46:59.000
+So you can find this one. I think there's a link in the slides somewhere.
+
+01:46:59.000 --> 01:47:07.000
+Let's see, modal run, look, client dot pi Yeah, there we go. Run at full scale.
+
+01:47:07.000 --> 01:47:16.000
+Pull this up. So I kicked this thing off like every like Nothing was running. You can see we come in and there's like nothing around.
+
+01:47:16.000 --> 01:47:20.000
+So we're going to spin all this stuff up. Let's see.
+
+01:47:20.000 --> 01:47:28.000
+Yeah, so we're spinning up this uh one call to be like, okay, I want to run this data set. And then it's spinning up like.
+
+01:47:28.000 --> 01:47:46.000
+Looks like, yeah, 100 and something containers. He has 100 something entries in the data sets are spinning up all these. Each one of them is like sending a request saying like, oh, okay, I want to run this specific You know, like row in the data set. So now we're running all of them at once, a couple hundred containers.
+
+01:47:46.000 --> 01:48:02.000
+And these guys are all talking to a deployed, like a Mistral deployment that I put up. So that's the one we were just looking at the… some sample logs from. There we go. Okay, so we got a bunch of requests have come in. So it started from absolute zero, right? So now we got to like…
+
+01:48:02.000 --> 01:48:15.000
+Spin up a bunch of containers. The nice thing about starting from zero, that's sort of the default thing I do on Modal, is because when I'm not running my Mistral demo, this costs me zero dollars to have ready to go.
+
+01:48:15.000 --> 01:48:35.000
+There's no compute running. There's no like there's no costs for any of this. It's just… Once I start actually sending requests, then that like spins up infrastructure in modal that then I got to pay for. Or at least, you know, I would have to pay for if I weren't
+
+01:48:35.000 --> 01:48:43.000
+Devrel at modal, so I get the sweet free H100s. But yeah, so you can see they're now spinning up, takes about a minute.
+
+01:48:43.000 --> 01:48:49.000
+To boot this language model, it's like pretty aggressive compilation setup to make it faster.
+
+01:48:49.000 --> 01:48:52.000
+So that it can really chunk at that like 100K token per second.
+
+01:48:52.000 --> 01:49:00.000
+And we can look at like specific requests here and we can see, yeah, this one's spinning up, doing some CUDA graph compilation.
+
+01:49:00.000 --> 01:49:13.000
+And let's see, maybe I can find… Yeah, if I just go to one container like this one, I can see more logs. There we go. Yeah, so now it's running. There we go.
+
+01:49:13.000 --> 01:49:20.000
+Now it's run a 15k tokens per second. That's nice. So you can see I wasn't like carefully cherry picking a super fast example or something.
+
+01:49:20.000 --> 01:49:34.000
+Yeah, and so it's… like hundreds of requests per concurrently to generate not just one response for each Python programming problem, but actually hundreds of them.
+
+01:49:34.000 --> 01:49:41.000
+So that's that inference time compute scaling idea that I mentioned before. It's like you generate a hundred examples and you run the test for all of them.
+
+01:49:41.000 --> 01:49:51.000
+And then you can say like, oh, well, let me take the first one that passes the test or the one with the shortest code that passes the test or the one that finishes the fastest.
+
+01:49:51.000 --> 01:49:57.000
+And passes the test. That's the one I'm going to take. So we're generating like I keep, I think a couple hundred thousand.
+
+01:49:57.000 --> 01:50:01.000
+Python programs by the time this is all said and done.
+
+01:50:01.000 --> 01:50:07.000
+Maybe 101. Oh, no, it's only like 20,000 because I said 100 per example.
+
+01:50:07.000 --> 01:50:10.000
+But yeah, so that's all running scaled up. And then after a while.
+
+01:50:10.000 --> 01:50:17.000
+Like some of these will like shut down once there's no more requests for them to handle. Like, a bunch came in.
+
+01:50:17.000 --> 01:50:26.000
+Scaled up and now these are like now that there's no requests coming in because I'm not still running more queries, these are now all spinning down. So they'll slowly spin down.
+
+01:50:26.000 --> 01:50:30.000
+To zero, and then it'll be back to costing me nothing.
+
+01:50:30.000 --> 01:50:35.000
+So that's the serverless piece. I guess I didn't show you all the log streaming in.
+
+01:50:35.000 --> 01:50:49.000
+That's kind of like a little fun bit. Let's see, do we have, yeah, so we can see there um this guy is like an example, one of the outputs that came out here. So you can see it.
+
+01:50:49.000 --> 01:50:54.000
+Like watching all those numbers go by is kind of fun, but you kind of want to make sure it's actually working. So you can see there.
+
+01:50:54.000 --> 01:51:13.000
+Since this was for a little demo event we did with Mistral, so I made sure that was a nice French language model you know But cool. Okay, so that's what like running a big… running a big batch job on modal looks like this like modal run thing.
+
+01:51:13.000 --> 01:51:32.000
+And that was like running a big batch job against like a deployed service on Modal. So I would modal run to kick something, would kick off like a script. And you use like modal deploy to create these long lasting services like this…
+
+01:51:32.000 --> 01:51:38.000
+This mistral endpoint here. Cool.
+
+01:51:38.000 --> 01:51:57.000
+Yeah, let's see. So as part of actually, so that was generating a bunch of generating a bunch of Python code We didn't yet do the part where we check whether that code is right. So that part of this demo link down here.
+
+01:51:57.000 --> 01:52:10.000
+Is where we use the modal sandboxes. Modal sandboxes spin up. It's the same basic infrastructure as what we were using just there, like spin up these GPU accelerated language model things.
+
+01:52:10.000 --> 01:52:20.000
+But this one is this, you know, it's completely isolated. You control exactly what's exposed to it. You can dynamically specify things like dependencies.
+
+01:52:20.000 --> 01:52:41.000
+At runtime. And it has no permissions in modal so like a regular modal function can like go and talk to other modal functions really easily and uh It can access secret information, like your modal credentials and container. These sandboxes are like split out
+
+01:52:41.000 --> 01:53:04.000
+From that, they have no permission. So you run user code, run language model code, whatever. So to run this human eval, this Python coding demo, we just run 160, like one sandbox per problem and kick off all these evaluations at once. So let me show you what that looks like. That's another sort of script like thing.
+
+01:53:04.000 --> 01:53:11.000
+Let's see, that would be modal run which part modal run liz evals.
+
+01:53:11.000 --> 01:53:18.000
+There. Okay. Kick that guy off. And that'll pull us in here. So now we're kicking this up again.
+
+01:53:18.000 --> 01:53:28.000
+Nothing's around and we kick off like one run to then map out and spin up all of these sandbox containers.
+
+01:53:28.000 --> 01:53:34.000
+And all of them are like checking. There's this like place where I saved all that code on a modal volume.
+
+01:53:34.000 --> 01:53:43.000
+Hold on to that data. And now all these containers are spinning up. They can go, I gave them permission to go and read that volume. So they're all going there.
+
+01:53:43.000 --> 01:53:48.000
+Running all the code and calculating this pass at one, pass at 10, pass at 100.
+
+01:53:48.000 --> 01:54:05.000
+Metric. So that's, and this is all running on, it looks like Yeah, 167 simultaneous containers in parallel. So this rips through in like basically as long as it takes to run just one normally.
+
+01:54:05.000 --> 01:54:15.000
+Because you run them all in parallel. Oh yeah, I ran this twice. So actually there's going to be like 340 containers by the time all is said and done.
+
+01:54:15.000 --> 01:54:42.000
+I ran the ran the data generation job Once to test it beforehand. So now there's 340 containers, but… might spin up. But yeah, so that's the sandboxes for your agents that need to execute code or Like, you know, do have a little like software development environment, an IDE. We got a couple of companies building that like Quora
+
+01:54:42.000 --> 01:54:53.000
+Mistral, imbue. They're all sort of like attaching their language models to these sandboxes to run stuff.
+
+01:54:53.000 --> 01:55:09.000
+Then there we go. So on the storage end, like. We have these high performance volumes that are designed for like data sets and weights, basically. So you save your model weights up here.
+
+01:55:09.000 --> 01:55:20.000
+You save a data set up here and that's like, I put 100 gigabytes up there. I write 100 gigabytes one time when I like download the weights from Hugging Face or when I run my training job.
+
+01:55:20.000 --> 01:55:36.000
+And then later, I'm going to read that like a million times. Like every time I run my language model, I'll read it, but I won't be writing it a million times, right? It's like More like an analytic database type thing than like a transactional database.
+
+01:55:36.000 --> 01:55:44.000
+Type thing where like, you know, like a shopping cart on Amazon, people are like changing what's in their shopping cart every couple seconds. But then for your like.
+
+01:55:44.000 --> 01:55:55.000
+Weekly, you're like Spotify Discover Weekly, that's like you collect up what everybody listened to and then you like analyze all that data at once, you don't like keep changing it over and over again.
+
+01:55:55.000 --> 01:56:11.000
+So that's this like write once, read many pattern that a lot of like compute intensive stuff follows that all runs off of volumes, weights and data sets. Separate things for like queuing up. This is an example of a job queue.
+
+01:56:11.000 --> 01:56:41.000
+For like, oh yeah, I want to like kick off a job. Maybe you're running deep seek for 30 minutes to write code. And it's like humming and thinking and you want to like sort of separate that out from the rest of your app's flow. You might set up like a queue.
+
+01:56:42.000 --> 01:56:43.000
+Yep. Yeah.
+
+01:56:43.000 --> 01:56:49.000
+The other things you mentioned Spotify's Discover Weekly being batch processed I think it's probably worth mentioning a lot of things are batch where we wouldn't think they were. So I actually don't know if it still is, but Netflix… recommendation system used to be totally batch. Like on Sunday, they would just run it all for everyone globally. And so that's why it's so low latency as well, right? So they're huge
+
+01:56:49.000 --> 01:56:50.000
+Mm-hmm.
+
+01:56:50.000 --> 01:56:56.000
+There are forces that want us to believe streaming, blah, blah, blah, blah, blah. But the amount of batch stuff out there rules the world.
+
+01:56:56.000 --> 01:57:07.000
+Yeah, for sure. And that's definitely like modal. We definitely… deliver low latency interactive stuff. But that stuff is always harder.
+
+01:57:07.000 --> 01:57:28.000
+You know, we're kind of like constructing some new computing primitives. And so the thing that we've been able to make like world beating… best in class experience is the like sort of more batch oriented stuff, like run a big embedding job, run training. Not just like world beating performance, but it's like world beating performance with three lines of Python code.
+
+01:57:28.000 --> 01:57:33.000
+Right. Which is the goal that we aspire to. Whereas like, if you want to get low latency, it's like.
+
+01:57:33.000 --> 01:57:48.000
+You know, welcome to the hell that is like UDP punching and web RTC, which like will help you set that up and you can run it, but it's not… It does not spark joy, you know, to run these low latency streaming stuff.
+
+01:57:48.000 --> 01:58:12.000
+But yeah, so speaking of networking, like, yeah, running like Turning, like… Python actually is like a great backend language. You take like all the hard stuff, like running the database or like doing fast matrix multiplications on a GPU, you put that in some library that you import like NumPy or Torch or Pandas.
+
+01:58:12.000 --> 01:58:27.000
+And then you just like, you know, then you write all of your code in Python. It's delightful. And there actually are very high performance web servers in Python like FastAPI. And then the hard part is like turning that into an actual web server that people can hit over the internet.
+
+01:58:27.000 --> 01:58:40.000
+And so Modal has a bunch of primitives for this, like turn a Python function into a web endpoint with Just like add a decorator and now you can sort of like send stuff to your Python function and get it back out.
+
+01:58:40.000 --> 01:58:51.000
+And then like you can also run full fast API apps um full flask apps or even just like random web server in whatever language you want.
+
+01:58:51.000 --> 01:59:00.000
+By using like modals, various primitives. Anything that can listen on a port And running Linux can run as a modal web server.
+
+01:59:00.000 --> 01:59:12.000
+Well, you know, with or without GPUs. I do a lot of our documentation stuff, our previewing docs and playing around with them. I actually run it off of Modal.
+
+01:59:12.000 --> 01:59:24.000
+Yeah, so conscious of time since I'll probably skip this section, but if you remember our remote procedure calling and enterprise Java beans.
+
+01:59:24.000 --> 01:59:33.000
+Modals, just that idea, but updated for the cloud era. To make it good, which involved like kind of rewriting a bunch of stuff in Rust from the beginning.
+
+01:59:33.000 --> 01:59:52.000
+So that would be like snappy. All those containers were booting up in like a second. And that actually requires… And we can handle inputs on your web endpoints that are like gigabyte, 128 gigabyte input or output. And that required some like rethinking of the web infrastructure. So we've written a lot about how we did it.
+
+01:59:52.000 --> 01:59:59.000
+Because we think it's better to share it with people so they'll get excited and want to use our stuff than to try and like hide it.
+
+01:59:59.000 --> 02:00:20.000
+I guess the last thing I'll say on this is that One of the hard… one of the hardest things about doing especially GPU accelerated services is that it's really hard to match how many resources you're like paying for and reserving.
+
+02:00:20.000 --> 02:00:30.000
+With how many resources your application needs. The cloud makes it a little easier in that you can spin up EC2 instances in minutes or tens of minutes.
+
+02:00:30.000 --> 02:00:39.000
+But it's still pretty hard. People will often just like provision 100 GPUs, even though most of the time they would they could get away with just like five or 10.
+
+02:00:39.000 --> 02:00:44.000
+And then like they blow up on Hacker News and then they're still short. They just don't have enough GPUs.
+
+02:00:44.000 --> 02:01:02.000
+And the… like the alternative try and like build your own system for scaling stuff up like building some auto scaling Kubernetes thing on Amazon, you'll run into problems of being able to quickly spin up and down resources is really hard. There's a lot of
+
+02:01:02.000 --> 02:01:24.000
+Operational stuff, we run like a constant like kind of auction or um little optimizer linear solver thing to make sure we're running exactly the right number of GPUs. And then we have a custom runtime to boot them quickly. And that's how we're able to ensure that when you ask for GPUs, like we can get your code running on them in seconds. So when you blow up on Hacker News.
+
+02:01:24.000 --> 02:01:35.000
+And suddenly need 100 H100s where before you only needed five, like we can track that and get that going for you in seconds or minutes like we just did with the Mistral demo that I showed you.
+
+02:01:35.000 --> 02:01:45.000
+So this ends up being not just like, oh, great, it's Python. It's like easier for me, my data scientists, my ML team to self-serve, build our own infrastructure.
+
+02:01:45.000 --> 02:01:55.000
+It's also like, oh shit, this actually also saves us like you know, like 3x on our GPU costs because we only need to pay for the GPUs we're actually running on.
+
+02:01:55.000 --> 02:02:00.000
+So I wrote a little blog post about this GPU utilization idea and also like.
+
+02:02:00.000 --> 02:02:09.000
+How to think about maximizing performance, which is sort of what I talked about more in the previous talk I gave in Hugo's class last time.
+
+02:02:09.000 --> 02:02:13.000
+So you can check that out at that blog post there.
+
+02:02:13.000 --> 02:02:28.000
+Yeah, so close out by saying like best way to get started for sure is to try out the examples. Sounds like Hugo already shared those with you. We got a lot of them, wide variety of stuff, language models, video models, image models.
+
+02:02:28.000 --> 02:02:35.000
+Protein folding. Yeah, running an agent and running code for it.
+
+02:02:35.000 --> 02:02:44.000
+Also, you know, like… loading a bunch of parquet files and analyzing them with pollers if you're more of a classic data science person.
+
+02:02:44.000 --> 02:02:52.000
+And the reason why I want to recommend that you try out these examples is because we try and maintain a super high quality bar for these.
+
+02:02:52.000 --> 02:03:00.000
+So that they're actually usable. So you can copy and paste code from these, you can clone them, and it will actually run.
+
+02:03:00.000 --> 02:03:09.000
+We run like every single day we run almost every example multiple times and track how many times it even like issues a deprecation warning.
+
+02:03:09.000 --> 02:03:16.000
+I hate running somebody's code from their library and then it tells me that I'm using like out-of-date code.
+
+02:03:16.000 --> 02:03:25.000
+Incredibly frustrating, insulting to me when that happens. And so we treat that as like a failure of our docs and monitor it.
+
+02:03:25.000 --> 02:03:37.000
+So yeah, anytime any of them are broken, I want to hear about it from you because it slipped past our automated monitoring system. And that means it needs to be fixed.
+
+02:03:37.000 --> 02:03:44.000
+Cool. So happy to stick around for questions if folks want to. I'm not sure what the schedule is for the rest of the session.
+
+02:03:44.000 --> 02:03:58.000
+Dms are open on Twitter. I'm in the Discord if you want to ping me there. Probably slower time to respond there. I'm not always on… on Discord. But yeah, and happy to answer questions from folks building LLM apps
+
+02:03:58.000 --> 02:04:20.000
+Thank you so much, Charles. And definitely do ping Charles on Discord if you're so inclined. An even better way, if stuff to do with this talk The best way to get support on Modal, we can chat about stuff on Discord, but Modal has a Slack community, which I'll share a link to in the Discord. And that's by far the best way to get support on Modal.
+
+02:04:20.000 --> 02:04:30.000
+Not only because Charles and the team are there and are paid to be there, but there's a huge community of people like you, but interested in modal doing stuff there as well.
+
+02:04:30.000 --> 02:04:36.000
+And if you haven't got your credits yet. Get an ASAP and, you know.
+
+02:04:36.000 --> 02:04:41.000
+Play around with all of this super fun stuff. Charles, there are some great questions.
+
+02:04:41.000 --> 02:04:57.000
+In the in the chat. I apologize if I missed whether you said that. I don't remember you talked about modal volumes, but Namit has a great question just around like fully fledged databases and like large data storage and that type of stuff and how you think about that at modal
+
+02:04:57.000 --> 02:05:12.000
+Yeah. I'd say for anything that looks Like, Twitter 95, right? That's like any good social media site, it's a database, right? Under the hood with a bunch of posts in it.
+
+02:05:12.000 --> 02:05:29.000
+And that's Supabase, right? I run that on Supabase. That because like, you know, when somebody lands on that webpage, like they're going to, they're going to do a query, they're going to read from it. When the language models generate new posts. They need to like write to that. And I want those things all to happen in like
+
+02:05:29.000 --> 02:05:37.000
+Very few milliseconds. And yeah, the… Databases can be super high performance.
+
+02:05:37.000 --> 02:05:53.000
+Basically, you actually don't want to run Postgres yourself, I think, in almost all situations. We don't run Postgres ourselves at Modal. We use Amazon RDS or something. We use a hosted Postgres solution from the cloud service providers um and
+
+02:05:53.000 --> 02:06:05.000
+That's like, I think, you know, for smaller projects, the equivalent of that is like, yeah, running, you know, using super base or Nile or Neon or one of these other like hosted Postgres services.
+
+02:06:05.000 --> 02:06:22.000
+So that would be like my, that's why I like primary recommendation. If you're looking for these like Um… like more right heavy transactional database hosting. I think Modal is actually pretty good as kind of like a poor man's snowflake replacement where it's like.
+
+02:06:22.000 --> 02:06:34.000
+Dump stuff in and then, like… you know uh like let's say you are… you're monitoring your… You're running a chat bot.
+
+02:06:34.000 --> 02:06:41.000
+Conversations are going through it as like a persistence layer for serving, maybe you're using like Redis or something.
+
+02:06:41.000 --> 02:06:56.000
+To like store like conversations and sessions and things. But then… If you want to do like post hoc evals, like you want to like read back conversations and like annotate them, have annotators look at them.
+
+02:06:56.000 --> 02:07:13.000
+That's something where I would be like, yeah, just dump that into like a SQLite database and store that on a modal volume. And then you can just like spin up a Jupyter notebook and look at that SQLite database from pandas or from data set
+
+02:07:13.000 --> 02:07:37.000
+S-e-t-t-e-t- Simon Wilson's tool and like just back Just, you know, because that can be this like… fewer rights, slower, like it works better with the… both the affordances and performance of modal volumes and also with this like scale it serverless infrastructure.
+
+02:07:37.000 --> 02:07:42.000
+So yeah, that's my basic recommendation. We've talked to a couple of people who run databases off of Modal.
+
+02:07:42.000 --> 02:08:04.000
+In particular, like vector database stuff. It can be done, but I think… In general, and I expect us… as we build out more pieces of the platform to build out capabilities to run data sets, but it's uh Or sorry, to run like transactional databases, but…
+
+02:08:04.000 --> 02:08:06.000
+But it's not a core part of the platform right now.
+
+02:08:06.000 --> 02:08:17.000
+That makes perfect sense. Appreciate all of that context and I mean, as you may recall, the first apps we've been building, we log everything to SQLite and do export with data set, among other things, SCT.
+
+02:08:17.000 --> 02:08:28.000
+So getting that running on modal volumes. People should definitely play around with that. Lucas has asked a fantastic question and two people have followed up that they're interested as well.
+
+02:08:28.000 --> 02:08:41.000
+How do you think about privacy for enterprise use? And in particular, Lucas has said, tossing around the idea of using this at work, but would need to be compliant with IT or cloud team might need might need to be behind their vpn or something
+
+02:08:41.000 --> 02:08:46.000
+He also said that is in his strong suit. So isn't sure if the question makes perfect sense.
+
+02:08:46.000 --> 02:08:55.000
+Yeah. Yeah. I forgot that the questions would be coming in through Discord. So now I've got it up so I can look through this. Yeah.
+
+02:08:55.000 --> 02:08:58.000
+So… So effectively.
+
+02:08:58.000 --> 02:09:18.000
+Yeah, modal is kind of like a… giant supercomputing cluster that you can rent time on, right? So it's like we're running we've got this, you know, we got thousands of H100s, bunch of like high performance SSDs and like S3 or whatever as a backing store.
+
+02:09:18.000 --> 02:09:28.000
+We've got that like giant distributed machine running. And then you, when you like modal run, modal deploy, request comes in, whatever, you kind of are like.
+
+02:09:28.000 --> 02:09:36.000
+Renting time on that machine to like run your code. So that makes it pretty hard for us to run inside of somebody else's cloud, right? It's like.
+
+02:09:36.000 --> 02:09:50.000
+You would have to have… I think, you know, eventually we'll get to the point where we have individual customers who have the same scale we have right now, thousands of of GPUs split across many, many applications.
+
+02:09:50.000 --> 02:10:09.000
+But until you're at that scale, the system doesn't make as much sense. Like it's… So for that reason, short term, we have no plans to offer like run inside your VPC. There's some tricks that you can do that like if you're
+
+02:10:09.000 --> 02:10:17.000
+Interested in a large scale enterprise deployment should definitely message me and you can talk to our sort of, yeah.
+
+02:10:17.000 --> 02:10:28.000
+Yeah, sales engineers in our network engineer folks Sometimes all you need to do is sort of like disaggregate out some of where the data goes.
+
+02:10:28.000 --> 02:10:45.000
+And that can be sufficient for compliance. But yeah, that one, if it has to, you know, if it has to stay in your 100% has to stay in your VPC then modal's not the tool right now.
+
+02:10:45.000 --> 02:10:46.000
+Well, finally, Caleb.
+
+02:10:46.000 --> 02:11:04.000
+For EU stuff, for EU stuff, you can say like only run in the EU. So we do have like… You know, we can do… Like we can do region pinning. So if you have like sovereignty requirements And I think we have enough EU locations, Canada, Australia, and the us
+
+02:11:04.000 --> 02:11:10.000
+So like a lot of places you can hit your like um health information, data governance.
+
+02:11:10.000 --> 02:11:25.000
+Or sovereignty requirements. And then we also do have… We can do HIPAA BAAs as well so we can hit at least some industries uh like privacy requirements.
+
+02:11:25.000 --> 02:11:37.000
+Awesome. And Caleb actually mentioned something you spoke to. If there are any best practices around a hybrid approach, like reliably removing PAI or anonymizing before sending content to your endpoint, for example?
+
+02:11:37.000 --> 02:11:58.000
+Yeah, that's a good question. I think that probably is something where either you've If you have something like that built internally for your use case or You have… like there are services that can do that for you. They kind of have to be domain specific, which makes it kind of annoying.
+
+02:11:58.000 --> 02:12:03.000
+But yeah, yeah. For like stripping PII.
+
+02:12:03.000 --> 02:12:12.000
+It's pretty hard with language models because it's like very hard to know what parts of an unstructured string might be bad information to share.
+
+02:12:12.000 --> 02:12:18.000
+But there are definitely use cases where you can achieve that.
+
+02:12:18.000 --> 02:12:19.000
+Awesome.
+
+02:12:19.000 --> 02:12:30.000
+Yeah. Um… Yeah, in sandbox environment and modal, this is from Vishrut, possible to get LM to build code and test it using multiple LLM agents. One is coder, one as tester.
+
+02:12:30.000 --> 02:12:47.000
+Yeah, we have a demo where like a language model writes code and then executes it and sees whether it… Whether it works. So that one is… here in the docs. Oh yeah, I'm not sharing my screen anymore, but I can at least…
+
+02:12:47.000 --> 02:13:01.000
+Give you the link. It's a Langgraph agent that runs… It's a I was having a lot of fun with this one. It writes… Hugging Face Transformers code. So it's a language model that runs language models.
+
+02:13:01.000 --> 02:13:14.000
+So yeah, then running multiple separate like agents or whatever You definitely can coordinate those kinds of things.
+
+02:13:14.000 --> 02:13:26.000
+You can have them both point at the same sandbox. Yeah. If you want to, like, create… Sandbox has an identifier. You share that between two different like Yeah, your two different agents or whatever.
+
+02:13:26.000 --> 02:13:50.000
+And… Yeah, and they can like coordinate by sending commands to that sandbox. That'd be pretty fun. I'd love to see… To like, yeah, two llamas, both one trying to like… One trying to keep a system running and the other one trying to take it down. That might be a fun demo.
+
+02:13:50.000 --> 02:13:52.000
+Cool. Any other questions?
+
+02:13:52.000 --> 02:13:57.000
+There was a question about running modal on edge devices.
+
+02:13:57.000 --> 02:14:15.000
+Oh, on edge devices. So I think, oh, yeah. Okay, do your models run on edge devices? Yeah, so… So we don't provide models, right? We just give, we sell like GPU cycles, we sell like, you know, RAM addresses and, you know.
+
+02:14:15.000 --> 02:14:21.000
+Like that kind of infrastructure And it's all running in cloud data centers.
+
+02:14:21.000 --> 02:14:28.000
+So if your definition of like edge is like, yeah, directly on the user's phone or something like that.
+
+02:14:28.000 --> 02:14:37.000
+Modal doesn't do that. Again, it's like this like cloud supercomputer that you're running time on. So the version of that that I have done is like.
+
+02:14:37.000 --> 02:14:47.000
+I had… I had a tiny little Nvidia Jetson Nano that would run speech to text and text speech.
+
+02:14:47.000 --> 02:14:57.000
+And then it would send the text to modal to run like a big, like a large language model would process the text, decide what to say next, and send it back.
+
+02:14:57.000 --> 02:15:03.000
+And then the nice thing about using modal for that is with the Python SDK.
+
+02:15:03.000 --> 02:15:16.000
+If you can run Python on the edge device, then you can like, you have this nice remote procedure calling set up where it's like you just call a Python function that happens to run on modal's infrastructure.
+
+02:15:16.000 --> 02:15:20.000
+Which is kind of like kind of a fun way to do that kind of edge programming.
+
+02:15:20.000 --> 02:15:23.000
+Or you can just make, you can make it a web endpoint.
+
+02:15:23.000 --> 02:15:29.000
+And then you just like talk to it with like REST API, like the way you would other things.
+
+02:15:29.000 --> 02:15:35.000
+Those are like potential ways to do edge computing. Or connect with edge computing. The other thing I would say, like.
+
+02:15:35.000 --> 02:15:56.000
+This is kind of high level. But… It's like the edge device might run a language model But then phone phone data to then run fine tuning jobs on cloud infrastructure and then ship the weights back out. So you might like fine tune
+
+02:15:56.000 --> 02:16:03.000
+Model in the cloud on data collected from the edge and push the weights back out. That's another, that one's like.
+
+02:16:03.000 --> 02:16:06.000
+I don't know if anybody's actually doing that in production yet because it's like.
+
+02:16:06.000 --> 02:16:12.000
+People like we're still very early, right, with language models, but I've definitely talked to people who are like.
+
+02:16:12.000 --> 02:16:22.000
+Poc-ing that, doing research on how that would work and that So that's maybe kind of a fun more like fringy kind of project you might try.
+
+02:16:22.000 --> 02:16:38.000
+Awesome. Well, thanks so much. For your wisdom and time and generosity, Charles, and all the credits y'all are giving us as well and I'm so people seem really excited to try out the platform and all the wonderful examples. So I can't wait to see what everyone builds.
+
+02:16:38.000 --> 02:16:46.000
+Yeah. Also, I will say there was a question about like whether you can run modal in the browser. We do have a little playground.
+
+02:16:46.000 --> 02:16:55.000
+That I shared a link to. The other one is like, you can also drop, like, I… All you need is Python and Modal.
+
+02:16:55.000 --> 02:17:04.000
+So you can like drop into like collab and then just like pip install modal and then start like running commands from there.
+
+02:17:04.000 --> 02:17:17.000
+So those are the two sort of like super low friction ways to get started and try stuff out without needing to like set up your own local virtual environment
+
+02:17:17.000 --> 02:17:18.000
+Yeah, thanks for having me, Hugo.
+
+02:17:18.000 --> 02:17:30.000
+Amazing. Well, thanks, Charles, once again. Absolutely. And everyone, thank you for sticking around a bit longer past the end of workshop time and we'll see you on Discord and we'll announce all the office hours and build a session soon.
+
+02:17:30.000 --> 02:17:33.000
+And see you in the next workshop next week. Thanks, everyone.
+
+02:17:33.000 --> 02:17:39.000
+Thank you. Bye
+

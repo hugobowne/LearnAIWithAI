@@ -1,0 +1,2414 @@
+WEBVTT
+
+1
+00:00:39.700 --> 00:00:45.259
+hugo bowne-anderson: Hey, everyone. Welcome to the next session, which is.
+
+2
+00:00:45.580 --> 00:00:51.380
+hugo bowne-anderson: I mean, I I think it's gonna be a lot of fun. It's it's hard to live up to the the energy of of and and
+
+3
+00:00:51.530 --> 00:00:59.520
+hugo bowne-anderson: fun of of Greg, to to be honest. But let me ask are you able to. Whoa, I'm trying to close this little zoom thing.
+
+4
+00:01:00.663 --> 00:01:03.970
+hugo bowne-anderson: Are you all able to see Google slides?
+
+5
+00:01:08.090 --> 00:01:26.891
+hugo bowne-anderson: Fantastic and so this may seem slightly odd, but it will become clear why, for this port for this workshop we're going to have all conversation in the workshop. 6 channel and then, when we have our next special guest, we're going to go back to special guests on on discord. So I appreciate your
+
+6
+00:01:27.480 --> 00:01:31.246
+hugo bowne-anderson: flexibility with with such systems.
+
+7
+00:01:32.390 --> 00:01:35.708
+hugo bowne-anderson: but let me just make sure I've got everything working
+
+8
+00:01:36.430 --> 00:02:03.990
+hugo bowne-anderson: fantastic. So I'm actually incredibly excited about today's workshop. I get excited about all of them. But we're starting to do more with tool use and and moving towards agentic agent workflows, and we'll see what that means soon. I just did want a bit of housekeeping, so learn prompting. You should all, everyone who filled out the form and has given me their email addresses. You should be good good to go, and you can see Constantine had a great time.
+
+9
+00:02:04.030 --> 00:02:28.730
+hugo bowne-anderson: and so we've given full access to all the courses. If you did not already have a learn prompting account, you should have received a welcome email hugging face. We're nearly there. You can see just because, as I've said, this is the 1st time. We're provisioning so many credits from so many different providers for the course. So a lot of it is manual. So I just want to say, we really appreciate your patience with all of this, and
+
+10
+00:02:28.730 --> 00:02:38.019
+hugo bowne-anderson: at hugging faces, doing the work to, to manually do it to every for everyone in the organization. That I that I set up and you've joined. So we're nearly there.
+
+11
+00:02:38.020 --> 00:02:42.289
+hugo bowne-anderson: Appreciate your patience on that couple of other things.
+
+12
+00:02:42.350 --> 00:03:12.007
+hugo bowne-anderson: At the end of this session. I'm going to circulate 3 forms. Okay. Now, I know that may seem a bit too much. If you take a few minutes for each. That would be super helpful. The the 1st one will be, what do you want us to cover next week? Okay, there's a wide array of things we could. We could focus on, such as you know, go deeper into evaluations, and Llm. As a judge, human alignment with Llm. As a judge we could also go down the fine tuning path or more productionization stories.
+
+13
+00:03:13.030 --> 00:03:32.060
+hugo bowne-anderson: we could start looking at more frameworks and traces and spans and you know, prompt versioning. So there are so many things we could cover. I want to get signal from you. All I have said this time do not give, and I think I can figure out how to make the form. Not do this now, but please do not give the same rank to multiple topics. Last time
+
+14
+00:03:32.330 --> 00:03:46.029
+hugo bowne-anderson: a certain proportion of people, said We, we want you to cover all of them, and that gives me no signal on how to make a decision, and I do appreciate the sentiment. But this is in order for me to get information to make decisions around. Then
+
+15
+00:03:46.250 --> 00:03:54.309
+hugo bowne-anderson: on the last day we'll be having part of the workshop will be a demo day where for those people who'd like to demo stuff that they've built.
+
+16
+00:03:54.580 --> 00:03:57.640
+hugo bowne-anderson: I and we all would love to see it.
+
+17
+00:03:58.150 --> 00:04:25.200
+hugo bowne-anderson: I'll circulate that form, and we're just gauging interest. What? We want essentially, to know how many people are interested. I've got a few questions around what topic you'd like to cover, or if there any links like discord threads. And look what I built that we can check out once we've gauged interest. We'll organize timings. A likely format will be 5 min lightning talks and no live Q. And A. And all discussion can happen on on discord. That's because
+
+18
+00:04:25.200 --> 00:04:34.029
+hugo bowne-anderson: even if 20 people are presenting right? 5 min time, times 20, it adds up right. And last time we did
+
+19
+00:04:34.130 --> 00:04:40.420
+hugo bowne-anderson: remember, we had like a 4 h Demo day, which was, which was a lot of fun. But it was I think we
+
+20
+00:04:41.460 --> 00:04:57.319
+hugo bowne-anderson: there's a tension between you know how much you do and how long it takes, and we want to avoid it, spilling over too much. And as always, I'm going to socialize a feedback form and would love your thoughts there. So what are we doing today? We're starting to talk more about agentic stuff.
+
+21
+00:04:57.746 --> 00:05:10.020
+hugo bowne-anderson: So first, st let's just talk about what is an agent. And I presume I don't need to say that like this is supposed to be the year of agents and all of that type of stuff. I do actually
+
+22
+00:05:10.490 --> 00:05:16.329
+hugo bowne-anderson: think one of my takeaways here is going to be. You probably don't want to build an agent
+
+23
+00:05:16.490 --> 00:05:25.219
+hugo bowne-anderson: right? You can probably do what you need to do using other things that are less risky. This is for production, reliable, consistent
+
+24
+00:05:25.370 --> 00:05:34.120
+hugo bowne-anderson: business use cases as you've just seen. Agents can be incredibly powerful when you have humans seriously in the loop. So there's kind of a
+
+25
+00:05:34.730 --> 00:05:44.130
+hugo bowne-anderson: it's not a paradox, but an irony that I use agents every day, but I encourage people to to not build agents right. And that's because I use agents which aren't
+
+26
+00:05:44.390 --> 00:05:54.939
+hugo bowne-anderson: aren't aren't reliable like I need to be in there in the weeds with it constantly. And what we're doing in this course is is learning how to build reliable software. Right?
+
+27
+00:05:55.810 --> 00:05:57.210
+hugo bowne-anderson: So, firstly.
+
+28
+00:05:57.590 --> 00:06:25.559
+hugo bowne-anderson: what what a time to be alive right this year we've seen deep seek come out. Then we saw Chat Gpt almost did a fast follow with deep research. We've got, you know, reasoning models. We've got these agents that help you build software on your on your cell phones. I do think the and I mentioned that. You know I was going to the beach recently and use the replet Ios app to build a space invaders game that I played like
+
+29
+00:06:26.040 --> 00:06:37.320
+hugo bowne-anderson: the 1st half of my bus trip to the beach was building space invaders. The second half was playing space invaders. Right? So super fun stuff. I think the deep research stuff is fascinating because
+
+30
+00:06:40.850 --> 00:06:57.669
+hugo bowne-anderson: so we had deep seek. Then we had oai deep research. Then perplexity had its deep research. Then we had a couple of other fast follows in around 3 weeks. This is usually technology that I presume, after the 1st proof of principle would take months, if not years. What we've seen is the commoditization of something like deep research
+
+31
+00:06:58.060 --> 00:07:05.990
+hugo bowne-anderson: in like on the order of weeks, which I think is like a fundamental shift in what we're seeing in technological development at at the moment.
+
+32
+00:07:06.486 --> 00:07:20.369
+hugo bowne-anderson: And Ethan Mullick came up. But you can see like he has, and this is something we talked about with Merva yesterday, from from hugging face. With respect to what prompts do you try when new models
+
+33
+00:07:20.480 --> 00:07:41.409
+hugo bowne-anderson: come out? And this is something that he always does create something I can paste into. P. 5 js, that will startle me with its cleverness in creating blah blah blah! And you'll see that this is. And you know, I can link to this tweet later. But this is an interactive dashboard. Essentially, that looks like space age, right? Which is which is super cool.
+
+34
+00:07:41.520 --> 00:07:45.390
+hugo bowne-anderson: So why are we even interested in these types of things?
+
+35
+00:07:45.830 --> 00:07:48.989
+hugo bowne-anderson: So Llms are super powerful clearly.
+
+36
+00:07:49.300 --> 00:07:55.289
+hugo bowne-anderson: but they only generate text right? And that may seem kind of ridiculous to say, I feel like the guy who, like
+
+37
+00:07:55.530 --> 00:08:13.869
+hugo bowne-anderson: gets Internet for the 1st time on the plane, and then it's normalized and it doesn't work for a minute. He's like, Oh, my God! Where's my, where's my Internet? But I I do want to say, the generation of text almost seems quite today. And so, thinking through other ways, we can incorporate different processes into these systems
+
+38
+00:08:14.070 --> 00:08:17.560
+hugo bowne-anderson: in order to deliver value, and in all honesty.
+
+39
+00:08:18.140 --> 00:08:29.290
+hugo bowne-anderson: having conversations is chill and awesome. But it doesn't scale right? So taking action and automating things is incredibly important. And what I mean by it doesn't scale is
+
+40
+00:08:30.570 --> 00:08:44.360
+hugo bowne-anderson: the ability to have a conversation with software is limited by the amount of time I have right? Whereas if I can automate things, generate documents, these types of things that is not limited by the amount of time I have.
+
+41
+00:08:44.970 --> 00:08:49.299
+hugo bowne-anderson: So what? What am I even talking about? What automating? What? Okay? So
+
+42
+00:08:49.660 --> 00:08:53.480
+hugo bowne-anderson: let's say, we want to automate workflows. So I mentioned the other day, you know.
+
+43
+00:08:55.450 --> 00:09:21.770
+hugo bowne-anderson: a big use case of machine learning in in a bunch of pretty significant or huge companies is to give slide decks to executives so they can figure out where to place billboard ads that costs the company tens of millions of dollars a year. Right? So if you can automate the delivery of a slide deck based on all of your information and data to executives, maybe with a human in the loop to check a few things.
+
+44
+00:09:22.090 --> 00:09:28.110
+hugo bowne-anderson: That's incredible, right? So that's 1 example, and almost a naive example of of automation. But I think
+
+45
+00:09:28.340 --> 00:09:29.780
+hugo bowne-anderson: I think it's super important.
+
+46
+00:09:30.596 --> 00:09:56.599
+hugo bowne-anderson: Just imagine. So at the moment, you know, after each workshop, once, Zoom gives me the recording. I I sit down for a couple of hours and build out a course Wiki page on it, and I chat with Chat Gbt and Claude about it, and that type of stuff. So I use them to help me, but I see a not too distant future where I can automate nearly all of that right. So even thinking through on a, on a kind of a personal productivity level. How automation can help
+
+47
+00:09:57.030 --> 00:10:25.769
+hugo bowne-anderson: interact with external systems, such as databases and Apis and other Llm based systems as well. And then, of course, the Lol sob moment of perform calculations where we realize that, as you know, highly sophisticated software agents, Llms are horrible at mathematics, and that we need to figure out how to get them to do arithmetic among other things. And this already raises a bunch of concerns right like, how would we get?
+
+48
+00:10:28.500 --> 00:10:30.460
+hugo bowne-anderson: How would we get an Llm.
+
+49
+00:10:30.830 --> 00:10:38.680
+hugo bowne-anderson: To perform a calculation? Right? And I think the 1st obvious way is to get it to
+
+50
+00:10:38.820 --> 00:10:54.859
+hugo bowne-anderson: right and then execute some code to do so right like python code. Now this actually raises a huge concern. If I do that, am I allowing an Llm. To execute arbitrary python code, such as delete my entire file system, which it may hallucinate at some point.
+
+51
+00:10:55.170 --> 00:11:07.640
+hugo bowne-anderson: So this is a nice example of how getting a human in the loop with agentic processes can be really powerful. So you could imagine. And this happens in cursor, for example, when it unless you're in yellow mode, which I don't really use. But if you.
+
+52
+00:11:08.690 --> 00:11:21.500
+hugo bowne-anderson: if you want it to perform something, it can show you the code, or show you the diff or show you what it's writing to, what it's deleting from that type of stuff and getting you in the loop in a clever way, so you could say, I want you to
+
+53
+00:11:21.680 --> 00:11:28.359
+hugo bowne-anderson: create a calculator anytime you execute it. Just show me what code you're going to execute, and I'll say yay or or nay, essentially.
+
+54
+00:11:28.540 --> 00:11:30.209
+hugo bowne-anderson: we could have dog browse in place.
+
+55
+00:11:31.760 --> 00:11:46.389
+hugo bowne-anderson: So drilling down a bit more into what we, what we want them to be able to do we want them to be able to retrieve information right? We want them to be able to run code. We want them to be able to use tools. Such as you know, external Apis
+
+56
+00:11:46.610 --> 00:12:06.720
+hugo bowne-anderson: want them to be able to handle multi-step tasks, so break down complex problems into smaller sequential steps and coordinate their completion. And this is a big point of what Greg was talking about, or one of my big takeaways is planning. Spend a lot of time planning with with Llms. Right, and tell them to break down like I say something to cursor Gemini, 2.5 in cursor.
+
+57
+00:12:06.830 --> 00:12:16.119
+hugo bowne-anderson: And I say, could we not write code yet, but discuss how we would break this down into as as minimal few tasks as possible, sorry small tasks as possible.
+
+58
+00:12:17.020 --> 00:12:33.240
+hugo bowne-anderson: and then to trigger actions. So activate appropriate strategies, tools or next steps based on context and inputs. So a lot of people say, make decisions or dynamically, choose Llms aren't making decisions, and they're not choosing anything in terms of having like
+
+59
+00:12:33.600 --> 00:12:41.930
+hugo bowne-anderson: what we assume is agency, at least with ourselves and and other humans. But they do trigger actions based on context and inputs. And actually, when we
+
+60
+00:12:43.210 --> 00:12:47.380
+hugo bowne-anderson: let me bring up this Whoa, bring up this blog post.
+
+61
+00:12:47.510 --> 00:12:54.970
+hugo bowne-anderson: We discussed this yesterday with Marva from hugging face. But we'll talk about that's not it.
+
+62
+00:12:56.670 --> 00:13:04.640
+hugo bowne-anderson: We'll talk about how anthropic has has approached this, which is super useful, but I do want to say this. Beautiful blog post from
+
+63
+00:13:07.320 --> 00:13:11.390
+hugo bowne-anderson: hugging face. I'm just gonna paste it in our workshop channel.
+
+64
+00:13:16.550 --> 00:13:22.470
+hugo bowne-anderson: Let's see. Where did they say, sorry about this. Oh, yeah.
+
+65
+00:13:23.510 --> 00:13:29.229
+hugo bowne-anderson: AI agents are programs where Llm outputs control the workflow. Okay.
+
+66
+00:13:29.370 --> 00:13:31.238
+hugo bowne-anderson: that's a really nice, I think.
+
+67
+00:13:32.650 --> 00:13:39.890
+hugo bowne-anderson: definition or heuristic for thinking about what these, what these systems do. Okay, so
+
+68
+00:13:42.307 --> 00:13:48.190
+hugo bowne-anderson: and just to be clear, chat Gpt is agentic. So I can't even remember what example
+
+69
+00:13:48.330 --> 00:13:50.349
+hugo bowne-anderson: this is, let's see, what did I do here.
+
+70
+00:13:56.910 --> 00:14:07.617
+hugo bowne-anderson: hey, Chatgpt? I would like you to develop a marketing campaign for a product that yes, I'm getting to develop. I'm speaking to develop a marketing campaign. And
+
+71
+00:14:08.510 --> 00:14:10.300
+hugo bowne-anderson: I'm actually just okay.
+
+72
+00:14:10.450 --> 00:14:11.890
+hugo bowne-anderson: Let me see if I can.
+
+73
+00:14:14.130 --> 00:14:22.310
+hugo bowne-anderson: Sorry about this people who would have thought embedding Youtube videos in wouldn't work.
+
+74
+00:14:22.520 --> 00:14:30.190
+hugo bowne-anderson: So I got it to develop a marketing campaign for a product that inserts advertising in people's dreams.
+
+75
+00:14:31.330 --> 00:14:41.356
+hugo bowne-anderson: okay? And you may recall the Nicolas Cage Movie Dream Scenario. I came up with this before that movie, though, although Nicolas Cage does seem to steal all my good ideas,
+
+76
+00:14:42.270 --> 00:15:01.209
+hugo bowne-anderson: And I asked for visuals. Right? And I didn't say, use these tools or whatever. And it quote unquote decided, or its output triggered using Dali 3. Okay? And it's been doing that for some time. Similarly, if I ask for something that maybe outside, maybe outside its weights.
+
+77
+00:15:01.400 --> 00:15:02.653
+hugo bowne-anderson: it will
+
+78
+00:15:04.340 --> 00:15:32.989
+hugo bowne-anderson: it will automatically search the web right without me telling it to. So there is a dynamic response to Llm output that results in it. Using a tool. Okay? And you can try it. For example, you can say, what's the weather today in Sydney to an Llm. Or wherever you are? And it will often use a web search tool without asking asking you whether you want it or not. And without you telling it, right? So a lot of these systems are already agentic.
+
+79
+00:15:33.860 --> 00:15:42.709
+hugo bowne-anderson: But okay, I do want to clarify. Agent is mostly a marketing term. And that's why we were all
+
+80
+00:15:43.040 --> 00:15:47.569
+hugo bowne-anderson: very pleased when anthropic put out this blog post
+
+81
+00:15:47.970 --> 00:15:54.870
+hugo bowne-anderson: called building effective Llms. And actually, could someone paste that in in the chat? I thought I had the link here. But in the interest of time. I won't.
+
+82
+00:15:55.250 --> 00:16:06.830
+hugo bowne-anderson: You're on finding it. I mean, it's 1 that I suppose I mentioned most workshops. Actually, but it's essential. And it's essential to how I currently think about augmenting these systems. So we've talked about
+
+83
+00:16:07.220 --> 00:16:22.704
+hugo bowne-anderson: the importance of memory which a lot of people really don't talk about. And I asked Eddie from Fondue to kind of come and give a talk about like best practices for starting, working, working with memory, and and 2 patterns in particular. Then we can augment Llms by
+
+84
+00:16:24.250 --> 00:16:46.849
+hugo bowne-anderson: having retrieval right? And that's often in the form of rag as we went through earlier this week. But we want to be able to ground it in the context of documents and not just its weights. And then, of course, there's call and response of of tool usage, right, such as you know, Internet search tools, pinging weather, Apis connecting to email clients all all of these types of things.
+
+85
+00:16:47.070 --> 00:17:06.650
+hugo bowne-anderson: And the anthropic blog post did a wonderful job of spelling out in increasing levels of complexity and moving along the agentic spectrum the types of patterns that a lot of us have seen in the space. And this is on me. This is what we're going to go through.
+
+86
+00:17:07.444 --> 00:17:14.345
+hugo bowne-anderson: In in a notebook. Very soon, and by very soon, I mean in like 20 min or something, right?
+
+87
+00:17:15.069 --> 00:17:32.775
+hugo bowne-anderson: and so I won't go through all of these now. But I'll go through the 1 1 and the 2 2, 1 this is essentially where we're chaining. Llms. That's the first.st The 1st pattern is chaining. Llms. Okay? Which is more than one Llm. Call, but not full agentic with dynamic
+
+88
+00:17:33.280 --> 00:18:02.070
+hugo bowne-anderson: not choosing a dynamic triggering of tool use. This is where we have an Llm. Call. We have some output. We have some guardrail to make sure it's chill in some sense. Then we have another call, then another call and the output right? Then we'll see some parallelization, some orchestrator worker scenarios. I do want to just check briefly about this one, because this moves more along the agentic spectrum where we have a generator and evaluator. Right? So you can think of this as perhaps
+
+89
+00:18:03.130 --> 00:18:13.599
+hugo bowne-anderson: some sort of adversarial. Not quite. But you know, critiquer, evaluator, right? And so the example we'll go through. Remember, we're thinking through generating emails to potential candidates for jobs.
+
+90
+00:18:13.790 --> 00:18:23.297
+hugo bowne-anderson: You can have one Llm. Write it, then another one evaluate it and either accept it or pass it back. Okay, so that's 1 of many examples.
+
+91
+00:18:23.860 --> 00:18:37.550
+hugo bowne-anderson: and I think what we'll get to is thinking through. Perhaps we want several parts of the system, like a plan, an agent to plan another agent to execute, then another agent to evaluate and have a iterative cycle there, right?
+
+92
+00:18:37.960 --> 00:18:38.815
+hugo bowne-anderson: But
+
+93
+00:18:40.540 --> 00:18:48.580
+hugo bowne-anderson: I suppose that moves us to think through a bit more. Multi agent architectures. And I do want to talk about. Let me see if I
+
+94
+00:18:48.790 --> 00:18:57.320
+hugo bowne-anderson: okay, I will actually get this blog post up. Now, Chip Quinn clearly can't spell.
+
+95
+00:18:57.710 --> 00:19:03.000
+hugo bowne-anderson: I clearly can't spell her wonderfully titled blog post agents.
+
+96
+00:19:08.190 --> 00:19:24.919
+hugo bowne-anderson: so vinesh to answer your question. We're going to build Llms that trigger actions today, in fact, and and and more, and I encourage us all to do this in in Builders Club as well. But a yeah. Chips post is is fantastic, and it's.
+
+97
+00:19:26.070 --> 00:19:31.660
+hugo bowne-anderson: you know, with slight edit part of a book on AI engineering, which I really encourage everyone to to check out.
+
+98
+00:19:31.840 --> 00:19:56.799
+hugo bowne-anderson: I just want to make clear. She says this so well, it's kind of like an early note in the essay. AI. Powered agents are an emerging field with no established theoretical frameworks for defining, developing and evaluating them. Okay, so just to be clear, this is the state of play. So please go and use them to build stuff where you work. Know that there are no established theoretical frameworks for defining, developing, and evaluating them as well, which you know. So
+
+99
+00:19:56.950 --> 00:19:58.769
+hugo bowne-anderson: you are taking on significant risk.
+
+100
+00:19:59.300 --> 00:20:02.099
+hugo bowne-anderson: And so one question that I ask is.
+
+101
+00:20:02.200 --> 00:20:31.160
+hugo bowne-anderson: and this is more of a provocation. I'd be interested if someone wants to post this as a question in discord, and people can respond are all I mean. William and I, in January had very interesting conversation around. Whether this is even the correct formulation or not. But I want to ask the question, are all good agentic systems inherently multi agentic? Right? Because real world systems, a lot of time do separate planning, executing and evaluation. And I asked, why. And then is this how we want to build our agentic systems as well.
+
+102
+00:20:31.650 --> 00:20:35.225
+hugo bowne-anderson: So you know me. I'm not
+
+103
+00:20:37.300 --> 00:20:52.401
+hugo bowne-anderson: A huge fan of adopting frameworks. Initially, I have included in this workshop and in the Repository a demo from crew AI. Happy to chat about all these, the rest of these, and they are at varying levels of abstraction.
+
+104
+00:20:52.960 --> 00:21:13.779
+hugo bowne-anderson: But just remember, when you adopt frameworks, you want to make sure that you can inspect them, that you can see what's happening under the hood, and you have good visibility into your systems. That's the only thing I want to say there. So when we're starting to build these things. What we'll see is that maybe we want to hand, roll them and not use frameworks and then slowly adopt frameworks. We've had great conversations in discord about when to adopt
+
+105
+00:21:14.600 --> 00:21:39.480
+hugo bowne-anderson: tools. Crew. AI, I'm I'm not convinced will be around a year or 2. And that like, I just don't know, like I'm not saying they won't be. I just like don't have a lot of signal on that right, whereas pydantic, not for multi-agent frameworks, of course, but pydantic is something which is some sort of Lindy effect. It's been around long enough. Got a bunch of community around it? And so I think it will be around longer. So we are taking taking bets.
+
+106
+00:21:41.140 --> 00:21:43.559
+hugo bowne-anderson: So in terms of crew AI,
+
+107
+00:21:44.580 --> 00:21:50.670
+hugo bowne-anderson: their multi agentic framework. What I want to show you. This is all in the repository, so let me just show you.
+
+108
+00:21:54.760 --> 00:22:09.652
+hugo bowne-anderson: and I will go through more of this, and I'd be happy to, you know, actually go through and execute this code with you next week. But you know it's the research crews I've built in. You should say noob. Anyway, I need to edit the readme
+
+109
+00:22:13.480 --> 00:22:18.900
+hugo bowne-anderson: But what you'll see is, we have a main.py crew, Dot. Py, we have the tools
+
+110
+00:22:19.010 --> 00:22:21.530
+hugo bowne-anderson: we want something to use, and we have
+
+111
+00:22:22.130 --> 00:22:26.171
+hugo bowne-anderson: some configs which define our tasks and agents, and that's what I want to.
+
+112
+00:22:27.530 --> 00:22:32.809
+hugo bowne-anderson: briefly take you through now, before we go into all these patterns? In the anthropic blog post through code.
+
+113
+00:22:33.640 --> 00:22:37.520
+hugo bowne-anderson: So this is our directory structure, right?
+
+114
+00:22:38.544 --> 00:22:45.080
+hugo bowne-anderson: And you can see I've in this example, we've got 2 tools search capability and a calculator right?
+
+115
+00:22:45.320 --> 00:22:48.278
+hugo bowne-anderson: So in the agents. Yaml,
+
+116
+00:22:50.130 --> 00:22:58.780
+hugo bowne-anderson: sorry. Also, I really don't like writing Yaml, but this is one of the great things about AI powered coding. I rarely have to write Yaml anymore as well. Right?
+
+117
+00:22:59.110 --> 00:23:01.374
+hugo bowne-anderson: But here I've specified
+
+118
+00:23:02.320 --> 00:23:21.390
+hugo bowne-anderson: an agent role. I'm telling them they're a senior data researcher. Their goal is to uncover cutting edge developments in a particular topic. And this is what I specify. Later. I say you're a seasoned researcher with a knack for uncovering the latest developments in topic known for your ability to find the most relevant information and present it in a clear and concise manner. Okay.
+
+119
+00:23:22.000 --> 00:23:34.935
+hugo bowne-anderson: I then in the tasks, Yaml, I say, okay, your task is to conduct a thorough research about this topic. Probably should make that a bit better, grammatically, in all honesty.
+
+120
+00:23:35.860 --> 00:23:41.720
+hugo bowne-anderson: but maybe not like Lms. Don't seem to care. Make sure you find any interesting and relevant information
+
+121
+00:23:42.330 --> 00:23:45.539
+hugo bowne-anderson: expected output is a list with 10 bullets
+
+122
+00:23:45.680 --> 00:23:52.550
+hugo bowne-anderson: of the most relevant information about the topic. And I'm assigning this to the researcher agent which I've defined here. Right
+
+123
+00:23:53.320 --> 00:23:59.040
+hugo bowne-anderson: so then, in the crew.py. Now I put my crew together.
+
+124
+00:23:59.250 --> 00:24:21.017
+hugo bowne-anderson: and this is kind of fun. It's kind of fun putting a crew together and doing these things. Now, I'm just gonna what I'm gonna show you in the end, though, is there are big costs that like you could build. So I've got no idea how it works. Right? So I'm like, okay, this is the config agents. This is the tasks. Then I'm like, okay, create a researcher based around the researcher config. And then
+
+125
+00:24:23.700 --> 00:24:34.509
+hugo bowne-anderson: I give it the task, create the task. And then I create the crew. So I say, I'm gonna have these agents. I'm going to have these tasks. I'm gonna make it sequential. And I want to get a bunch of outputs. I'm gonna make the verbosity. True.
+
+126
+00:24:35.450 --> 00:24:45.230
+hugo bowne-anderson: then, in the main.py, I specify what how to run the crew, and I'm give. Remember, I had like a placeholder
+
+127
+00:24:46.160 --> 00:25:05.169
+hugo bowne-anderson: for topic and year and that type of stuff. So I'm giving it me as the topic and the current year. You know, I'm getting now date time. Now I'm getting the year. We can also, you know, train train crews replay them. Test them. Replaying is cool. Well, all of it's cool, but also for clarity. This.
+
+128
+00:25:06.690 --> 00:25:17.272
+hugo bowne-anderson: I chose the topic of me, not in the spirit of ego or narcissism, but because I'll know, like whether it's doing the right thing or not. Right?
+
+129
+00:25:18.110 --> 00:25:28.320
+hugo bowne-anderson: so that's that's a simple example of how you can build a basic crew. Now, usually, you won't do something that that straightforward. Right? So
+
+130
+00:25:28.660 --> 00:25:33.840
+hugo bowne-anderson: this is an example. That was a single agent system. Now, I want to show you a multi agent system, right?
+
+131
+00:25:34.020 --> 00:25:43.269
+hugo bowne-anderson: So this is an example, where I'm saying the research task is to conduct a thorough comparison between 2 items with a particular goal. Okay?
+
+132
+00:25:43.850 --> 00:25:59.949
+hugo bowne-anderson: Now, Vinesh, this helps to answer some of some of your question, but I'm I'm telling it to use the following tools to research each item I'm saying, search the web with Serp, a dev tool to gather relevant articles and resources. Search for item one
+
+133
+00:26:00.160 --> 00:26:24.460
+hugo bowne-anderson: independently with reference to the goal, search for item 2. Independently with reference, finally, search for comparisons between item one and item 2 with reference to goal. Then I get it to do the same using tablet search tool. Then I get it to do the same, using reddit Tabli search tool. So I'm getting it to do several searches. And you'll notice in each of these enumerated bullets in the list.
+
+134
+00:26:25.600 --> 00:26:28.430
+hugo bowne-anderson: I'm getting it to do 3 tool calls. Okay?
+
+135
+00:26:28.870 --> 00:26:31.139
+hugo bowne-anderson: And I'm getting it to do 3 tool calls
+
+136
+00:26:31.430 --> 00:26:34.290
+hugo bowne-anderson: in one, then in 2, then in 3.
+
+137
+00:26:35.040 --> 00:26:39.290
+hugo bowne-anderson: So my system should do 9 tool calls. Okay?
+
+138
+00:26:39.650 --> 00:26:40.570
+hugo bowne-anderson: Then
+
+139
+00:26:40.680 --> 00:26:49.099
+hugo bowne-anderson: then, I say, after gathering and analyzing the data, generate a comparison report that includes Yada Yada Yada. And then I want a list of 10 bullets. Okay, as we saw before.
+
+140
+00:26:49.610 --> 00:26:50.480
+hugo bowne-anderson: So
+
+141
+00:26:50.820 --> 00:26:58.820
+hugo bowne-anderson: now, what what did we just do? So that's all in the repo you can run that you can execute it. You can hook it into
+
+142
+00:27:00.540 --> 00:27:19.339
+hugo bowne-anderson: length use, for example, this is one of many ways. We can just look at traces and spans. Now you may recall that we talked about traces and spans last week, and there's a bit of disambiguation necessary because we can rarely anyone. I can rarely remember which is which. But this
+
+143
+00:27:19.860 --> 00:27:36.729
+hugo bowne-anderson: is the span of the agentic system I just showed you with one run. Now, what I mean by that is, essentially, it starts with the initial call and takes us all the way through to the final product. Okay, so we see everything that happens from.
+
+144
+00:27:36.800 --> 00:28:02.060
+hugo bowne-anderson: you know, user query through to response, okay, now, each time we have a call and response within it, that's a trace, right? So this whole thing is a span graph. Each of these rows is a trace. That's how I want you to think about it right? A lot of the time we can put these in spreadsheets as well. Right? But there are different ways to view these, and lots of different tools to to explore them. Now, why am I showing you this.
+
+145
+00:28:02.670 --> 00:28:22.510
+hugo bowne-anderson: Firstly, what is happening like, what? What have I done and like? I didn't even know. Well, I did, because I know now I didn't even know like this was calling light Llm. Under the hood, like there's all types of stuff happening here that I didn't ask for that I didn't know about and that when trying to build robust software, it's quite concerning to be honest.
+
+146
+00:28:23.020 --> 00:28:36.610
+hugo bowne-anderson: the other thing. And this is what I, what I really need to index on. What we see is that we have one tool usage here. We have one here. We have one there, and we have one there, and there were no more below that. So we had 4 tool calls.
+
+147
+00:28:37.900 --> 00:28:52.980
+hugo bowne-anderson: We were supposed to have 9 tool calls. Right? So we talk about hallucinations a lot. We actually don't talk enough about forgetting that Llms are prone to reverse hallucinations. No, I don't mean that. I wouldn't use that term.
+
+148
+00:28:53.540 --> 00:29:04.399
+hugo bowne-anderson: but the point remains is that it literally has done less than 50% of the tool calls that I requested it do, which I specified really well.
+
+149
+00:29:04.540 --> 00:29:15.140
+hugo bowne-anderson: to be honest. Now we can think about ways to solve that such as actually building out augmented workflows and parallelizing things to make sure certain things happen, putting guardrails in that type of stuff
+
+150
+00:29:15.310 --> 00:29:30.169
+hugo bowne-anderson: very excited to do that with you, all very excited for you all to do that. Just know when you adopt a tool like this, and don't build it from the ground up. You're going to get failures like this constantly and constantly, to be very, very clear. And
+
+151
+00:29:30.310 --> 00:29:40.649
+hugo bowne-anderson: and it won't be clear how to fix them. And the pattern I've seen is organizations initially adopting these types of tools and multi agentic systems in R&D,
+
+152
+00:29:40.650 --> 00:30:04.429
+hugo bowne-anderson: and then, when trying to deploy, going back to like writing python and and Api calls essentially, and building from the ground up again. So that's to say, I really hope I don't bore you too much with this philosophy of starting with principles and and Python and Api calls, but it is one of the most important patterns I've seen for people building reliable software. So
+
+153
+00:30:04.920 --> 00:30:09.889
+hugo bowne-anderson: before jumping into some code, let's now just talk briefly about when to use an agent, and when to. Not
+
+154
+00:30:10.740 --> 00:30:11.620
+hugo bowne-anderson: so.
+
+155
+00:30:11.810 --> 00:30:39.940
+hugo bowne-anderson: This is just a general way of thinking, and, you know, happy for pushback in all honesty. If you just want to generate text. Just want to generate text. If you just want to generate text from a foundation model that somehow contains the entire history of, you know, written human cognition. Just want to do that. Use an Llm, okay, that's cool. Now, let's say you want to start retrieving external information or using Apis and tools
+
+156
+00:30:40.710 --> 00:30:49.849
+hugo bowne-anderson: or executing predefined multi-step tasks. Right? So remember, this is where
+
+157
+00:30:51.220 --> 00:31:02.330
+hugo bowne-anderson: the tools used aren't triggered by the output. But you've predefined it. Then you want to use an augmented Llm. Right anthropic. Now, if you
+
+158
+00:31:02.430 --> 00:31:07.630
+hugo bowne-anderson: want to have an Llm. Control multi-step tasks or adapt your workflow dynamically.
+
+159
+00:31:07.910 --> 00:31:12.539
+hugo bowne-anderson: go ahead and use an agent? Absolutely. I would. Just
+
+160
+00:31:13.790 --> 00:31:17.689
+hugo bowne-anderson: I. I don't think I've actually heard a business use case where this is something
+
+161
+00:31:18.360 --> 00:31:31.889
+hugo bowne-anderson: that we want for like for robust, reliable software. And don't get me wrong like we've seen chat, gpt, and curse. And all of these tools have wonderful agentic systems. But that's when a human is seriously, seriously in the loop there.
+
+162
+00:31:32.280 --> 00:31:38.559
+hugo bowne-anderson: So another way to think about this is, do you just need text? If yes, use an Llm.
+
+163
+00:31:38.790 --> 00:31:51.339
+hugo bowne-anderson: If no, the question is, do you need to interact with external tools? And Apis? If the answer is no use an Llm. If the answer is yes. Then ask, do you need the system to control the workflow dynamically?
+
+164
+00:31:51.950 --> 00:32:08.570
+hugo bowne-anderson: If the answer is no use an augmented Llm. And that should be the case 99% of the time. If the answer is, yes, use an agent, but I kind of half tongue in cheek. Say this is rare, experimental, and extremely dangerous, for all the reasons I've just stated.
+
+165
+00:32:09.480 --> 00:32:16.108
+hugo bowne-anderson: and I know there may be a question. Oh, but in 6 months foundation models will be that much better.
+
+166
+00:32:19.040 --> 00:32:22.090
+hugo bowne-anderson: I agree. I I suppose I'm
+
+167
+00:32:22.650 --> 00:32:27.907
+hugo bowne-anderson: I'm less bullish on the idea that we can solve hallucinations. And and
+
+168
+00:32:29.480 --> 00:32:38.979
+hugo bowne-anderson: forgetting in in these systems we can definitely build guardrails around them. I think we'll see huge developments in generative AI models. I don't see
+
+169
+00:32:39.530 --> 00:32:48.739
+hugo bowne-anderson: I'd be pleasantly surprised if we solved hallucinations and robust tool usage, for, for example. So that's my 2 cents.
+
+170
+00:32:50.050 --> 00:32:53.319
+hugo bowne-anderson: I would. I'm about to jump into
+
+171
+00:32:53.450 --> 00:32:55.618
+hugo bowne-anderson: the notebooks, but I'd love to
+
+172
+00:32:57.330 --> 00:33:01.393
+hugo bowne-anderson: open the floor for any questions people people might have.
+
+173
+00:33:02.550 --> 00:33:05.510
+hugo bowne-anderson: Were there any questions in in discord that
+
+174
+00:33:07.810 --> 00:33:15.940
+hugo bowne-anderson: Oh, Abda Malik has an a fantastic question. I'm I'm I apologize for not making this as clear as I should have
+
+175
+00:33:17.341 --> 00:33:19.670
+hugo bowne-anderson: malik has asked, what is the difference between
+
+176
+00:33:19.810 --> 00:33:22.219
+hugo bowne-anderson: an Llm. And an augmented Llm.
+
+177
+00:33:23.192 --> 00:33:24.880
+hugo bowne-anderson: An augmented Llm.
+
+178
+00:33:25.090 --> 00:33:35.099
+hugo bowne-anderson: So an Llm. Is calling response in and out text an augmented Llm, we're starting to use memory. We're starting to use retrieval. We're starting to use tools essentially.
+
+179
+00:33:35.872 --> 00:33:40.970
+hugo bowne-anderson: Now, the other thing worth mentioning and how anthropic has positioned this is.
+
+180
+00:33:41.450 --> 00:33:49.369
+hugo bowne-anderson: they want to draw an important distinction between workflows and agents. So workflows are systems where Llms and tools are orchestrated through 3 to predefined path codes which we'll see
+
+181
+00:33:49.530 --> 00:34:00.049
+hugo bowne-anderson: in agents, Llms dynamically direct their own processes. But I do prefer this formulation. Ai agents are programs where Llms output
+
+182
+00:34:04.240 --> 00:34:17.509
+hugo bowne-anderson: looking control. Sorry where Lm outputs. I'm going to say this all again, because Sidata has an amazing comment in discord which I want to get to but quickly. Aia agents are programs where Lms Lm outputs control the workflow.
+
+183
+00:34:17.860 --> 00:34:25.170
+hugo bowne-anderson: So Sodata says not a question, but it's easy to confuse, trace, and span trace is the whole flow. Well, span is a single row in the flow
+
+184
+00:34:25.510 --> 00:34:35.649
+hugo bowne-anderson: incorrect. It's the other way around. So it is easy to confuse, trace and span, and you've demonstrated it in your wonderful comment. So a span
+
+185
+00:34:35.989 --> 00:34:39.449
+hugo bowne-anderson: is the whole flow. A trace
+
+186
+00:34:39.570 --> 00:34:42.209
+hugo bowne-anderson: is a single row in the flow. Okay.
+
+187
+00:34:43.159 --> 00:34:44.079
+William Horton: Thank you.
+
+188
+00:34:45.099 --> 00:34:46.239
+William Horton: Are you sure?
+
+189
+00:34:47.479 --> 00:34:49.039
+William Horton: Are you not reversing it?
+
+190
+00:34:49.809 --> 00:34:51.979
+William Horton: There's multiple spans in a trace.
+
+191
+00:34:55.000 --> 00:34:57.750
+hugo bowne-anderson: Oh, you're absolutely right.
+
+192
+00:34:59.500 --> 00:35:06.126
+hugo bowne-anderson: No, you're absolutely right. I I mean, I've just demonstrated the the horrors of of this
+
+193
+00:35:07.750 --> 00:35:13.420
+hugo bowne-anderson: I'm glad you all can't see me blushing under my my beard. But, you're absolutely right. So let's just look at this.
+
+194
+00:35:18.270 --> 00:35:23.509
+hugo bowne-anderson: Yes, and I think I need to. I'm not sure what I said when I went through this slide, but you're absolutely right. So
+
+195
+00:35:23.630 --> 00:35:24.380
+hugo bowne-anderson: oh, man,
+
+196
+00:35:29.450 --> 00:35:41.942
+hugo bowne-anderson: A trace is the whole flow, and a span is a single row in the flow. Exactly. So. I I just demonstrated the the error. I would love someone to come up with a mnemonic.
+
+197
+00:35:44.550 --> 00:36:00.889
+hugo bowne-anderson: Rafi has written a span graph is essentially a trace, and I hesitate to say someone has said something I don't quite agree with now saying I just proved myself entirely wrong. But, Rafi, we're actually trying to say that a span is something different to a trace, and that
+
+198
+00:36:03.160 --> 00:36:07.480
+hugo bowne-anderson: A trace is the whole flow, while a span is a single row in in the flow.
+
+199
+00:36:10.440 --> 00:36:14.989
+hugo bowne-anderson: I like Caleb's mnemonic namit has a great point that this agentic flow
+
+200
+00:36:15.230 --> 00:36:24.126
+hugo bowne-anderson: looks similar to leveraging Langchain, I would say that Langchain is, I'd flip it and say, Langchain is one way of
+
+201
+00:36:25.220 --> 00:36:28.410
+hugo bowne-anderson: of building these types of workflows. Essentially.
+
+202
+00:36:28.880 --> 00:36:30.249
+hugo bowne-anderson: But you're absolutely right.
+
+203
+00:36:32.020 --> 00:36:37.979
+hugo bowne-anderson: So now, so I've got 2 notebooks. I want to.
+
+204
+00:36:39.870 --> 00:37:00.580
+hugo bowne-anderson: Oh, jb, has an incredible question. Thoughts about agentic workflows for data science. I think it's 1 of the most gonna be one of the most incredible use cases. Just imagine being able to send out agents in parallel to, you know. Build dashboards for you do simulations. Run experiments, these types of things. I think I think it's it's gonna be incredibly powerful.
+
+205
+00:37:01.760 --> 00:37:05.540
+hugo bowne-anderson: So let's now jump in to
+
+206
+00:37:07.100 --> 00:37:12.240
+hugo bowne-anderson: this tool. Use beginnings notebook, which is in workshop 6
+
+207
+00:37:13.226 --> 00:37:27.439
+hugo bowne-anderson: and before getting into going through workflows, we have talked about memory and showing you how to do that. We have talked about and built information retrieval systems. So now I just want to introduce you to function calling, which is and tool use, which is kind of
+
+208
+00:37:27.900 --> 00:37:33.039
+hugo bowne-anderson: a bit of a weird workflow to be honest. But what we see here.
+
+209
+00:37:33.040 --> 00:37:36.420
+William Horton: Could you zoom in? We've we've had a request to zoom.
+
+210
+00:37:36.900 --> 00:37:38.069
+William Horton: It's a little bit small.
+
+211
+00:37:38.630 --> 00:37:39.120
+hugo bowne-anderson: How's that?
+
+212
+00:37:39.120 --> 00:37:39.730
+William Horton: Thanks.
+
+213
+00:37:41.560 --> 00:37:42.360
+hugo bowne-anderson: Is that good?
+
+214
+00:37:44.020 --> 00:37:45.009
+William Horton: Yeah, that looks good.
+
+215
+00:37:46.910 --> 00:37:47.630
+hugo bowne-anderson: Awesome.
+
+216
+00:37:50.350 --> 00:37:51.160
+hugo bowne-anderson: So
+
+217
+00:37:54.410 --> 00:37:55.729
+hugo bowne-anderson: what do I want to say here?
+
+218
+00:37:58.370 --> 00:38:10.316
+hugo bowne-anderson: first, st I want to start off by showing you about function calling like how we can actually get Llms to start using tools. Okay? So we'll be using a weather Api
+
+219
+00:38:10.810 --> 00:38:39.529
+hugo bowne-anderson: and it's going to demonstrate a crucial aspect of function calling. It's the explicit execution, because, as we'll see what an Lm does is, it doesn't call it for you. It gives you a way to do it essentially. But you need to do it explicitly in your code. Okay, so what we need to do is define the function structure for the model. Let the model quote unquote, decide when to call it explicitly, execute the function yourself with the models, parameters, and we can encode this in. We encode this in code, right? You don't need to do it manually and then feed the results.
+
+220
+00:38:41.290 --> 00:38:45.920
+hugo bowne-anderson: Back to the model. Okay? So I'm gonna
+
+221
+00:38:48.290 --> 00:38:52.370
+hugo bowne-anderson: oh, actually, I've already executed. Oh, no, I didn't, did I? Yes, I did.
+
+222
+00:38:52.840 --> 00:39:20.139
+hugo bowne-anderson: Okay, I did execute it, but I'll do it again just to so I have my open Api key. Then I'm going to define a get weather function which it uses requests one of my favorite python packages ever to ping the open radio Api, which takes latitude and longitude and will output temperature among other things. Right? So we pass it. Latitude and longitude in this function call function definition. So I've executed that.
+
+223
+00:39:20.400 --> 00:39:39.749
+hugo bowne-anderson: Then what I do is I specify. I hate this, and I'm glad I'm glad AI assistance can help me write this code anymore, because this is nonsense, as far as I'm concerned. But I specify the tool. I'm going to say it's a function call. I'm gonna define it as getting weather. Give it a description. Give it the parameters.
+
+224
+00:39:40.340 --> 00:39:47.990
+hugo bowne-anderson: I don't want to talk too much about this Api. We can go into it in detail in discord if you'd like but it's annoying this Api, as far as I'm concerned.
+
+225
+00:39:48.120 --> 00:39:54.069
+hugo bowne-anderson: Then I write a message. A prompt what's the weather like in Sydney today.
+
+226
+00:39:54.583 --> 00:40:01.680
+hugo bowne-anderson: And then what I do is I use the Oai completion endpoint where I send it the message
+
+227
+00:40:02.130 --> 00:40:08.610
+hugo bowne-anderson: and all the messages, and and I specify what tools I'm allowing it to use. Okay.
+
+228
+00:40:09.370 --> 00:40:12.590
+hugo bowne-anderson: so let's execute that. So I haven't done anything then yet.
+
+229
+00:40:13.450 --> 00:40:19.710
+hugo bowne-anderson: But then, when I have a look at the tool calls in the message
+
+230
+00:40:21.100 --> 00:40:23.459
+hugo bowne-anderson: what we'll see. Now, this is interesting.
+
+231
+00:40:23.630 --> 00:40:27.500
+hugo bowne-anderson: It says it's specifying this tool call, and it's
+
+232
+00:40:27.650 --> 00:40:31.010
+hugo bowne-anderson: has this function it can use. It's called, get weather.
+
+233
+00:40:31.440 --> 00:40:37.129
+hugo bowne-anderson: and it has these arguments, latitude and longitude. Right? So that's what the Llm. Has just returned.
+
+234
+00:40:37.550 --> 00:40:41.839
+hugo bowne-anderson: Now, this is interesting, right? The Llm. Has recognized
+
+235
+00:40:42.150 --> 00:40:44.199
+hugo bowne-anderson: that it can use the tool call
+
+236
+00:40:44.510 --> 00:40:46.330
+hugo bowne-anderson: that I've given it access to
+
+237
+00:40:46.895 --> 00:40:52.930
+hugo bowne-anderson: and it's also recognized that it needs the latitude and longitude. So the Llm. Has actually converted
+
+238
+00:40:53.110 --> 00:40:58.319
+hugo bowne-anderson: this question, what's the weather like in Sydney today to suggesting a get weather call
+
+239
+00:40:58.530 --> 00:41:10.860
+hugo bowne-anderson: with this latitude and longitude. So it's internally like turn Sydney into latitude and longitude. So I'm actually just going to, because I just saw William's smiling face change it to DC,
+
+240
+00:41:10.970 --> 00:41:14.410
+hugo bowne-anderson: and just to confirm that.
+
+241
+00:41:17.900 --> 00:41:40.249
+hugo bowne-anderson: Okay, I don't know the precise latitude and longitude of DC, but that's that's definitely the latitude. And that's close to the the longitude. Okay, so I presume spring is springing in in DC. Currently. So then, what do I do? So the Llm. Has told me this is the tool we can use, and this is how we would do it. And now I need to actually do the tool. Call myself so.
+
+242
+00:41:40.470 --> 00:41:43.139
+hugo bowne-anderson: What I do is I take this
+
+243
+00:41:43.190 --> 00:41:58.560
+hugo bowne-anderson: thing here and slice it. Take the 1st argument, get the arguments out, and that will get out. This Json call. I mean, this is Json, right? It will get out the latitude and longitude into odds, and then I can unpack them and pass them to the get weather function
+
+244
+00:41:58.570 --> 00:42:17.380
+hugo bowne-anderson: this. And, by the way, if you're looking at this going, this seems like a dumb way to do things. I would say it feels like a dumb way to. I understand the intention. But this is really annoying to do this right. This is this is not how I want to like build systems to be honest, no shade on Openai. Well, no, lots of shade on Openai and gratitude.
+
+245
+00:42:17.510 --> 00:42:20.364
+hugo bowne-anderson: I have Stockholm syndrome with Openai.
+
+246
+00:42:21.060 --> 00:42:24.460
+hugo bowne-anderson: So then, what happens is
+
+247
+00:42:26.380 --> 00:42:33.829
+hugo bowne-anderson: we we append the models, function. Call message to our message, and then we get the result.
+
+248
+00:42:33.980 --> 00:42:36.469
+hugo bowne-anderson: And after that we do one more call
+
+249
+00:42:36.630 --> 00:42:45.179
+hugo bowne-anderson: where we give the result of the function call to get the weather to the Llm. To get a generated response. We want a generative response. Okay.
+
+250
+00:42:45.500 --> 00:42:46.300
+hugo bowne-anderson: so
+
+251
+00:42:47.570 --> 00:42:52.549
+hugo bowne-anderson: and then we can print print it. And you can see. Yesterday I did this and got Sydney, and that was the temperature yesterday.
+
+252
+00:42:53.702 --> 00:42:58.390
+hugo bowne-anderson: The current temperature in DC. Is that is that about right, William?
+
+253
+00:42:58.670 --> 00:43:01.839
+hugo bowne-anderson: It says, 20°C, which is maybe in the seventies.
+
+254
+00:43:02.480 --> 00:43:08.020
+William Horton: Okay, I was, gonna say, you have to convert that for me. But yeah, that that looks about right for today.
+
+255
+00:43:09.240 --> 00:43:11.219
+hugo bowne-anderson: I wonder what happens if I
+
+256
+00:43:12.001 --> 00:43:17.760
+hugo bowne-anderson: what's the weather like in DC today in the silly units that Americans use?
+
+257
+00:43:20.790 --> 00:43:34.304
+hugo bowne-anderson: I'm just kidding. I'm a big fan of Dr. Fahrenheit. My understanding is, though, he decided to. He wanted like a universal scale, so decided to do make 0 when water freezes when it's saturated with salt
+
+258
+00:43:34.760 --> 00:43:54.049
+hugo bowne-anderson: which actually is relatively useful in chemistry. But the other end of the spectrum he was like, I want to do 100 being the human body temperature and the apocryphal story is, he measured his wife's body temperature when she had a fever, and that's why 100 became a hundred. Now I think that's probably a lie, but it's at least apocryphally true. So
+
+259
+00:43:54.170 --> 00:43:59.493
+hugo bowne-anderson: let's and I'm I'm only making jest at Fahrenheit. I actually love.
+
+260
+00:44:00.620 --> 00:44:07.980
+hugo bowne-anderson: I love being able to say in the seventies and have that make sense. Is cool. I don't. I don't like this.
+
+261
+00:44:12.500 --> 00:44:14.030
+hugo bowne-anderson: Just gonna stop that.
+
+262
+00:44:14.800 --> 00:44:15.950
+hugo bowne-anderson: Try it again.
+
+263
+00:44:16.820 --> 00:44:22.489
+hugo bowne-anderson: Great! You can see the Api was just hanging, or something, and that's happened to me before with this Api. So fallbacks are good
+
+264
+00:44:29.200 --> 00:44:31.559
+hugo bowne-anderson: Oh, no, it still gives me in.
+
+265
+00:44:31.800 --> 00:44:34.932
+hugo bowne-anderson: Okay, I'm just gonna say in Fahrenheit, but this
+
+266
+00:44:37.710 --> 00:44:41.739
+William Horton: It might be because the Api itself is giving you Celsius.
+
+267
+00:44:42.210 --> 00:44:43.200
+hugo bowne-anderson: I think oh.
+
+268
+00:44:43.200 --> 00:44:46.790
+William Horton: I I still would expect the Llm. To try to convert it.
+
+269
+00:44:47.020 --> 00:44:49.882
+hugo bowne-anderson: Exactly in the generative response. Exactly.
+
+270
+00:45:00.480 --> 00:45:02.359
+hugo bowne-anderson: Mike Powers. You got the hand up.
+
+271
+00:45:04.810 --> 00:45:10.360
+Mike Powers: Is there a way? If I it doesn't disturb your demo too much to show the the.
+
+272
+00:45:10.960 --> 00:45:24.790
+Mike Powers: the content of the last call you're making where the where the result has been appended. So, in other words, the the entire messages list there, or array, I guess before completion 2.
+
+273
+00:45:26.240 --> 00:45:29.339
+hugo bowne-anderson: Yeah, I can just show messages actually. And just.
+
+274
+00:45:29.340 --> 00:45:31.999
+Mike Powers: Yeah, but after. But after you do the appointment.
+
+275
+00:45:32.000 --> 00:45:38.560
+hugo bowne-anderson: Yeah, check it out. We've got the generative response which says, about 68.5.
+
+276
+00:45:39.120 --> 00:45:39.810
+William Horton: There you go!
+
+277
+00:45:40.180 --> 00:45:42.960
+hugo bowne-anderson: Which is cool. So yes, I just wanna look at.
+
+278
+00:45:50.070 --> 00:45:51.320
+hugo bowne-anderson: how does that look, Mike?
+
+279
+00:45:55.070 --> 00:45:59.929
+Mike Powers: It is not super interpretable. I mean, it's not superhuman, readable, I guess.
+
+280
+00:46:00.210 --> 00:46:01.150
+hugo bowne-anderson: Well, I I mean.
+
+281
+00:46:01.150 --> 00:46:01.470
+Mike Powers: Can I do?
+
+282
+00:46:01.470 --> 00:46:14.489
+hugo bowne-anderson: What is we've got? We've got the user is saying, what's the weather like in Fahrenheit? Then we have the result, which is this, and this isn't so human readable, which is the tool usage. But you can see we're passing these arguments. We're using the get weather function.
+
+283
+00:46:14.730 --> 00:46:16.130
+hugo bowne-anderson: And then you can see.
+
+284
+00:46:16.520 --> 00:46:20.450
+hugo bowne-anderson: The next one is a tool call, and the content returned is 20.3.
+
+285
+00:46:21.930 --> 00:46:25.489
+Mike Powers: But it's right, but you've on your client side. You
+
+286
+00:46:25.710 --> 00:46:39.870
+Mike Powers: executed that tool call, and you just kind of crammed the result back into the the Api. So it sort of underst. It understood that it was looking for a result in that format, and it kind of knows how to interpret the fact that you sent a content to that.
+
+287
+00:46:40.990 --> 00:46:42.310
+hugo bowne-anderson: And that's that's.
+
+288
+00:46:42.310 --> 00:46:57.790
+Mike Powers: I think this is what what I've been confused with, and it but this is gradually breaking through that all the tool calling happens on the client side. And you're just now you're appending back. You're building up a history. So if you had to make 4 different tool calls.
+
+289
+00:46:58.520 --> 00:47:15.050
+Mike Powers: you would. Basically, those would all be new rows or new elements in this, in this Json, and then the the on the back end. The Llm. Knows how to parse through all of those that you're sending it back, and it kind of assemble it into one response.
+
+290
+00:47:15.050 --> 00:47:24.440
+hugo bowne-anderson: Exactly. And let me be very specific. Okay? So we send a message, for example, what's the weather like in DC, okay, now
+
+291
+00:47:24.700 --> 00:47:25.880
+hugo bowne-anderson: the Llm.
+
+292
+00:47:26.140 --> 00:47:36.630
+hugo bowne-anderson: Reads that message and triggers a potential tool call usage. It returns right.
+
+293
+00:47:36.960 --> 00:47:38.449
+hugo bowne-anderson: It returns this.
+
+294
+00:47:38.570 --> 00:47:51.079
+hugo bowne-anderson: Essentially, it recognizes that this tool will be useful, and I've given it access to only one tool as well. Right here you could give it access to a lot more. But it realizes, quote unquote, that this tool could be useful here.
+
+295
+00:47:51.546 --> 00:47:54.480
+hugo bowne-anderson: So it quote unquote, decides to use a tool.
+
+296
+00:47:54.960 --> 00:48:00.100
+hugo bowne-anderson: Then I execute the tool absolutely right. The Lm. Does not execute it.
+
+297
+00:48:00.760 --> 00:48:09.160
+hugo bowne-anderson: Then I do another call to the Llm. Where I give it the result of the tool usage, and it gives the generative response based on that.
+
+298
+00:48:09.910 --> 00:48:15.240
+hugo bowne-anderson: That's the flow and it and it. It's odd. It's an odd pattern in all honesty.
+
+299
+00:48:16.830 --> 00:48:19.019
+hugo bowne-anderson: but I understand it. Does that make sense.
+
+300
+00:48:19.480 --> 00:48:31.779
+Mike Powers: Yeah, that's exactly what I was wanting to tease out. So thank you for that. And then the the only part of it that's a little opaque to me is, why aren't we just sending the result 20.3 back instead of this? You know the whole
+
+301
+00:48:32.464 --> 00:48:38.720
+Mike Powers: package, including the tool call that it told us about in the 1st place. But I think that's just how the Api
+
+302
+00:48:38.870 --> 00:48:41.909
+Mike Powers: expects to consume it and and interpret.
+
+303
+00:48:41.910 --> 00:49:09.720
+hugo bowne-anderson: Well, no, no, you raise a good question. I would love a system that just says 20.3 back to me and doesn't incur the cost of another Llm. Use. Everyone wants to build agents, though, and they want generative responses. I would prefer dropdowns as opposed to conversations most of the time. I would like to know the 3 things that a system can do. I don't want all of this generative nonsense all the time. Having said that we're in a space at the moment where, having a generative response is a big part of the value prop, so we could definitely just return 20.3,
+
+304
+00:49:10.520 --> 00:49:13.549
+hugo bowne-anderson: and having structured outputs like that is super important.
+
+305
+00:49:16.610 --> 00:49:24.689
+hugo bowne-anderson: so I do want to move on. I'm not going to go through this now I am. I'm happy to talk about it more, and I'd like you all to think about this
+
+306
+00:49:25.510 --> 00:49:49.571
+hugo bowne-anderson: with respect to the projects you're building, because, remember, we've been like pretty, please. Llm. God! Please return Json, like I know. Sometimes you even think, after I say this, that if you return, Json it will be Json, and it isn't so you can. Can you please, with cherries on top? Please return Json. And we don't need to do that right? So what I've included down here is how function calling can be used.
+
+307
+00:49:51.475 --> 00:50:08.830
+hugo bowne-anderson: for structured outputs. Okay? So there's, you know, traditional function calling. We've just seen. We can say what type of output we want. There's Json mode, response format. And then there's parsing with Pydantic, which I'm a huge fan of. It's still in Beta in a variety of ways, but one of the nice things.
+
+308
+00:50:09.400 --> 00:50:16.130
+hugo bowne-anderson: So with all of these, there's a higher likelihood of getting out Json, but it's never guaranteed right
+
+309
+00:50:17.400 --> 00:50:36.620
+hugo bowne-anderson: with with the parsing, with pydantic. They have guardrails after the fact. That help you be more certain that you'll get it the output you want. And so I'll just show. For example, I can give a tool, a tool call which is extract Linkedin profile extract, structured information from a Linkedin profile.
+
+310
+00:50:37.450 --> 00:50:43.169
+hugo bowne-anderson: and I say exactly what our properties I want essentially
+
+311
+00:50:45.290 --> 00:50:56.419
+hugo bowne-anderson: just quickly, William, would you mind just putting the zoom link in the special guests Channel and saying, We'll get started with Phillips. Talk presentation in in 5, 5 to 10 min.
+
+312
+00:50:57.360 --> 00:51:00.940
+William Horton: Yep, I can do that. It's is it? It's gonna be on the same zoom link.
+
+313
+00:51:01.250 --> 00:51:03.410
+hugo bowne-anderson: Exactly. We're gonna be right here. Thank you.
+
+314
+00:51:04.020 --> 00:51:05.089
+William Horton: Yeah, I'll do that.
+
+315
+00:51:05.690 --> 00:51:11.609
+hugo bowne-anderson: So we've talked about a lot of
+
+316
+00:51:12.570 --> 00:51:18.359
+hugo bowne-anderson: the different type of patterns we can. We can see but I do want to go through a couple.
+
+317
+00:51:18.470 --> 00:51:24.800
+hugo bowne-anderson: So in this notebook we're exploring the concept of augmented Llms to create workflows. What is
+
+318
+00:51:26.130 --> 00:51:35.030
+hugo bowne-anderson: Whoa? This must have been? Why, there was downtime. Has anyone seen this in codes spaces before? It's a new co-pilot functionality. That pops out
+
+319
+00:51:40.620 --> 00:51:47.730
+hugo bowne-anderson: fascinating hey? Copilot? Tell me what's up in the in this repository.
+
+320
+00:51:52.600 --> 00:51:57.439
+hugo bowne-anderson: I just wanna sorry I just got derailed slightly, but it is interesting to.
+
+321
+00:51:57.890 --> 00:51:58.830
+hugo bowne-anderson: Also.
+
+322
+00:51:59.200 --> 00:52:04.978
+hugo bowne-anderson: I encourage everyone to like talk with their software as as well these days. Okay, it's getting it ready. We'll see what's up.
+
+323
+00:52:05.370 --> 00:52:26.269
+hugo bowne-anderson: but what we'll be doing in this notebook is following a schema inspired by anthropic starting with 3 foundational workflow types, so prompt chaining parallelization and routing. Once again I've got my anthropic key here. I'm practicing key hygiene and we'll delete it afterwards. Please don't use my key. I've given you all an anthropic key as well in the course, Wiki, I think.
+
+324
+00:52:26.950 --> 00:52:33.054
+hugo bowne-anderson: But let's jump in and just see certain types of
+
+325
+00:52:33.890 --> 00:52:58.519
+hugo bowne-anderson: examples of these workflows particularly with the types of things we've been thinking about. So the ingestion of professional profiles. I'm trying to match people to particular jobs. So this is a prompt chaining workflow from anthropic when you'll use. This is when a task naturally breaks down into sequential steps when each step's output feeds into the next. And when you need clear intermediate results. Okay, also, when order of operation matters. And
+
+326
+00:52:58.660 --> 00:53:00.930
+hugo bowne-anderson: I just want to say once again, we saw that like
+
+327
+00:53:01.170 --> 00:53:07.498
+hugo bowne-anderson: building out like a spec of your software can be useful, of course. Who who would have thought
+
+328
+00:53:08.700 --> 00:53:10.939
+hugo bowne-anderson: But when we build out a spec we can.
+
+329
+00:53:11.360 --> 00:53:25.840
+hugo bowne-anderson: We can see like we can try to break it down into atomic units and see what would be useful, right? So this isn't something that happens in the abstract. It's something that happens with a particular business problem or something you're trying to build. So try to break it down into atomic units and see what's up. So
+
+330
+00:53:26.490 --> 00:53:27.923
+hugo bowne-anderson: this example,
+
+331
+00:53:29.470 --> 00:53:41.449
+hugo bowne-anderson: remember, one thing we were thinking about is extracting structured data from a Linkedin profile. We weren't only thinking about that. We've done a lot of that. Then using that to generate a personalized email. Okay, so
+
+332
+00:53:42.088 --> 00:53:58.750
+hugo bowne-anderson: how do we do that? So this 1st example, we can create a chain function. Now, I actually don't use this in this case. But I'm giving you this because it's a template that you can use to chain things together, because I've only got 2 Llm. Calls. I'm doing it manually, but I wanted to give that to you. So
+
+333
+00:53:59.190 --> 00:54:16.660
+hugo bowne-anderson: we have this extract extract, structured data. We've seen prompts like this before, you know, provided in Json and so on. Then we have another function which is generate the outreach email and return and then we return the result right?
+
+334
+00:54:16.700 --> 00:54:37.110
+hugo bowne-anderson: And it says it should address the recipient by name reference their current position, company, etc. So I'm giving the example of Linkedin profile of Elliot Alderson, who's a cybersecurity engineer at Allsafe security, and so on. Anyone who's seen Mr. Robot may know him as the main character, or one of the main characters in Mr. Robot
+
+335
+00:54:37.610 --> 00:54:38.480
+hugo bowne-anderson: and
+
+336
+00:54:39.600 --> 00:55:01.830
+hugo bowne-anderson: step one is extract the structured data. And I'm printing that and then step 2 is generate the email. Okay, so we've got the structured data name current position skills, previous positions. Then we have the recipient's email. This is a beautiful example, unintended, of why we should look at our data. Now you may go. Oh, this is cool. But notice that
+
+337
+00:55:02.160 --> 00:55:32.159
+hugo bowne-anderson: the email generation has messed it up completely. It's writing the email from Elliot to the recipient. Okay, so immediately, looking at our data. We can see we need to go and do a bit of prompt iteration. And this is something that can be solved by prompt iteration. So that's why I've left that left that there. But this is a simple example of chaining, and in a way that we can introspect what happens in the middle. So you can imagine the span, the trace, the whole trace with individual spans within it. And the 1st
+
+338
+00:55:33.510 --> 00:55:36.560
+hugo bowne-anderson: span would be the input,
+
+339
+00:55:37.390 --> 00:56:05.230
+hugo bowne-anderson: the linkedin input and the prompt and then this as the output. And then the second one would be this is input and the prompt and the email as output. Okay? And immediately looking at those traces and spans, we know what to do next in our system. So we've built a little prototype of an augmented Llm. Just chaining 2 Llm. Calls together. But we can already see how to how to improve on the system by by inspecting
+
+340
+00:56:09.010 --> 00:56:16.499
+hugo bowne-anderson: I'm not going to dive too deep into the parallelization. One. What I do want to say is, parallelization is cool.
+
+341
+00:56:17.980 --> 00:56:22.204
+hugo bowne-anderson: Now, one thing I like about it is, it can be expensive, though.
+
+342
+00:56:22.810 --> 00:56:36.980
+hugo bowne-anderson: I've mentioned this before, but we've seen that with structured data extraction. If you try to do it all in one Llm. Call there may be forgetting there may be hallucinations. Almost all the time. If you parallelize different calls.
+
+343
+00:56:37.070 --> 00:56:55.409
+hugo bowne-anderson: So you have one extract the name from a Linkedin profile. You have one extract skills, one extract position, and so on, and then you combine them and aggregate them. You will almost always get a performance increase, it will always cost you more as well. So once again, this is a cost and latency versus
+
+344
+00:56:55.777 --> 00:57:12.430
+hugo bowne-anderson: performance, trade off, and you may be fine with slightly worse, slightly less accurate results. You want to get someone's name right. But if the skills are incomplete or something. Maybe that's that's chill. But once again it comes down to your business problem. We don't know whether you know, 85% recall is good or not right?
+
+345
+00:57:13.611 --> 00:57:19.149
+hugo bowne-anderson: So you can go through the example. There, and I'm happy to chat about it on on discord.
+
+346
+00:57:19.980 --> 00:57:21.446
+hugo bowne-anderson: There's also
+
+347
+00:57:22.730 --> 00:57:42.379
+hugo bowne-anderson: a routing pattern which I'm not gonna get into now. But essentially what the call does is, it routes it to any number of of different Llms and then has an output. And so the example we go through here. Is. It ingests a Linkedin profile and then decides whether to reach out to that person for hiring
+
+348
+00:57:42.717 --> 00:58:03.289
+hugo bowne-anderson: or for business development. Okay, depending on their profile, depending how their profile corresponds with either of these tasks for the organization we're writing for and using different email templates based on our classification. So these are all examples you can use in the projects you're working on as well. And you'll see available routing, hiring collaboration.
+
+349
+00:58:05.540 --> 00:58:29.840
+hugo bowne-anderson: a related one is the orchestrator worker. The the main difference with this one is the orchestrator really controls all all the calls and what's happening underneath and then you get a get a synthesizer. So I'm not going to go into too many details there, but you can. You can look at that, and we can chat about the anthropic blog post as well. The the final example that I do want to.
+
+350
+00:58:31.410 --> 00:58:33.140
+hugo bowne-anderson: Talk about a bit more.
+
+351
+00:58:33.520 --> 00:58:34.410
+hugo bowne-anderson: Huh?
+
+352
+00:58:34.880 --> 00:58:42.120
+hugo bowne-anderson: Yeah, that's great. Sorry about that. Is the evaluator optimizer workflow
+
+353
+00:58:42.420 --> 00:58:53.180
+hugo bowne-anderson: right where we have and this is getting further along the agentic continuum or spectrum, if you will. Once again. I don't even like this idea of a continuum or spectrum. It's like a.
+
+354
+00:58:53.720 --> 00:59:16.540
+hugo bowne-anderson: It's a deeply multi-dimensional space kind of like what is production? Right? This, as as William, you know, showed us earlier this week, and fantastically is, there are so many dimensions to what it is to put something in production, and similarly, to to make something agentic isn't only a 1 dimensional thing. There are so many different ways we can move so. But this is going further towards quote unquote agency, where
+
+355
+00:59:16.620 --> 00:59:33.949
+hugo bowne-anderson: we have a generator which provides some solution to what we're trying to do, such as generating an email. Then we have an evaluator which will reject it and give it feedback or accept it. And then it, it goes back and forth. And so I've given a toy example here
+
+356
+00:59:35.370 --> 00:59:38.589
+hugo bowne-anderson: which is drafting an email from a Linkedin
+
+357
+00:59:39.130 --> 00:59:53.390
+hugo bowne-anderson: profile where the generator creates an initial email based on the profile. Then the evaluator reviews the email for clarity grammatical accuracy and audience alignment. Now, I've said, if improvements are needed, the optimizer revises the email using the evaluators feedback.
+
+358
+00:59:54.430 --> 01:00:00.759
+hugo bowne-anderson: That's an exercise for you all to to do that, because what I've actually done here, I've been slightly cheeky, but I've done it for good reason
+
+359
+01:00:01.220 --> 01:00:05.670
+hugo bowne-anderson: is where let me actually look at this.
+
+360
+01:00:09.520 --> 01:00:12.980
+hugo bowne-anderson: So what we have is step one is the generation of the email.
+
+361
+01:00:13.120 --> 01:00:19.418
+hugo bowne-anderson: Step 2 is evaluate the email and give feedback step 3 is sending it back to the 1st Llm
+
+362
+01:00:20.160 --> 01:00:28.340
+hugo bowne-anderson: to optimize it based on feedback. Okay? And then that's accepted. So this I've predefined. How many, how many steps it will go through now.
+
+363
+01:00:28.470 --> 01:00:34.990
+hugo bowne-anderson: what I want you all to do. If if you're interested in doing it is actually setting it up so that essentially
+
+364
+01:00:35.360 --> 01:00:52.670
+hugo bowne-anderson: the evaluator will just force as many revisions as necessary, and accept, based on certain criteria which which is fun to do. But it's it's pretty brittle a lot of the time. And fragile, right? So you can see the 1st email generated here.
+
+365
+01:00:52.890 --> 01:01:01.820
+hugo bowne-anderson: Okay, dear Elliot, hope this email finds you. Well, Yada Yada Yada, and then oop sorry.
+
+366
+01:01:04.040 --> 01:01:15.530
+hugo bowne-anderson: Then we can see the feedback was subject line could be more specific. Add a brief company introduction. Make the Cta more specific. Add a signature line that includes the Linkedin profile.
+
+367
+01:01:16.320 --> 01:01:22.223
+hugo bowne-anderson: and you can see the subject line has been changed accordingly.
+
+368
+01:01:23.100 --> 01:01:24.550
+hugo bowne-anderson: You can see
+
+369
+01:01:24.750 --> 01:01:35.338
+hugo bowne-anderson: the call to action. Would you be interested in 20 min? Con confidential call literally said that which is great and and so on. So the 1st Llm. Has taken on the feedback.
+
+370
+01:01:36.120 --> 01:01:40.810
+hugo bowne-anderson: One concern I have with this type of system, and is
+
+371
+01:01:41.163 --> 01:02:08.336
+hugo bowne-anderson: Llms. Are the most intense bike shedders I've ever met. Proverbially, to be honest like, you will say, only give me feedback if it's something that would break the system unless I fix it, and it'll be like, Hey, why don't you turn this comma into a colon, or something something like that? Right? So I do want to just flag that for everyone. They're like weird micro optimizers. They're the Larry Davids of the Seinfeld of the software world in many ways.
+
+372
+01:02:08.810 --> 01:02:22.649
+hugo bowne-anderson: All that having been said, I know this has been a whirlwind tour to augmenting Llms. And this is something we'll do more of next week. We are slightly over workshop time, and I'm I'm wondering if Philip is in the house.
+
+373
+01:02:25.030 --> 01:02:26.829
+Phillip Carter: Yes, I am here.
+
+374
+01:02:27.360 --> 01:02:29.580
+hugo bowne-anderson: Hey, Philip, what's up, man?
+
+375
+01:02:30.200 --> 01:02:31.600
+Phillip Carter: Hey? Good! To see you.
+
+376
+01:02:31.740 --> 01:02:35.649
+hugo bowne-anderson: Great to see you as well. Where are you calling in from.
+
+377
+01:02:36.138 --> 01:02:39.170
+Phillip Carter: Redmond, Washington. So I'm in the Seattle area.
+
+378
+01:02:39.720 --> 01:02:41.193
+hugo bowne-anderson: Beautiful. I'm
+
+379
+01:02:42.770 --> 01:02:45.990
+hugo bowne-anderson: I'm just planning my trip to Tacoma in.
+
+380
+01:02:45.990 --> 01:02:46.870
+Phillip Carter: Oh!
+
+381
+01:02:46.870 --> 01:02:50.930
+hugo bowne-anderson: In July. Yeah, I'm going to Scipi, actually.
+
+382
+01:02:50.930 --> 01:02:51.420
+Phillip Carter: Fantastic.
+
+383
+01:02:51.420 --> 01:02:52.120
+hugo bowne-anderson: Yeah.
+
+384
+01:02:52.350 --> 01:02:56.522
+hugo bowne-anderson: And I've never been to Tacoma. I've driven past it several times.
+
+385
+01:02:57.010 --> 01:03:01.505
+hugo bowne-anderson: but I think of it often, because there's a Youtube video of
+
+386
+01:03:02.110 --> 01:03:05.829
+hugo bowne-anderson: motley crue playing in Tacoma. I don't know if you know this.
+
+387
+01:03:05.950 --> 01:03:15.959
+hugo bowne-anderson: but it's Tommy Lee's in this cage. The drummer that gets stuck upside down, and he's just drumming wildly, and he's just screaming Tacoma over and over again. So that's why.
+
+388
+01:03:15.960 --> 01:03:16.490
+Phillip Carter: Yes.
+
+389
+01:03:16.660 --> 01:03:19.718
+hugo bowne-anderson: Strongest resonances with the coma
+
+390
+01:03:20.330 --> 01:03:20.970
+Phillip Carter: Okay.
+
+391
+01:03:21.200 --> 01:03:24.119
+hugo bowne-anderson: Thank you so much for joining us. Man.
+
+392
+01:03:24.600 --> 01:03:26.250
+Phillip Carter: Yeah. Absolutely happy to be here.
+
+393
+01:03:26.530 --> 01:03:35.380
+hugo bowne-anderson: I'm I'm really excited to have have you here to chat about model context protocol. Among other things, particularly as it's
+
+394
+01:03:36.340 --> 01:03:52.420
+hugo bowne-anderson: it's nascent, but adoption and community vibes have just been off the hook to, to be honest. But I do want to just say, you know and correct me anything I get wrong. But you work in in product. Right? You're. You're
+
+395
+01:03:52.520 --> 01:04:14.609
+hugo bowne-anderson: you build a lot of product. But you're also very technical and an OS an open source developer as well. And very. I've done a lot of work tying product and and data and generative AI to business use cases as well, and I think I might get this slightly wrong. But my, if my understanding is correctly correct at honeycomb
+
+396
+01:04:15.470 --> 01:04:31.720
+hugo bowne-anderson: Work. You were one of the 1st people, if not the 1st in the world to like build Saas software that incorporated Llms in a relatively sophisticated fashion outside the labs in 2023. Is that right?
+
+397
+01:04:32.160 --> 01:04:57.109
+Phillip Carter: Yeah, yeah, it was early. 2023. There are a handful of others, I think. But yeah, we were super super early on when we did that we had to use Gpt. 3.5, because Gpt. 4 back then was so slow, even though it was like a lot better. It would take like 10 seconds to get a response for the kind of stuff that we needed, which was like unacceptable. So it's kind of wild. How much better. Things have gotten over the past 2 years.
+
+398
+01:04:57.110 --> 01:05:21.509
+Phillip Carter: And but yeah, we we had to figure out how to make it work back. Then, when there was like there were no guides. There was no Hugo running a course, and and you know, with workshops and stuff like that, and we learned a lot, and we made a lot of mistakes. But we also corrected some of those mistakes and ended up with a product that is like actually still in use today by quite a lot of users of honeycomb. So
+
+399
+01:05:21.750 --> 01:05:22.949
+Phillip Carter: it's pretty. It's pretty great.
+
+400
+01:05:22.950 --> 01:05:36.180
+hugo bowne-anderson: Amazing. And I've just shared your blog post from then. So we shipped an AI product. Did it work which is so wonderful. I encourage everyone to check out a lot of the honeycomb blog as well before getting to Mcp. I
+
+401
+01:05:37.520 --> 01:05:53.330
+hugo bowne-anderson: I love this product because, as you know, like a lot of people like, let's do multi agent, multi-turn, infinite rag. What whatever right? And this was not even a multi-turn conversation, right? It was essentially text to honeycomb query, language which
+
+402
+01:05:53.900 --> 01:06:01.749
+hugo bowne-anderson: modular details is kind of. SQL. Esque. So maybe you could just tell us a bit about what honeycomb does and that use case.
+
+403
+01:06:02.410 --> 01:06:13.699
+Phillip Carter: Yeah, absolutely. So. Observability is a thing that a lot of engineering organizations, and increasingly also, just like full R&D orgs, inclusive of product need
+
+404
+01:06:13.750 --> 01:06:36.930
+Phillip Carter: they just straight up need? Right? Like, you know, you build a bunch of software, you eventually release it. It goes out into the world. It lives on a server somewhere. Real users interact with that software, and they do things very often. The things that they do are not necessarily what you were expecting. And you want to understand all kinds of different things like, you know, why did my error rate Spike? Why is my latency going going up through the roof right now.
+
+405
+01:06:36.930 --> 01:07:01.480
+Phillip Carter: but you can slice that with all kinds of important things where, like, let's say, you work for a business where you have customers that are like on a free tier and a professional tier, and like a business tier, or something like that, or like enterprise tier. Well, now, you have some notion of priority where, like, if error rates are spiking for this one service, but it's only impacting a small slice of customers. Is that the worst thing in the world. Well, maybe not. We can. We can choose to fix that problem at our
+
+406
+01:07:01.480 --> 01:07:02.590
+Phillip Carter: pace.
+
+407
+01:07:02.590 --> 01:07:27.419
+Phillip Carter: Or, on the other hand, if it's impacting a very small number of customers. But those customers happen to be the ones who are paying you the most money. Well, all of a sudden, that's a very important thing that you need to go address right now, and observability is how you do that. It's how you get visibility on how things are actually happening in the real world. And you do that with data that you send from your live applications to a back end. In this case, honeycomb is one of these backends that you can query
+
+408
+01:07:27.420 --> 01:07:36.229
+Phillip Carter: in all kinds of different ways, and you can slice and dice your data and and build up dashboards and and just sort of introspect, what is going on and where things are happening.
+
+409
+01:07:36.520 --> 01:08:06.199
+Phillip Carter: And the core problem that we were solving there was that every observability tool suffers a problem, which is that you need to know how to use the damn tool. And you need to know how to query your own data. But what if you're not very good at that yet, like you might know what matters. You could probably explain that using English, or it actually is multilingual, because it uses Gpt, which which supports like Japanese inputs and Korean inputs and things like that which we've learned over time. But like you could probably explain
+
+410
+01:08:06.200 --> 01:08:08.739
+Phillip Carter: roughly what you are interested in.
+
+411
+01:08:08.740 --> 01:08:35.989
+Phillip Carter: and you can iterate with getting a query that gives results back. And you can say, Okay, like, did that actually answer what I'm interested in or not, and you can pivot from there. And actually, what we did is we designed this in a way that we made the scope very narrow where we said, the goal is not to replace how you query your data on honeycomb full stop. The goal is to learn how to query your data in the 1st place. And so when we scoped it to a small problem like that.
+
+412
+01:08:36.300 --> 01:09:01.080
+Phillip Carter: we ended up with an onboarding mechanism that was really really effective at getting users to just describe what they want. And we get a live query that updates in about 2 seconds. And then they can see what the actual result of the data is that they got back, and they can be pretty happy from there. So that was kind of what we ended up building with the query, assistant feature first, st and it's now sort of the primary way
+
+413
+01:09:01.080 --> 01:09:08.260
+Phillip Carter: new users come into our product and start using honeycomb, and then they kind of eventually graduate off of it, because it's not
+
+414
+01:09:08.270 --> 01:09:19.009
+Phillip Carter: like, you know, they don't need to do the natural language thing anymore if they don't want to. But if they want to keep using it, you know, for in perpetuity we're we're not. We're not stopping them in any way.
+
+415
+01:09:20.760 --> 01:09:22.140
+Phillip Carter: We have a question that's.
+
+416
+01:09:22.149 --> 01:09:23.689
+hugo bowne-anderson: Is it not? Go ahead.
+
+417
+01:09:24.630 --> 01:09:29.139
+Phillip Carter: Yes, that is Mount Rainier on the wall that was taken from a backpacking trip that I did a few years ago.
+
+418
+01:09:29.350 --> 01:09:40.460
+hugo bowne-anderson: I did a very silly thing a couple of years ago, at the end of June, a classic Australian thing trying to drive from Oregon to Mount Rainier, taking the scenic route. And I because I'm an Australian. I didn't think in June there'd be like winter roads still, and like
+
+419
+01:09:40.790 --> 01:09:41.660
+hugo bowne-anderson: Yup, it's fine
+
+420
+01:09:41.660 --> 01:09:58.240
+hugo bowne-anderson: trees fallen over and washed out road. The washouts are crazy, but we're not here to talk about one of the most beautiful parts of the us being the Pacific Northwest. I do want to jump into Mcp, but I can't help myself, man, and I think people in the course
+
+421
+01:09:59.920 --> 01:10:04.910
+hugo bowne-anderson: I'm I'm getting people to use spreadsheets more than some would like. I I feel.
+
+422
+01:10:05.290 --> 01:10:21.659
+hugo bowne-anderson: And talking about observability and spreadsheets, and your process in in particular, for building these 1st Llm. Powered applications. Could you just tell us a bit about your, because what you worked with Hamill on this originally right.
+
+423
+01:10:22.150 --> 01:10:23.040
+Phillip Carter: I did, yeah.
+
+424
+01:10:23.860 --> 01:10:36.476
+hugo bowne-anderson: I wonder if you can tell us a bit about just how you got your judges working, and what type of things you did in spreadsheets, and and what cadence, in order to get your essentially evaluation harness?
+
+425
+01:10:36.800 --> 01:10:37.330
+Phillip Carter: Yeah.
+
+426
+01:10:37.830 --> 01:10:45.567
+Phillip Carter: exactly. So. So you know, kind of this initial question when you're when you're building that, you know an AI feature for real
+
+427
+01:10:46.160 --> 01:11:09.010
+Phillip Carter: You know, you build a prototype. First, st you try to solve like a very narrowly scoped problem, where you can just sort of see for yourself if it looks like it's actually producing the right outputs. That's the so-called Vibe checking type stuff very often, like, you know, I think Vibe check kind of implies that it's messy and imprecise or whatever. But Vibe checks are actually, very, very important. It's your 1st gauge, for if something is actually feasible to do.
+
+428
+01:11:09.010 --> 01:11:19.049
+Phillip Carter: and if it looks like it's pretty feasible, and you kind of tweak it a little bit more. It looks like, maybe it does a few more things. And you're like, okay, I think we have something here. Great. You now have a prototype that can generate data.
+
+429
+01:11:19.170 --> 01:11:27.439
+Phillip Carter: Right? You can pass in inputs, you can get outputs. And you can decide if you if given the input, if that was a good output.
+
+430
+01:11:27.570 --> 01:11:50.570
+Phillip Carter: And there you go. That is basically an Eval at that point. Now, now, you want to record that data. And then you start recording many more of that kind of data and maybe organize it a little bit. But like fundamentally, there's this function which is what we built. And in this case we also, you know, had released it. And we have some much more sophisticated ways to measure it, using honeycomb as an observability tool.
+
+431
+01:11:50.570 --> 01:11:58.409
+Phillip Carter: But at the end of the day it's like there's inputs. And then we build up a little thing. We do some rag over a larger set of data.
+
+432
+01:11:58.730 --> 01:12:28.509
+Phillip Carter: we pass it to a function which in this case is an open AI Llm call, and then we get an output, and then we check to see. Do we like the output or not? And then, once you have enough of that. So we did a lot of this ad hoc at first, st and actually released to users just for everyone, because it was actually good enough for most use cases from what we could tell, and we were a little bit off the mark, but we were able to fix up a few things as we went, but eventually we got to a point where it's like, okay, there's sort of a steady state of behavior where it has a lot of inputs and has a lot of outputs.
+
+433
+01:12:28.510 --> 01:12:40.409
+Phillip Carter: And I have a lot of users using this thing. So I'm getting a wide variety of inputs. And I'm getting a wide variety of outputs as well. And what this is doing for me is allowing me to build up basically, this Csv of
+
+434
+01:12:40.460 --> 01:13:07.369
+Phillip Carter: what's the input what's the full prompt when we select in this case it's called column selection. It's this retrieval process for the given input, what columns did we retrieve from a larger schema a handful of other fields. What's the output? If there was an error, what was the error like? Did it fail to parse Json? Did it? Did it fail? Query, specification parsing rules. Did it fail? There's a handful of other failure cases, basically, and record all of that in like one big row of data.
+
+435
+01:13:07.430 --> 01:13:19.230
+Phillip Carter: And then we can say, Okay, great. I'm going to back out for the next 60 days, 60 days of usage. And I'm just going to download all of that. And that gives me a big Csv, now of real inputs and outputs.
+
+436
+01:13:19.560 --> 01:13:22.769
+Phillip Carter: And now that I have the Csv, I can load it up into Google sheets.
+
+437
+01:13:22.900 --> 01:13:32.460
+Phillip Carter: And that's where the magic really happens. Because you have enough of that data, you can start pulling little samples of it. You can say, Okay, well, I saw that the user gave this input.
+
+438
+01:13:33.790 --> 01:13:38.659
+Phillip Carter: do I think the output was good? Or do I think it was bad? Or was it somewhere in between?
+
+439
+01:13:39.480 --> 01:13:41.939
+Phillip Carter: Okay, I'm going to record that.
+
+440
+01:13:42.050 --> 01:13:47.520
+Phillip Carter: And then I do that again and again and again, and eventually I arrive at something
+
+441
+01:13:47.650 --> 01:13:50.440
+Phillip Carter: that I can then actually feed into a language model.
+
+442
+01:13:50.540 --> 01:14:06.349
+Phillip Carter: and that language model. I can use that to sort of iterate with this language model, to create this Llm. As judge that is able to sort of read. What I've initially said, I think is maybe good or bad. I can also add, in the prompt sort of my own characteristics of what makes for a good output. Given a kind of input
+
+443
+01:14:06.530 --> 01:14:08.690
+Phillip Carter: and then, now, I have a judge function.
+
+444
+01:14:09.790 --> 01:14:31.780
+Phillip Carter: Then I can feed in that full data set, and you want to anonymize certain things because some users might put in some stuff that you don't necessarily want to feed to an arbitrary language model right away. But I can feed that to a language model. And I can say, Hey, these are kinds of inputs and outputs. And all of that. I want you to produce inputs
+
+445
+01:14:31.780 --> 01:14:42.719
+Phillip Carter: that are similar to the kinds of inputs that are real world here. But like, tweak it a bunch and try to add some variation that that may not exist in the initial data set that you have.
+
+446
+01:14:43.060 --> 01:14:47.409
+Phillip Carter: and it'll spit out as many inputs as you want.
+
+447
+01:14:47.500 --> 01:15:07.299
+Phillip Carter: And then, because I have that task function right where I pass in the input. And in this case I ask it to basically generate the full text of a prompt for for each like fake. Request that I'm going to send. I can package that up through a script, send it off the language model, get a real output of, like the way that our feature actually behaves for that kind of input.
+
+448
+01:15:07.300 --> 01:15:24.920
+Phillip Carter: And now I have a process by which I can start feeding synthetic data into the system and getting useful outputs for that. In that process I can also create a judge that will then act as a given a set of criteria and the stuff that I talked about earlier. It can say, Okay, well, we are going to judge the output
+
+449
+01:15:24.920 --> 01:15:42.649
+Phillip Carter: based off of this stuff that I sort of initially set up. And now I can have a flywheel where I'm generating inputs that are representative of the kinds of real world inputs that people give us, and I have the function, and it responds. And then I have a judge that says I'm gonna decide if this output was good or not
+
+450
+01:15:42.850 --> 01:15:54.789
+Phillip Carter: going to repeat that process. This is kind of circuitous. But going to repeat that process a whole lot, and have, like several 100 inputs and outputs that are all that have all been judged by the language model.
+
+451
+01:15:55.740 --> 01:16:17.059
+Phillip Carter: Then I will pick a sample of that. This is all happening in spreadsheets. By the way. I'll pick samples of about 25 of those, and then I will judge it myself in a separate column, and I will say, Oh, well, this is how I'm choosing to judge the output based off of the input. And then I'm going to mark if I agreed with the judgment of the Llm. Judge or not.
+
+452
+01:16:17.490 --> 01:16:25.470
+Phillip Carter: and repeat that process. So now I've done that about 25 times. I can now feed that into my process of improving the judge. Llm.
+
+453
+01:16:26.020 --> 01:16:50.879
+Phillip Carter: And then I get asked it to repeat a bunch of different stuff. You know. I notice that maybe there's a particular pattern that it said an output was good, that I disagree with, that now acts as a criteria that I can add in my prompt for for the judge. Llm. And I repeat this again and again, where, through several iterations, I'll pull about 20 random samples and I'll look at the Inputs. The outputs offer my own judgment independently of what the Llm. Has, Judge said, and
+
+454
+01:16:50.880 --> 01:17:00.419
+Phillip Carter: I'll see if I decided with the Llm. As judge or not, and eventually I can narrow in on an agreement where I've effectively aligned this Llm. As judge
+
+455
+01:17:00.420 --> 01:17:11.270
+Phillip Carter: to my own preferences. And the reason why this is important is because I've been working for Honeycomb for several years. And I generally know what makes for a good query. Given a kind of input.
+
+456
+01:17:11.780 --> 01:17:22.449
+Phillip Carter: And so then, when I did this process with with Hamel, we basically arrived at something like a 98% agreement rate
+
+457
+01:17:22.590 --> 01:17:26.730
+Phillip Carter: or something like that, like a very high agreement rate between me and the Llm. As judge.
+
+458
+01:17:26.870 --> 01:17:28.310
+Phillip Carter: So we say, Okay.
+
+459
+01:17:28.890 --> 01:17:57.979
+Phillip Carter: now, we can feed in samples of this data and an updated prompt to spit out a heck of a lot more inputs that we can run through the system and know that these inputs are going to be judged in a way that we think is realistic. And the inputs are also realistic. And now we have a huge set of test cases that we have to run our evals with. This is also the basis for fine tuning, where you can say, Okay, well, I have representative inputs. Representative outputs that I think are actually pretty good.
+
+460
+01:17:58.110 --> 01:18:26.390
+Phillip Carter: Well, if I generate, say, 100,000 of these. That's a pretty big data set that I could fine tune a smaller model with. Now we actually did do that. And the smaller model actually ended up being better than Gpt. 3.5. But then, since then, you know, like more models have come out from Openai and other providers and stuff to the point where, like, they're better than the fine-tuned version. So it was perhaps maybe more of an academic exercise than anything else. But it was. It was very illustrative, because, like, I think.
+
+461
+01:18:26.390 --> 01:18:47.749
+Phillip Carter: it's pretty great that like this process of you start with real data, you start with what your real users are actually doing. And you get real outputs. And you start deriving larger data sets and judgment. Llm calls and all that kind of stuff from that. And eventually, like, if you, if you work at it hard enough to stare at your data and spreadsheets for a long time until your eyes bleed.
+
+462
+01:18:47.890 --> 01:19:12.754
+Phillip Carter: you are actually going to arrive at something that works pretty well, and I hate to say that, like there's no magic to this process. It's just very laborious, and sometimes you you kind of just want to walk away and not not stare at that spreadsheet for forever. But it's really necessary, I think. And like that's kind of what makes a feature ultimately work for your users.
+
+463
+01:19:13.420 --> 01:19:20.820
+Phillip Carter: and it really makes the difference between like a cool demo and something that, like, you know, is is gonna live in your product long term.
+
+464
+01:19:22.190 --> 01:19:25.507
+hugo bowne-anderson: Thank you so much for essentially
+
+465
+01:19:26.140 --> 01:19:53.329
+hugo bowne-anderson: a masterclass, a micro masterclass in building and evaluating Llm powered systems. I mean, that was incredible, particularly, I mean your closeness to product and data and generative AI and business. And also being something you really implicitly said it almost explicitly said, you're a domain expert at honeycomb query, language. Right? So you're one of the people who can come in and actually do these annotations. We have a great comment from Sidata, saying.
+
+466
+01:19:53.330 --> 01:20:21.250
+hugo bowne-anderson: we had a workshop a few weeks ago, and Hamill, with Hamel on error, analysis, and he brought up a spreadsheet which had comment columns like model critique, and Philip's critique, and Sadat was like, I wonder who Philip is? And here we go, and I love that. You've taken. Hamel tells people to look at their look at your data. What you said was, look at your data till your eyes bleed, and I like that. I think that's that's an even more important message. I also, before we move on to Mcp I am interested
+
+467
+01:20:21.360 --> 01:20:22.310
+hugo bowne-anderson: in.
+
+468
+01:20:22.640 --> 01:20:32.449
+hugo bowne-anderson: So when aligning an Llm. As judge with your own critiques, what levers do you?
+
+469
+01:20:33.090 --> 01:20:39.460
+hugo bowne-anderson: What levers can you pull initially like changing the prompt few shot examples? Are these the types of things you you think about?
+
+470
+01:20:40.100 --> 01:21:08.030
+Phillip Carter: Oh, yeah, absolutely. I think, like, it's usually pretty evident what I'll say, like, 1st of all, I mean, this is part of the error analysis stuff that Hamel talks about even before you really have as judge. If you have decent enough observability, where, like you can, you just. You just know from production what the inputs and what the outputs are. You can almost sort of like vibe your way with error analysis, where you just sort of stack together. What are all the inputs? If there are errors, do they exist? And what are the outputs?
+
+471
+01:21:08.303 --> 01:21:24.150
+Phillip Carter: And like, you can just see it. And you're like, Oh, my goodness! A whole lot of people are like, you know, trying to do this kind of thing, and it always produces an unparsable Json object. Well, that's pretty bad, all right, cool. I have a concrete test case right now that I can just go fix
+
+472
+01:21:24.444 --> 01:21:43.875
+Phillip Carter: and and like it, you know there's the spreadsheets version of this that that involves an Llm. As judge, or you know, whatever eval mechanism you have, where where you can do that sort of thing, too, and be rather unsophisticated about it, but and make a lot of progress. But but yeah, like the levers that you can pull there. In our case,
+
+473
+01:21:44.580 --> 01:22:12.580
+Phillip Carter: were pretty straightforward, like the prompt itself, and the few shot examples one. But but then going over onto the next step, though something that I think is really underappreciated in this world is that just because you have a language model doesn't mean that you cannot have deterministic processes afterwards that fix things so like in this case, like the honeycomb use case here is like we're producing what's ultimately a Json object that we're going to parse and turn into a thing that like
+
+474
+01:22:12.580 --> 01:22:24.270
+Phillip Carter: moves on into the rest of the the product. Somewhere, I would argue, most enterprise use cases are kind of similar to that where you're going to output some sort of thing that needs to follow a structure that has some rules to it.
+
+475
+01:22:24.538 --> 01:22:51.090
+Phillip Carter: Well, can you parse that thing. And can you run a bunch of rules on it? And if you do like, okay, great like, you have all these different ways that something might be able to fail that you can. You can. You can measure. And you can say, Well, how often does it actually fail this sort of thing and trace that back to like the kind of input. So like in Honeycomb's case, there's this sort of particular peculiarity with our querying system where some people would ask a question like, What is my error rate? Well.
+
+476
+01:22:51.730 --> 01:23:05.599
+Phillip Carter: a honeycomb query cannot actually answer that question for you directly. It can answer it indirectly. However, we have an operator that is called rate underscore average, and that is meant for something different.
+
+477
+01:23:06.390 --> 01:23:12.900
+Phillip Carter: the language model naively assumed. Oh, well, you have an operator called rate Underscore average.
+
+478
+01:23:13.120 --> 01:23:30.910
+Phillip Carter: somebody's asking for an error rate. So of course, we're going to include the rate average operator that we're going to run over this data here, and that's like, literally, not what you should do. But like, I don't fault the language model for making that mistake, because so many other people like humans have made that mistake all the time. And this was a case where, like.
+
+479
+01:23:31.180 --> 01:23:42.389
+Phillip Carter: I didn't need a sophisticated Eval to tell me that this was a problem. I could just literally see it in the inputs and outputs. And I'm like, Okay, this is categorically wrong here. And what do I do to fix this. Well.
+
+480
+01:23:42.800 --> 01:24:02.079
+Phillip Carter: I didn't have error rates, or like some variation of what is my error rate in the few shot examples in the prompt. So I just put it in there and then it stopped happening. I couldn't reproduce like I could. I could reproduce that problem before, but then I failed to reproduce it after I put the few shot example in there
+
+481
+01:24:02.080 --> 01:24:15.800
+Phillip Carter: and then deployed it, and then I verified again like this is why observability is really important. I verified after 24 h or so of of usage that like this actually did mitigate the problem substantially. And and so like, that's where I think, like.
+
+482
+01:24:15.800 --> 01:24:25.770
+Phillip Carter: you know, I'm saying observability a lot. But but, like, you know, it's as if I work for an observability company. But I think it's really really important for doing any kind of Ml. Work that, like
+
+483
+01:24:25.770 --> 01:24:48.749
+Phillip Carter: the work that you do is not divorced from production, like production, is the true reality of what is actually happening to your systems. And like, that's what's going to be the source of whatever fixes you have to do and whatever makes it as easy as possible to get that real data and pull it back into whatever development environment you have is going to save you so much time like in our case we designed it. So it's super super easy for us to just see that.
+
+484
+01:24:48.750 --> 01:25:13.740
+Phillip Carter: And whether we pull something down and annotate it for an Eval, or if we just say, Oh, well, we're just going to fix that right now, or just try a fix and see how it works. We have that freedom. And it was really easy. So yeah, there's those kinds of levers. Our retrieval is very often a lever. I think it probably shouldn't surprise too many people that if you're doing rag of any sort, like the kind of output that you get is going to be a function of how good the retrieval process was
+
+485
+01:25:15.340 --> 01:25:26.929
+Phillip Carter: In our case we learned a couple different things like honeycomb, has a concept of a stale column in a schema, and the name of a column
+
+486
+01:25:27.190 --> 01:25:55.009
+Phillip Carter: might be relevant from a semantic standpoint to the input that somebody gave. But if it is a stale column, then it's not worth bringing in, because it won't have any data. It's just a name of a column like, if you try to query against this column, you're going to get no results. And then that actually results in a really bad user experience. So you want to say, Okay, well, my rag process is not just doing semantic similarity or basic hybrid search. It is incorporating other aspects like
+
+487
+01:25:55.010 --> 01:26:11.669
+Phillip Carter: data liveness. And we've not done this. But I think we could go down the rabbit hole on on rag in particular, and explore a lot of different options in parallel, that we have some beliefs that will significantly improve query assistant
+
+488
+01:26:11.670 --> 01:26:30.210
+Phillip Carter: compared to how it exists today and make it much more relevant, for, like harder tasks that some of our, some of our larger customers have, so I don't know. Anyways like those are the the main levers that I had there. Fine tuning is sort of like the nuclear option in my mind, because, like, you need to have this whole more
+
+489
+01:26:30.210 --> 01:26:54.060
+Phillip Carter: larger process of generating really good representative data. And then you fine tune the thing. And you got to figure out how you're going to measure it. And like, do you need to have different evals for the fine-tuned model compared to what you have for Gpt. 3.5? I'm not sure if anybody's really written that. But like, if you use an Eval data set to fine tune, a model like, is that good? Is that bad like in our case? It was okay. But like we didn't
+
+490
+01:26:54.370 --> 01:26:59.959
+Phillip Carter: and anyways, I I don't wanna talk about that one. I feel like we've talked about forever. But
+
+491
+01:27:00.850 --> 01:27:17.030
+Phillip Carter: bottom line when you have it really easy to see your data, whether it's through an observability tool or in a spreadsheet, or whatever. You can just make it very readily apparent that, like certain inputs, do not yield good outputs, and sometimes you can just fix it with a few shot, prompt or
+
+492
+01:27:17.290 --> 01:27:31.779
+Phillip Carter: try prompt variation and and do an ab test and measure how that performs like. There's a lot of tools at your disposal that are pretty easy to deploy once you have that baseline understanding of how inputs and outputs sort of correlate with each other.
+
+493
+01:27:32.540 --> 01:27:40.110
+hugo bowne-anderson: Amazing. I have so many, so many questions around that I feel like we should do a podcast. On all of this sometime, actually. But we're here to. I have questions around
+
+494
+01:27:40.220 --> 01:27:53.309
+hugo bowne-anderson: tools for prompt versioning and observability and question. I mean, yas, has a great question around nested judge systems, and there are so many wonderful avenues we could we could take here. But we are here to talk about Mcp, so maybe we should
+
+495
+01:27:53.550 --> 01:27:55.029
+hugo bowne-anderson: should jump in.
+
+496
+01:27:55.700 --> 01:27:59.049
+Phillip Carter: Yeah, sure, is it? All right? If I share my screen, do a little slide show here.
+
+497
+01:27:59.050 --> 01:28:01.679
+hugo bowne-anderson: I am! I am excited, excited for this.
+
+498
+01:28:01.680 --> 01:28:02.710
+Phillip Carter: Okay.
+
+499
+01:28:02.710 --> 01:28:05.869
+hugo bowne-anderson: You are. You have the screen sharing power. I think.
+
+500
+01:28:05.870 --> 01:28:19.259
+Phillip Carter: Fantastic. Thank you. I do not do complicated slides. So it's going to be black text on a white background. I hope that's all right. So more recently, we at Honeycomb built an Mcp server.
+
+501
+01:28:20.493 --> 01:28:46.386
+Phillip Carter: Is it easy as 1, 2, 3? No, lol, that is not. Let me talk about that so a little, just a little brief bit more about honeycomb we are, I think it's fair to say, a pretty beloved tool by sres and platform engineers, people who run systems and but, like, broadly speaking, we're sort of a data platform to help you understand how your applications are doing. And if your users are having a good experience.
+
+502
+01:28:47.200 --> 01:28:50.629
+Phillip Carter: what's really important about that is like
+
+503
+01:28:51.990 --> 01:29:15.162
+Phillip Carter: this is really valuable. This is this is like, what is the value that your services are ultimately providing here like? And how do I know? How do you know that you're still doing all right if you made a change. How do you know that that change actually had the impact that you were looking for? This is like, you know, good users of honeycomb ultimately use our our tool to do this sort of thing. Anyways, we got a bunch of stuff. We also have an Api
+
+504
+01:29:15.830 --> 01:29:31.920
+Phillip Carter: and so like, there's certain questions that some people ask like are, you know, are my web services down? Is my database acting up our message? Queues saturated. Who is impacted by that like this is what people use honeycomb for. So like, really, this is a real time data store of how things are behaving.
+
+505
+01:29:31.920 --> 01:29:56.289
+Phillip Carter: And, categorically speaking, like Llms are not trained on this data right like Cloud, has no idea like for whatever company you work for right now, and like, what is the p. 95 latency of this one service like at this moment. In time. Claude has no clue. Openai has no clue, and it will not have a clue unless I don't know. Like you're dumping all of that into a something on an ad hoc basis. I think that would that would
+
+506
+01:29:56.290 --> 01:30:12.370
+Phillip Carter: cost you an absurd amount of money so like. I cannot ask Cloud right now if my enterprise tier customers, can execute certain transactions successfully right. Like one of our, we have several financial services, customers who really care about this kind of stuff. They can't use language models to answer that question.
+
+507
+01:30:12.470 --> 01:30:22.450
+Phillip Carter: Maybe they will in the future. But, like, you know, whatever anyways like this is why we think we're pretty good fit for Mcp, because, like, you have these general purpose, capabilities of language models. But
+
+508
+01:30:23.150 --> 01:30:46.600
+Phillip Carter: do you have live data access? And can you use that helpfully? So that's kind of what we're doing. So we made a cute little logo. It actually is missing one of the Hexagons because it was built with AI. So you know, we're gonna actually like, do this one for real. But we have an official Mcp. Server for our enterprise customers that people are using right now and giving us a lot of feedback on which is pretty great.
+
+509
+01:30:47.090 --> 01:31:01.670
+Phillip Carter: our view is that this is Mcp is sort of like a presentation layer for honeycomb. So like honeycomb as a product right now is a Sas product that you click around on and use you. Look at charts. That sort of stuff. A language model is a consumer of this data
+
+510
+01:31:02.210 --> 01:31:29.030
+Phillip Carter: in a different way than a human as a consumer of this data, and how do I get them to consume it? Well, Mcp, is that way to do it? So we have an Api. There's not as much access via the Ui. I'll kind of get to that a little bit. But ultimately we think that like this helps honeycomb serve different users. So I mentioned, we're beloved by like sres and platform engineers. But imagine you work for a large enterprise that has, like 5,000 developers in it.
+
+511
+01:31:29.210 --> 01:31:56.309
+Phillip Carter: Chances are there's some developers working on some services there who their day to day is not staring at an observability tool right? Like they're probably working in their collaboration tools. They have Vs code open. They're looking at code like they care about observability in the sense that, like, okay, well, if the service that I'm responsible for is misbehaving in some way. Well, gosh! I'd love to know that. And I'd like to know where the problem might be and like, where in my code, I should probably go and look to like, actually deploy, fix.
+
+512
+01:31:56.310 --> 01:32:04.410
+Phillip Carter: And when I have deployed the fix, it'd be great to know if that fix actually did what I wanted it to do. But like.
+
+513
+01:32:04.610 --> 01:32:17.550
+Phillip Carter: am I going to be going to honeycomb dot ui dot honeycomb I/O? And staring at that all day long every day. Probably not so like this is sort of the core need here is like in the context of your ide on your development machine.
+
+514
+01:32:18.020 --> 01:32:38.100
+Phillip Carter: Can you have your agent be that thing that fetches the information you need to know and can cross-reference performance data for your live systems with the code that's like sitting in front of you right now, so that you can be like, Hey, stuff went wrong. Where in my code should I go and look, or we have these logs, but they don't look very good.
+
+515
+01:32:38.100 --> 01:32:49.489
+Phillip Carter: Where can I? How can I improve those logs? Maybe so that, like as I debug this later on, I get much better visibility into what's happening, and you know I don't have to like throw stuff at the wall and see what sticks.
+
+516
+01:32:50.330 --> 01:32:53.520
+Phillip Carter: So we built this on Honeycomb's public Api.
+
+517
+01:32:53.560 --> 01:33:00.310
+Phillip Carter: We use resources, tool calls and actually even prompt templates. It's pretty comprehensive system.
+
+518
+01:33:00.310 --> 01:33:24.599
+Phillip Carter: And it actually, it works pretty well. We've tested it well, I should say, when it works and the stars align, it works very, very well where you can start with like, Hey, my boss told me that like error rates spiked last night. Can you like help me root, cause that? And it will run a whole bunch of different queries in honeycomb and interpret stuff and come back. And then it'll say, Hey, this is like where it seems like it's happening.
+
+519
+01:33:24.600 --> 01:33:36.421
+Phillip Carter: Now. I'm going to scan your code base. And these are like the top 5 areas in your code base that I think you might want to start looking@firstst And that is like a pretty big deal, I think.
+
+520
+01:33:36.980 --> 01:33:38.320
+Phillip Carter: sometimes
+
+521
+01:33:38.440 --> 01:34:01.359
+Phillip Carter: the conclusion to that is that I need better observability data. And so then you can load up a prompt template, and you can say, Hey, help me! And given this investigation that we just did help me add better observability data through like open telemetry, tracing or logging that captures the information that I'm going to need next time. That will make this a much easier process again. It works pretty well.
+
+522
+01:34:02.050 --> 01:34:03.689
+Phillip Carter: there's a catch.
+
+523
+01:34:03.970 --> 01:34:06.301
+Phillip Carter: There's gonna be several catches here.
+
+524
+01:34:06.840 --> 01:34:11.659
+Phillip Carter: Llms optimize for doing things, even if those things are not very useful.
+
+525
+01:34:12.570 --> 01:34:17.078
+Phillip Carter: I think it's a very like. If you've worked enough with Llms. You definitely know this
+
+526
+01:34:18.210 --> 01:34:31.379
+Phillip Carter: Claude, and like every other Llm. That we've tested with so far, this is very, very bad at introspecting. If the thing that you're asking it to do is actually the right thing to do, they just kind of assume that you know what you're doing. But, like
+
+527
+01:34:31.450 --> 01:34:54.140
+Phillip Carter: most of the time, I don't even know really what I'm doing. I'm I'm like I'm poking around a little bit and like I'd love it if someone could like coach me as I'm going, and these language models do nothing of the sort. There's a lot of peculiarities kind of like, you know, I mentioned that like error rate thing about how you query your data on honeycomb. This is true of every every observability product has their own like weird
+
+528
+01:34:54.140 --> 01:35:15.459
+Phillip Carter: things that they do. These language models are not trained on that stuff like they. They often write bad queries. I'm sorry they iterate enough to where, like they can. They can help answer some questions, but sometimes they don't do it. There's lots of different querying patterns, if you're like, if I think about the users of honeycomb who are like really good at using honeycomb.
+
+529
+01:35:15.460 --> 01:35:38.139
+Phillip Carter: They have ways of like adjusting their queries, and like narrowing and widening their time ranges that really make them efficient at diagnosing what's actually happening. And like again, these language models have no clue how to do this stuff in my experience, and like, we've tried so far to make them a little bit better at this and like it is hard work.
+
+530
+01:35:38.400 --> 01:35:58.579
+Phillip Carter: And like, lastly, there's so much data right? Like one of one of my top customers. They send us on the order of like several trillion events per day, right? Each of these events, is like up to a megabyte in size. So what's a trillion? Times 1 MB? It's it's a lot
+
+531
+01:35:58.580 --> 01:36:17.950
+Phillip Carter: that ain't going to fit in your context window. I'm sorry this is way. Too much data to just like plug an Llm into and be like cool analyze it like hell. No like that is not tractable. So yeah, there's a long way to go for this kind of stuff. There's more catch.
+
+532
+01:36:18.060 --> 01:36:31.589
+Phillip Carter: There's a lot of data. There's also too many tokens to begin with. So again, another one of our customers at Honeycomb, they have a data set schema that has over a million unique columns that are all receiving data.
+
+533
+01:36:31.730 --> 01:36:33.789
+Phillip Carter: Right? So like.
+
+534
+01:36:33.820 --> 01:36:55.080
+Phillip Carter: there are context windows for Llms that have, you know, a million tokens right? But what if each token like, what if there's over a million of these columns, and they have information about their type. And maybe there's some sample data or something like that. This is too big for, for I think, like, even when we tested this sort of thing out on a 2 million context window language model, it's
+
+535
+01:36:55.080 --> 01:37:10.140
+Phillip Carter: there just wasn't enough space. This doesn't even get into the horrifying fact that like, just because you have a large context window, does not mean that it's actually useful, right? I would encourage anyone to dump 2 million tokens into an input to like Gemini and
+
+536
+01:37:10.920 --> 01:37:37.129
+Phillip Carter: try like a real world problem instead of just like a simple like needle in the haystack type thing. You're going to find that like that long context window didn't actually help you at all. I hope the research improves along this kind of stuff. I know they're definitely working on this problem. But like, when you have a lot of like interdependent information that you're all passing into a large context window. It's like, just give up like, it's not that's not going to work.
+
+537
+01:37:37.280 --> 01:38:01.779
+Phillip Carter: And like even just the active querying itself, it returns these time series data, and like, basically like the context windows in your ide, or like, if you're using cloud code or something like that, it just gets exhausted pretty quickly. And so like, this is another serious problem. Where like it? Sometimes, it just queries enough to the point where you run out of context needs to compress. And then, like, you've basically lost a lot of information. And well, our Mcp wasn't that helpful in that case?
+
+538
+01:38:02.400 --> 01:38:04.700
+Phillip Carter: And there's even another catch
+
+539
+01:38:05.400 --> 01:38:19.050
+Phillip Carter: which is that Llms don't reliably follow instructions that you know. Some of you know that at this point but you know how there's some best practices for building tools
+
+540
+01:38:19.280 --> 01:38:43.420
+Phillip Carter: that this is documented, by the way, that anthropic has this where they say, provide extremely detailed descriptions in your tools to describe how you should use this tool. What they don't write is that sometimes that doesn't matter, because the language models just won't follow your instructions. And, like, you know, we have like 14 tools. So I need to build out like 14 separate evals for this kind of stuff. This is.
+
+541
+01:38:43.420 --> 01:38:58.020
+Phillip Carter: I haven't even started that yet. I'm kind of afraid to start that it just won't do what you say. And so like, we have this situation where, like some things, we want it to call the tool once, but we don't want it to call it anymore.
+
+542
+01:38:58.150 --> 01:39:24.060
+Phillip Carter: But we want it to be like at least once before it calls this other tool, and like. There's no way in the Mcp spec right now to define that. And there's ways through external tools that you can like chain tool calls and stuff. But then it becomes like it'll always call one after the other and then and then back. You know, earlier, I said, we have too many tokens. Well, guess what if you keep chaining tool calls, you get too many tokens and you exhaust your context window. So there's kind of no winning here.
+
+543
+01:39:24.380 --> 01:39:48.129
+Phillip Carter: and like. I know that, like they try to tune these models to reach for tools. But, like I am telling you, they just don't do it. Sometimes, like they just straight up. Won't we have a like? Another thing that I didn't put in the slide deck. Here is, you know, I mentioned that we have a prompt template. Right? Well, some clients don't support prompt templates. So if you want to like, do something useful there, you need to bake a prompt template into a tool call.
+
+544
+01:39:48.130 --> 01:39:54.646
+Phillip Carter: Some clients don't support resources. So you have to make resources. Tool calls, too, if you want to. If that's actually useful information,
+
+545
+01:39:54.930 --> 01:40:11.799
+Phillip Carter: and, like I have a we have a prompt template for instrumenting with opentelemetry. We also have a tool call called instrument for opentelemetry. There's a big description there that says like, Hey, this is how you should do it, and how you should call this and like it even says the words like, you know, after you have query data with like the run query tool.
+
+546
+01:40:11.800 --> 01:40:25.639
+Phillip Carter: And somebody asks for how to instrument with opentelemetry. Call this tool, and it will like, provide you information on how to effectively use opentelemetry Apis. It just won't do it.
+
+547
+01:40:25.830 --> 01:40:52.820
+Phillip Carter: and like I don't know, like I can't tell you like it does it sometimes, though, and and I don't. We haven't gone deep enough to like. Try to understand patterns as to like, you know, when it does and doesn't do that. I imagine if anybody working for anthropic here, what was like sitting here and working on this kind of stuff, they'd probably know a little bit more about why this is. But like this is the stuff you're going to run into when you're trying to build an Mcp server for real and like.
+
+548
+01:40:53.550 --> 01:41:14.449
+Phillip Carter: I don't know but we're going to press on, because this is an early experiment. Mcp is nowhere near done, but like this is the sort of stuff that the community around Mcp ultimately needs, like, we need people trying harder things and finding out where it breaks, reporting that trying to work around it. And like, I think, at the end of the day like this, represents a
+
+549
+01:41:14.450 --> 01:41:39.860
+Phillip Carter: completely different interface to our product. And, like I envision a future ultimately, where, like end. Users of honeycomb very often don't ever have to actually log into honeycomb. They can stay in their ide, and they can like proactively get a notification that says, Hey, by the way, the service that you own is experiencing some problems, and we're going to kick off this investigation for you. And then we're going to pull that data in, and we're going to cross reference it with your code.
+
+550
+01:41:39.860 --> 01:41:47.150
+Phillip Carter: So you can know where something is occurring and why. And like, I think that that could potentially be pretty magical for our users.
+
+551
+01:41:47.420 --> 01:41:50.929
+Phillip Carter: I think we have a really long way to go. So
+
+552
+01:41:51.110 --> 01:41:54.697
+Phillip Carter: anyways, that's my, that's my Ted talk
+
+553
+01:41:56.430 --> 01:42:00.350
+Phillip Carter: and you know we we have, you know, in the the Mcp
+
+554
+01:42:00.760 --> 01:42:29.959
+Phillip Carter: repo here, like there's a whole lot of stuff that we have here. If you happen to be a honeycomb customer, I don't know if you are, give it a shot. I guess you know I'd love to hear your feedback working with plenty of people already. But it's fun. This kind of feels like back in 2023, when I was trying to get language models to like just work, for, like a very narrow use case with query assistant. It kind of feels like that again, where, like, there's not really much in the way of best practices. And most people have not really like
+
+555
+01:42:29.960 --> 01:42:36.820
+Phillip Carter: push stuff to production and actually gotten users to use it. They built like little samples and stuff. And I'm just finding that like.
+
+556
+01:42:36.840 --> 01:42:42.938
+Phillip Carter: although it works amazingly well when it works like, it also just falls over all the place everywhere. And,
+
+557
+01:42:43.730 --> 01:42:47.209
+Phillip Carter: I don't know. I personally like that stuff. So that's why I'm doing it.
+
+558
+01:42:48.620 --> 01:42:52.579
+hugo bowne-anderson: Super. Cool man. Thank you for all of that insight into.
+
+559
+01:42:52.760 --> 01:43:04.490
+hugo bowne-anderson: like all the really cutting edge stuff you're up to, I am interested. So I I do understand why this is so useful for your use case I I think, in the space at the moment
+
+560
+01:43:05.380 --> 01:43:17.790
+hugo bowne-anderson: a lot of people are asking, oh, should I use Mcp for this? Should I use Mcp for that? So I'm wondering if you can speak a bit to what you think? Are other use cases where it can can deliver value more more generally.
+
+561
+01:43:21.260 --> 01:43:28.550
+Phillip Carter: so my perspective is that like, you know, there was a big movement in the rise of cloud computing
+
+562
+01:43:28.900 --> 01:43:32.419
+Phillip Carter: to build Api access to all kinds of different stuff.
+
+563
+01:43:32.880 --> 01:43:37.969
+Phillip Carter: And the reason why we did that as an industry was because most
+
+564
+01:43:38.140 --> 01:43:44.209
+Phillip Carter: organizations string together many different tools for a variety of purposes
+
+565
+01:43:44.210 --> 01:44:06.340
+Phillip Carter: right? Like, you know, you don't just use Github. You probably also have a document tracker somewhere, whether you're using it for issue tracking, or if you're using something else for issue tracking. You know what your marketing department is using might be different from what you're using. And so like Apis to string information together and build workflows that are really important to your business matter. A lot
+
+566
+01:44:06.777 --> 01:44:15.522
+Phillip Carter: it's there's literally an entire like industry for stringing together, Apis, to build workflows just in the Enterprise software space.
+
+567
+01:44:16.640 --> 01:44:31.877
+Phillip Carter: one thing that that has really struggled with is that like it's hard to bridge Apis, and it's hard to build these workflows, and you have to build them yourself. And a lot of these are like no code tools, low code tools. And they they kind of don't really do it. That well,
+
+568
+01:44:32.430 --> 01:44:34.010
+Phillip Carter: Mcp
+
+569
+01:44:34.300 --> 01:45:02.029
+Phillip Carter: is amazing, because, like it is, it is that bridge between the language model that is so good at being like this, like general purpose agent of like workflow orchestration, or just you know, pulling in data and interpreting it in some way that might be useful that you could feed into another process somewhere. And like the the core challenge, there is that like anywhere, basically, what I would say is anywhere where there's an Api that serves a purpose.
+
+570
+01:45:02.320 --> 01:45:23.679
+Phillip Carter: It automatically basically has a use case for Mcp, like, there can be an Mcp server built in that. We'll be able to expose that information to much more people in a much broader set of use cases than is possible today. And I think that, like like the economic value of that in total is absolutely enormous. Because,
+
+571
+01:45:24.810 --> 01:45:48.319
+Phillip Carter: concretely, I'll talk about this in the context of observability. So a lot of large organizations with observability, have lots of different observability tools. In fact, I think, like your large enterprise on average, has about 6 different observability tools. Now, you might argue that that's wild, and they should not be doing that. I would argue that there are often very good reasons why they do that, but it's still really hard.
+
+572
+01:45:48.320 --> 01:46:00.200
+Phillip Carter: So 6 different tools. They all have 6 different Apis. They'll have 6 different uis, and some are better than others at certain things. Now imagine you have an engineering team of like 3,000 engineers, and
+
+573
+01:46:00.210 --> 01:46:06.762
+Phillip Carter: the the call from the top is to say, you all need to do service ownership. You need to have good observability.
+
+574
+01:46:07.060 --> 01:46:32.020
+Phillip Carter: Should every engineer need to now learn how to use 6 additional tools to do their job like, I feel like that's kind of absurd. So one thing that people do today is they will run a Grafana cluster. So Grafana is sort of this front end for a lot of different data sources in the observability world. And they will build out, you know, manually using Grafana's toolkit like this is how we query data. This is sort of the
+
+575
+01:46:32.020 --> 01:46:47.150
+Phillip Carter: uniform interface that we have for our entire engineering organization, and then it will pull data from all these different sources, whether it's honeycomb or Splunk, or datadog, or you know Grafana has their own sets of services that that you can do from like it's called Grafana Cloud.
+
+576
+01:46:47.560 --> 01:46:49.540
+Phillip Carter: you know, like this is what a lot of teams do.
+
+577
+01:46:50.060 --> 01:47:14.679
+Phillip Carter: and that's great, I think, for now the problem is, there's a lot of work to set up that common standard. And in fact, you find that initiatives at enterprises to try to do this, take multiple years. And that's because it's really there's you have all these heterogeneous use cases that need access to data. But you need to manually build out each of those use cases in a ui for people, and that takes a damn long time, and like at the end of the day, do these people really want that? Ui!
+
+578
+01:47:15.220 --> 01:47:38.159
+Phillip Carter: I would argue they do not. I would argue that these people want the data to be pulled into the particular workflow that they're doing, whether it is code related or if it is code based, management related or like anything like that, and pull the right data in in context to help them perform a particular action. Now, whether that action is offloaded to an agent, or it's just information, retrieval.
+
+579
+01:47:38.497 --> 01:47:57.080
+Phillip Carter: to. And then summarization, or something like that, leave it up to them like they build their own workflows. But, like, I sort of view Llms, as like in in this sort of space, is like the ultimate orchestration tool for whatever business process you need and like Mcp is how you get that data.
+
+580
+01:47:57.080 --> 01:48:21.369
+Phillip Carter: and I don't know. You kind of go from there like, you know, I'm not going to talk about agent to agent, because I don't know much about that spec really other than that, it exists, and it's complementary. But like, you can imagine that workflow process might involve multiple agents that coordinate with one another. And it's like, All right, cool. Well, how do we get the data that we're going to coordinate on? And Cp is the answer. So I don't know. This is kind of a long and circuitous answer that I gave you, but like bottom line, if there's an Api
+
+581
+01:48:21.450 --> 01:48:34.049
+Phillip Carter: Mcp has. There's a use case for Mcp. There, full stop. And I think, like the real power in that is that language models give every team and every like company. The flexibility to build those workflows, the way that they need.
+
+582
+01:48:34.640 --> 01:48:58.999
+hugo bowne-anderson: Amazing. So for everyone here, as you know, we're having a satellite workshop next week, a 3 h workshop online with Ravin Kumar from Deepmind on building agents with Gemma, 3 locally with Olama, and we'll be building an Mcp client and server there as well. People who want to get hands on with this type of stuff, Philip. I am interested for someone anyone here who's going to build their Mcp client and server the 1st time any gotchas, or things to keep in mind.
+
+583
+01:48:59.240 --> 01:49:12.300
+Phillip Carter: It's a little bit easier than it was a few months ago. There's a project out there right now, I would recommend starting with python. There's a project called Fast Mcp.
+
+584
+01:49:12.854 --> 01:49:21.610
+Phillip Carter: Use fast, Mcp. It provides like I mean, the Mcp Api is actually not that hard to use from the official client sdks. However.
+
+585
+01:49:21.970 --> 01:49:30.960
+Phillip Carter: there are sometimes problems. I'll just say there's problems related to deployments and orchestration.
+
+586
+01:49:31.350 --> 01:49:40.530
+hugo bowne-anderson: And like, if so, the point of Mcp, like right now, most people have it as a thing that an end user has to download and then run on their own machine. But a lot of people don't want to do that.
+
+587
+01:49:40.780 --> 01:49:52.097
+Phillip Carter: And you, you may want to provide access to something that needs to run in a controlled environment. And so now you're like, okay, well, there is a mechanism called Sse. That you can connect from a client to a
+
+588
+01:49:52.380 --> 01:50:17.279
+Phillip Carter: an external process. But most clients don't actually support Sse, particularly well, authentication is an absolute nightmare, like truly like capital N. Nightmare like. Do not start with authenticating a remote Mcp server, please, for the love of God you will. You will hate every moment of your life as you try to do that. But fast Mcp solves a lot of this stuff because they they have support, for, like native proxying and
+
+589
+01:50:17.280 --> 01:50:33.020
+Phillip Carter: communication between Mcp servers, and a good way to orchestrate them, so that you could have, like a simple one that just acts as a proxy to something you have deployed that does more complicated things, and like it all sort of like flows together pretty well. I would say also.
+
+590
+01:50:33.710 --> 01:50:39.277
+Phillip Carter: if you have a public Api like for your own workplace, or something, you know an Api that you personally use, and like a
+
+591
+01:50:39.700 --> 01:50:42.041
+Phillip Carter: or personal project, or whatever
+
+592
+01:50:42.780 --> 01:50:51.567
+Phillip Carter: like. Pick just like one or 2 of of those things and build tool calls for just those. Also.
+
+593
+01:50:52.670 --> 01:51:14.579
+Phillip Carter: if I think about Http operations like, you know, get post, put that sort of stuff, focus on Http, get 1st focus on the goal of the Mcp server is to retrieve useful information in context, so that the language model can make a decision about what to do next. For, like a code base or something like that, you're going to have a lot better time with that, because language model
+
+594
+01:51:15.160 --> 01:51:18.959
+Phillip Carter: posts are kind of a.
+
+595
+01:51:19.270 --> 01:51:42.369
+Phillip Carter: You need to do a lot more work there, because, as I'm sure we all know, language models. The parameters that they're going to pass to a function may not necessarily be the right parameters that you want. And so now you might be able to. You might be, you know, incorrectly, having an agent like incorrectly in an automated way, going off and creating a whole bunch of different stuff. That is just like, you know, garbage crap that you have to clean up later.
+
+596
+01:51:42.370 --> 01:52:05.200
+Phillip Carter: You can save that problem for another day, I think. Start with, get start with python, start with fast, Mcp, and go from there. But, like, honestly, if you want to do something outside of python, like. There's several client sdks that work pretty well like Microsoft is sponsoring the.net one. There's, you know, anthropic support, several others. So like you're you're honestly, you're in pretty good company, even if you're not doing python.
+
+597
+01:52:06.690 --> 01:52:25.719
+hugo bowne-anderson: Amazing. Well, thank you for all of those I mean so much, so much insight there. And I just want to. Priya has written in the discord, and a lot of people have agreed and and love hearted it. Love your energy and the copious amount of information you provided. Thank you. And I've actually received several. DM. Saying, I'm going to have to watch this several several times.
+
+598
+01:52:26.260 --> 01:52:34.220
+hugo bowne-anderson: Sites per minute through the roof. Appreciate you as always, Philip. For your expertise wisdom, and also just
+
+599
+01:52:34.510 --> 01:52:40.349
+hugo bowne-anderson: being at the forefront of what's happening and bringing back some knowledge bombs
+
+600
+01:52:40.480 --> 01:52:50.189
+hugo bowne-anderson: backwards on the adoption curve. Or, however, we want to want to frame this, but it is. It is incredible. The work you do, and how you propagate that knowledge back to back to us as well. So thanks, man.
+
+601
+01:52:50.730 --> 01:52:56.850
+Phillip Carter: Yeah, thanks for having me. It's always a pleasure. And yeah, I don't know. Next time you're here in Tacoma, let's let's go get some coffee.
+
+602
+01:52:56.850 --> 01:53:06.139
+hugo bowne-anderson: See you there, we'll get definitely. I love the coffee in that part of the world as well. All right. Everyone see you on the next call, and thanks. Once again Philip Ciao.
+
+603
+01:53:06.840 --> 01:53:07.679
+Phillip Carter: See you bye.
+
