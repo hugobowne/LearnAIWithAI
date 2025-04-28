@@ -7,7 +7,7 @@ Exciting news! 🎉 I've set up a code repository with examples to support our *
 Remember that RAG Q&A app I shared last week (the one hosted on Modal)? That more advanced application is included in this repository as a great example of a full RAG system (`src/simple_rag.py` & `src/app-modal.py`).
 
 **But, for starting your hands-on work in the course, let's begin with something simpler!** 💡
-
+å
 ➡️ In the repository, you'll find `src/basic_qa.py`. This is a basic command-line Q&A script designed as **your starting point** for applying course concepts.
 
 **Get ready to Build AI to Learn AI!** 🧠 ➡️ 🤖

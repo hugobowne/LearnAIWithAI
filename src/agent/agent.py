@@ -24,19 +24,53 @@ if not api_key:
     raise ValueError("OPENAI_API_KEY not found in environment variables. Please ensure it's set in your .env file.")
 
 client = OpenAI(api_key=api_key)
-MODEL = "gpt-4o-mini" # Or "gpt-4o" if needed later
+MODEL = "gpt-4o" # Use the full gpt-4o model
 
 # --- Phoenix/OpenTelemetry Tracing Setup ---
 PROJECT_NAME = "transcript-agent-mvp"
 try:
-    # register will now automatically use 
-    # OTEL_EXPORTER_OTLP_ENDPOINT and OTEL_EXPORTER_OTLP_HEADERS 
-    # environment variables if they are set.
-    # It returns a tracer provider, but we can get the tracer globally too
-    phoenix_tracer_provider = register(project_name=PROJECT_NAME)
+    # --- Explicit Configuration - Attempt 2 --- 
+    # Bypass environment variable detection within register().
+    # Define endpoint explicitly with the correct path.
+    endpoint = "https://app.phoenix.arize.com/v1/traces"
+    
+    # Get the required header string from the env var specified in docs.
+    headers_str = os.getenv("PHOENIX_CLIENT_HEADERS") # Use PHOENIX_ var
+
+    if not headers_str:
+        # Adjusted error message to reflect the correct variable name
+        raise ValueError("PHOENIX_CLIENT_HEADERS not found in environment variables.")
+
+    # Parse the header string (e.g., "api_key=value") into a dictionary.
+    headers_dict = {}
+    try:
+        # Simple parsing for "key1=value1,key2=value2,..."
+        for item in headers_str.split(','):
+            key, value = item.split('=', 1)
+            headers_dict[key.strip()] = value.strip()
+        if not headers_dict: # Raise error if parsing resulted in empty dict
+             raise ValueError("Parsed headers dictionary is empty.")
+    except Exception as parse_err:
+        # Adjusted error message
+        print(f"⚠️ ERROR: Could not parse PHOENIX_CLIENT_HEADERS string: '{headers_str}'. Error: {parse_err}")
+        raise ValueError("Invalid PHOENIX_CLIENT_HEADERS format") from parse_err
+
+    print(f"Attempting explicit Phoenix tracing configuration.")
+    print(f"  Endpoint: {endpoint}")
+    print(f"  Headers: { {k: '****' for k in headers_dict} }") # Print header keys safely
+
+    phoenix_tracer_provider = register(
+        project_name=PROJECT_NAME,
+        endpoint=endpoint,        # Pass explicit endpoint
+        headers=headers_dict        # Pass explicit, parsed headers dictionary
+        # No protocol needed, inferred from https:// in endpoint
+    )
     OpenAIInstrumentor().instrument(tracer_provider=phoenix_tracer_provider)
     tracer = trace.get_tracer("agent.agent") 
-    print(f"✅ Phoenix tracing initialized for project '{PROJECT_NAME}'. Using standard OTel env vars.")
+    print(f"✅ Phoenix tracing explicitly configured for project '{PROJECT_NAME}'.")
+except ValueError as ve:
+    print(f"⚠️ Configuration Error for Phoenix tracing: {ve}. Tracing disabled.")
+    tracer = None
 except Exception as e:
     print(f"⚠️ Failed to initialize Phoenix tracing: {e}. Tracing disabled.")
     tracer = None # Set tracer to None if setup fails
