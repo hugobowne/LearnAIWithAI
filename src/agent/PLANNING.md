@@ -61,7 +61,7 @@ This approach relies on the automatic logging provided by `wrap_openai` (for LLM
     *   `Final Answer Quality Reason` (Text)
 *   **Next Action (Hugo):** Manually review and label the 15 log traces in the BrainTrust UI Logs/Review section using these configured fields. 
 
-## Log Retrieval Troubleshooting (April 29, 2025)
+## Log Retrieval Troubleshooting
 
 Attempted to programmatically retrieve project logs using the Python SDK to potentially use them for creating evaluation datasets or other analysis (related to Step 2).
 
@@ -73,3 +73,14 @@ Attempted to programmatically retrieve project logs using the Python SDK to pote
     *   Initializing `client = braintrust.Client()` then `client.projects.logs.fetch(...)`. (Failed with `AttributeError: module 'braintrust' has no attribute 'Client'`)
 *   **Result:** All attempts involving `projects.logs.fetch` failed with `AttributeError: 'ProjectBuilder' object has no attribute 'logs'`.
 *   **Status:** Asked Braintrust support via Discord for clarification on the correct method. Waiting for response. The current state of `src/agent/braintrust/fetch_labeled_logs.py` reflects the latest attempt. 
+
+**Update: Success via BTQL API**
+
+*   Further attempts using the `requests` library directly also failed with various authentication or syntax errors based on documentation snippets.
+*   **Success:** Found that using the `/btql` endpoint with `requests` and the correct BTQL syntax works:
+    *   **Method:** `POST https://api.braintrust.dev/btql`
+    *   **Auth:** `Authorization: Bearer <API_KEY>`
+    *   **Body:** `{"query": "select: *\nfrom: project_logs('<PROJECT_ID>')", "fmt": "json"}`
+*   Successfully fetched all 56 log/span records for the project and saved them to `src/agent/braintrust/fetched_braintrust_logs.json`.
+*   Confirmed that hand labels (e.g., "Final Answer Quality") are present in the `scores` field of the relevant fetched records.
+*   The script `src/agent/braintrust/braintrust_test_run_example.py` contains the working code (though needs renaming/refactoring). 
