@@ -22,3 +22,18 @@ This document outlines the plan for adding observability and building an evaluat
 4.  **Compare Models/Configurations:**
     *   Use the evaluation harness to compare the performance of the current model (`gpt-4o-mini`) against another model (e.g., `gpt-4o`).
     *   This involves running the harness with each model configuration and comparing the resulting evaluation metrics. 
+
+## Minimum Viable Instrumentation (MVI) Plan (for Step 1)
+
+Goal: Capture the minimum data needed in BrainTrust to allow feedback on: 
+1. Tool Choice (Was `query_database` called?)
+2. Tool Input (Was the generated SQL appropriate?)
+3. Final Generation (Was the final answer good?)
+
+Approach:
+
+1.  **Initialize Logger:** Add `braintrust.init_logger(...)` at the beginning of `agent.py`.
+2.  **Wrap OpenAI Client:** Modify the OpenAI client initialization to use `braintrust.wrap_openai(...)`.
+3.  **Trace Agent Function:** Add the `@braintrust.traced` decorator to the `run_agent_conversation` function definition.
+
+This approach relies on the automatic logging provided by `wrap_openai` (for LLM call details including tool calls/SQL) and `@traced` (for overall function inputs/outputs) to capture the necessary data points without manual span creation initially. 
