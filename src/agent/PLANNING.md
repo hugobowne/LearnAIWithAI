@@ -37,3 +37,15 @@ Approach:
 3.  **Trace Agent Function:** Add the `@braintrust.traced` decorator to the `run_agent_conversation` function definition.
 
 This approach relies on the automatic logging provided by `wrap_openai` (for LLM call details including tool calls/SQL) and `@traced` (for overall function inputs/outputs) to capture the necessary data points without manual span creation initially. 
+
+## Initial Test Run (15 Queries) - Observations
+
+*   Successfully ran `agent.py` after implementing the MVI and fixing the database path issue in `tools.py`.
+*   15 traces corresponding to the expanded test queries (`docs/test_queries.json`) were successfully logged to the BrainTrust "Transcript Agent" project.
+*   Detailed traces, including inputs, outputs, LLM calls (with tool calls/SQL), and final answers, are **viewable in the BrainTrust UI under the "Logs" tab**.
+*   **Initial Agent Behavior Notes:**
+    *   Handled basic queries, off-topic refusals, prompt injection attempts, and complex filtering reasonably well.
+    *   Successfully ignored SQL injection characters and executed only the valid part of the query.
+    *   Attempted to handle complex/conflicting instructions in the "wild" query by decomposing it into multiple tool calls.
+    *   Failed on the `SUM()` aggregation query (`total_time` returned `null`), but succeeded on `COUNT(*)` and `GROUP BY`.
+*   This MVI seems sufficient to provide the necessary data points for feedback on tool choice, SQL generation, and final answer quality. 

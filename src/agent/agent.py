@@ -3,6 +3,7 @@ import json
 from openai import OpenAI
 from dotenv import load_dotenv
 from pathlib import Path # Import Path
+import braintrust # Add braintrust import
 
 # Import tool functions (changed to direct import for simplicity)
 from tools import query_database, get_tool_schemas
@@ -10,13 +11,18 @@ from tools import query_database, get_tool_schemas
 # Load environment variables from .env file
 load_dotenv()
 
+# Initialize Braintrust Logger 
+# (Picks up BRAINTRUST_API_KEY from .env)
+logger = braintrust.init_logger(project="Transcript Agent")
+
 # Initialize OpenAI Client
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     # Consider adding more robust error handling or instructions
     raise ValueError("OPENAI_API_KEY not found in environment variables. Please ensure it's set in your .env file.")
 
-client = OpenAI(api_key=api_key)
+# Wrap the OpenAI client with Braintrust
+client = braintrust.wrap_openai(OpenAI(api_key=api_key))
 MODEL = "gpt-4o-mini" # Or "gpt-4o" if needed later
 
 # Store available tools {tool_name: function}
@@ -27,6 +33,8 @@ def get_available_tools():
     }
 
 # Main agent function - Now returns a detailed dictionary
+# Decorate the function to trace its execution
+@braintrust.traced
 def run_agent_conversation(user_query: str) -> dict:
     """Handles a single turn of conversation and returns detailed execution log."""
     print(f"\n{'='*20} New Query {'='*20}")

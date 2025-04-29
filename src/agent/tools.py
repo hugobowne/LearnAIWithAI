@@ -4,7 +4,11 @@ from pathlib import Path
 
 # --- Constants ---
 # Assuming the script using this module is run from the project root
-DB_FILE_PATH = Path("data/workshop1_transcript.db")
+# DB_FILE_PATH = Path("data/workshop1_transcript.db")
+# Get the directory containing this tools.py file
+_TOOL_DIR = Path(__file__).parent
+# Construct path relative to the tool directory, assuming data is ../../data/
+DB_FILE_PATH = (_TOOL_DIR / "../../data/workshop1_transcript.db").resolve()
 TABLE_NAME = "transcript_segments"
 
 # --- Tool Functions ---
