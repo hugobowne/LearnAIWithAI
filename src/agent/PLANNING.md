@@ -59,7 +59,8 @@ This approach relies on the automatic logging provided by `wrap_openai` (for LLM
     *   `SQL Correctness Reason` (Text)
     *   `Final Answer Quality` (Categorical: Pass/Fail)
     *   `Final Answer Quality Reason` (Text)
-*   **Next Action (Hugo):** Manually review and label the 15 log traces in the BrainTrust UI Logs/Review section using these configured fields. 
+*   **Next Action:** Manually review and label the 15 log traces in the BrainTrust UI Logs/Review section using these configured fields. 
+*   **Update:** This manual labeling has been completed. The labeled logs have been fetched and saved to `fetched_braintrust_logs.json`.
 
 ## Log Retrieval Troubleshooting
 
