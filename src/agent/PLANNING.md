@@ -49,3 +49,27 @@ This approach relies on the automatic logging provided by `wrap_openai` (for LLM
     *   Attempted to handle complex/conflicting instructions in the "wild" query by decomposing it into multiple tool calls.
     *   Failed on the `SUM()` aggregation query (`total_time` returned `null`), but succeeded on `COUNT(*)` and `GROUP BY`.
 *   This MVI seems sufficient to provide the necessary data points for feedback on tool choice, SQL generation, and final answer quality. 
+
+## Human Review Setup (Step 2 Prep)
+
+*   Configured 6 Human Review fields in the BrainTrust UI (Project Configuration -> Human Review):
+    *   `Tool Choice` (Categorical: Pass/Fail)
+    *   `Tool Choice Reason` (Text)
+    *   `SQL Correctness` (Categorical: Pass/Fail)
+    *   `SQL Correctness Reason` (Text)
+    *   `Final Answer Quality` (Categorical: Pass/Fail)
+    *   `Final Answer Quality Reason` (Text)
+*   **Next Action (Hugo):** Manually review and label the 15 log traces in the BrainTrust UI Logs/Review section using these configured fields. 
+
+## Log Retrieval Troubleshooting (April 29, 2025)
+
+Attempted to programmatically retrieve project logs using the Python SDK to potentially use them for creating evaluation datasets or other analysis (related to Step 2).
+
+*   **Goal:** Fetch logs using Project ID (`7b67d69f-2f0d-4102-a5fd-e448681d6627`).
+*   **Documentation Found:** The Human Review page (`https://www.braintrust.dev/docs/guides/human-review#filtering-using-feedback`) suggested using `braintrust.projects.logs.fetch("<project_id>", "<query>")`.
+*   **Attempts:**
+    *   Calling `braintrust.projects.logs.fetch(project_id=PROJECT_ID)` directly.
+    *   Calling `braintrust.init(project=PROJECT_NAME)` then `braintrust.projects.logs.fetch(...)`.
+    *   Initializing `client = braintrust.Client()` then `client.projects.logs.fetch(...)`. (Failed with `AttributeError: module 'braintrust' has no attribute 'Client'`)
+*   **Result:** All attempts involving `projects.logs.fetch` failed with `AttributeError: 'ProjectBuilder' object has no attribute 'logs'`.
+*   **Status:** Asked Braintrust support via Discord for clarification on the correct method. Waiting for response. The current state of `src/agent/braintrust/fetch_labeled_logs.py` reflects the latest attempt. 
