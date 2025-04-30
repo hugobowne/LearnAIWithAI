@@ -15,7 +15,7 @@ This document outlines the plan for adding observability and building an evaluat
     *   Hand-label these results within the platform to create a golden dataset (ground truth) for evaluation.
 
 3.  **Develop Basic Evaluation Harness:**
-    *   Create a script (`evaluate.py` perhaps?) that takes the labeled test set.
+    *   Create a script (`src/agent/braintrust/evaluate.py`) that uses the BrainTrust Dataset created from the labeled logs (`SQL-agent-annotated`) as input.
     *   Implement a basic evaluation method (e.g., LLM-as-judge, potentially comparing agent outputs against the labeled answers).
     *   The script should run the agent over the test set and calculate relevant metrics.
 
@@ -85,3 +85,15 @@ Attempted to programmatically retrieve project logs using the Python SDK to pote
 *   Successfully fetched all 56 log/span records for the project and saved them to `src/agent/braintrust/fetched_braintrust_logs.json`.
 *   Confirmed that hand labels (e.g., "Final Answer Quality") are present in the `scores` field of the relevant fetched records.
 *   The script `src/agent/braintrust/braintrust_test_run_example.py` contains the working code (though needs renaming/refactoring). 
+
+## Dataset Creation via UI
+
+*   The 15 initial test runs were manually labeled in the BrainTrust UI.
+*   These labeled log records were then copied into a new BrainTrust Dataset named `SQL-agent-annotated` using the UI's "Add to dataset" feature.
+*   **Note:** While this dataset contains the necessary information (original input, agent output, human labels), the structure within the BrainTrust UI and the fetched records might not directly map to the `input`, `expected` (human labels), and `metadata` (agent output) structure needed by `braintrust.Eval`. The evaluation script (`src/agent/braintrust/evaluate.py`) will need to parse the fetched dataset records and correctly extract/remap these fields.
+
+## Evaluation Data Preparation
+
+*   **Challenge:** Significant difficulties were encountered when trying to programmatically fetch the `SQL-agent-annotated` dataset using the BrainTrust SDK (`braintrust.init_dataset`) in a format suitable for `braintrust.Eval`. Specifically, the human review scores and actual agent outputs (tool calls, final answer) were not readily available in the expected structure.
+*   **Resolution:** Due to these challenges, the evaluation dataset was manually constructed based on the notebook exploration (`src/agent/braintrust/explore_eval_dataset.ipynb`). The correctly structured data, including inputs, human-labeled scores/reasons, and agent outputs, has been saved to `src/agent/braintrust/eval_cases_prepared.json`.
+*   **Next Step:** Develop the evaluation script (`src/agent/braintrust/evaluate.py`) to load data from `eval_cases_prepared.json` and run evaluations using `braintrust.Eval`. Refer to the BrainTrust documentation for guidance: [Writing Evals](https://www.braintrust.dev/docs/guides/evals/write). 
